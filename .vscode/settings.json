@@ -1,0 +1,10 @@
+{
+    "Lua.diagnostics.globals": [
+        "LibSlashCommander"
+    ],
+    "Lua.diagnostics.disable": [
+        "need-check-nil",
+        "param-type-mismatch",
+        "undefined-doc-name"
+    ]
+}
