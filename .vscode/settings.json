@@ -1,6 +1,7 @@
 {
     "Lua.diagnostics.globals": [
-        "LibSlashCommander"
+        "LibSlashCommander",
+        "LibAddonMenu2"
     ],
     "Lua.diagnostics.disable": [
         "need-check-nil",

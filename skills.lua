@@ -1049,15 +1049,15 @@ NEAR_SR.skilldata = {
         },
     },
     [SKILL_TYPE_WORLD] = {
-        [1] = {                                       --
+        [1] = {                                       -- Excavation
             id = GetSkillLineId(SKILL_TYPE_WORLD, 1), -- ,
             name = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_WORLD, 1)),
         },
-        [2] = {                                       --
+        [2] = {                                       -- Legerdemain
             id = GetSkillLineId(SKILL_TYPE_WORLD, 2), -- ,
             name = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_WORLD, 2)),
         },
-        [3] = {                                       --
+        [3] = {                                       -- Scrying
             id = GetSkillLineId(SKILL_TYPE_WORLD, 3), -- ,
             name = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_WORLD, 3)),
         },
@@ -1145,7 +1145,7 @@ NEAR_SR.skilldata = {
         },
     },
     [SKILL_TYPE_GUILD] = {
-        [1] = {
+        [1] = { -- Dark Brotherhood
             id = GetSkillLineId(SKILL_TYPE_GUILD, 1), -- ,
             name = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_GUILD, 1)),
         },
@@ -1241,7 +1241,7 @@ NEAR_SR.skilldata = {
                 [2] = { id = 103665, name = GetAbilityName(103665), }, --
             },
         },
-        [5] = {
+        [5] = { -- Thieves Guild
             id = GetSkillLineId(SKILL_TYPE_GUILD, 5), -- ,
             name = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_GUILD, 5)),
         },
