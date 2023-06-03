@@ -1,0 +1,231 @@
+<GuiXml>
+    <Controls>
+        <TopLevelControl name="NSR_GUI" mouseEnabled="true" movable="true" clampedToScreen="true" resizeHandleSize="8" hidden="true">
+            <Dimensions x="1000" y="1000" />
+            <DimensionConstraints minX="500" minY="500" />
+            <Anchor point="CENTER" />
+
+            <OnShow>
+				NEAR_SR.gui.OnShow()
+			</OnShow>
+
+            <Controls>
+                <Backdrop name="$(parent)_BG" inherits="ZO_DefaultBackdrop"/>
+
+				<!-- Add a header -->
+                <Control name="$(parent)_Header" hidden="false" resizeToFitDescendents="true">
+					<Dimensions y="30"/>
+					<Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="0" offsetY="0"/>
+					<Anchor point="TOPRIGHT" relativeTo="$(parent)" relativePoint="TOPRIGHT" offsetX="0" offsetY="0"/>
+					<!-- Button to close the window on the right side -->
+					<Controls>
+						<Button name="$(parent)_CloseButton">
+							<Dimensions x="25" y="25" />
+							<Anchor point="TOPRIGHT" relativeTo="$(parent)" relativePoint="TOPRIGHT" offsetX="-3" offsetY="3"/>
+							<Textures normal="/esoui/art/buttons/decline_up.dds" pressed="/esoui/art/buttons/decline_down.dds" mouseOver="/esoui/art/buttons/decline_over.dds" />
+							<OnClicked>NEAR_SR.gui.CloseWindow()</OnClicked>
+						</Button>
+						<!-- Add title on the center -->
+						<Label name="$(parent)_Title" font="ZoFontWindowTitle" text="Near's Skill Ranks" horizontalAlignment="CENTER" verticalAlignment="CENTER" color="INTERFACE_COLOR_TYPE_TEXT_COLORS:INTERFACE_TEXT_COLOR_NORMAL">
+							<Dimensions y="30"/>
+							<Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="0" offsetY="0"/>
+							<Anchor point="TOPRIGHT" relativeTo="$(parent)" relativePoint="TOPRIGHT" offsetX="0" offsetY="0"/>
+						</Label>
+						<!-- Add a dropdown to select character on the left side -->
+						<Control name="$(parent)_CharList" inherits="ZO_ComboBox" tier="HIGH">
+							<Dimensions x="250" y="25" />
+							<Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="6" offsetY="6"/>
+                        </Control>
+					</Controls>
+				</Control>
+
+				<!-- Add main control -->
+				<Control name="$(parent)_Main" hidden="false" resizeToFitDescendents="true">
+					<!-- <Dimensions x="330"/> -->
+                	<Anchor point="TOPLEFT" relativeTo="$(parent)_Header" relativePoint="BOTTOMLEFT" offsetX="10" offsetY="15"/>
+					<Controls>
+					
+                		<!-- Left Side -->
+                		<Label name="$(parent)_CharacterLevel" font="ZoFontHeader3" text="CHARACTER LEVEL HERE">
+                		    <Anchor point="TOPLEFT"/>
+                		</Label>
+
+                		<Control name="$(parent)_SkillType">
+                		    <Dimensions x="330"/>
+                		    <Anchor point="TOPLEFT" relativeTo="$(parent)_CharacterLevel" relativePoint="BOTTOMLEFT" offsetY="50"/>
+                		    <Anchor point="BOTTOMLEFT" offsetY="-50"/>
+
+							<Controls>
+								<!-- Skill type 1 (Class) -->
+								<Control name="$(parent)_1" hidden="false" resizeToFitDescendents="true">
+									<Dimensions x="330" y="30"/>
+									<Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetY="0"/>
+									<Controls>
+
+										<Button name="$(parent)_button" text="SI_SKILLTYPE1" font="$(MEDIUM_FONT)|$(KB_25)" horizontalAlignment="LEFT" verticalAlignment="CENTER" color="INTERFACE_COLOR_TYPE_TEXT_COLORS:INTERFACE_TEXT_COLOR_NORMAL">
+											<Dimensions x="330" y="30"/>
+											<Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetY="0"/>
+											<OnClicked>NEAR_SR.gui.skilltype(1)</OnClicked>
+										</Button>
+
+									</Controls>
+								</Control>
+
+								<!-- Skill type 2 (Weapon) -->
+								<Control name="$(parent)_2" hidden="false" resizeToFitDescendents="true">
+									<!-- <Dimensions x="330" y="30"/> -->
+									<Anchor point="TOPLEFT" relativeTo="$(parent)_1" relativePoint="BOTTOMLEFT" offsetY="0"/>
+									<Controls>
+
+										<Button name="$(parent)_button" text="SI_SKILLTYPE2" font="$(MEDIUM_FONT)|$(KB_25)" horizontalAlignment="LEFT" verticalAlignment="CENTER" color="INTERFACE_COLOR_TYPE_TEXT_COLORS:INTERFACE_TEXT_COLOR_NORMAL">
+											<Dimensions x="330" y="30"/>
+											<Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="BOTTOMLEFT" offsetY="0"/>
+											<OnClicked>NEAR_SR.gui.skilltype(2)</OnClicked>
+										</Button>
+
+										<Control name="$(parent)_SkillLine">
+											<Controls>
+
+												<Button name="$(parent)_1" text="$(NEAR_SR.gui.GetText(2, 1))" font="$(MEDIUM_FONT)|$(KB_20)" horizontalAlignment="LEFT" verticalAlignment="CENTER" color="INTERFACE_COLOR_TYPE_TEXT_COLORS:INTERFACE_TEXT_COLOR_NORMAL">
+													<Dimensions x="330" y="30"/>
+													<Anchor point="TOPLEFT" relativeTo="NSR_GUI_Main_SkillType_2_button" relativePoint="BOTTOMLEFT" offsetY="0"/>
+													<OnClicked>NEAR_SR.gui.UpdateWindowData()</OnClicked>
+												</Button>
+
+												<Button name="$(parent)_2" text="$(NEAR_SR.gui.GetText(2, 2))" font="$(MEDIUM_FONT)|$(KB_20)" horizontalAlignment="LEFT" verticalAlignment="CENTER" color="INTERFACE_COLOR_TYPE_TEXT_COLORS:INTERFACE_TEXT_COLOR_NORMAL">
+													<Dimensions x="330" y="30"/>
+													<Anchor point="TOPLEFT" relativeTo="$(parent)_1" relativePoint="BOTTOMLEFT" offsetY="0"/>
+													<OnClicked>NEAR_SR.gui.UpdateWindowData()</OnClicked>
+												</Button>
+
+												<Button name="$(parent)_3" text="$(NEAR_SR.gui.GetText(2, 3))" font="$(MEDIUM_FONT)|$(KB_20)" horizontalAlignment="LEFT" verticalAlignment="CENTER" color="INTERFACE_COLOR_TYPE_TEXT_COLORS:INTERFACE_TEXT_COLOR_NORMAL">
+													<Dimensions x="330" y="30"/>
+													<Anchor point="TOPLEFT" relativeTo="$(parent)_2" relativePoint="BOTTOMLEFT" offsetY="0"/>
+													<OnClicked>NEAR_SR.gui.UpdateWindowData()</OnClicked>
+												</Button>
+
+												<Button name="$(parent)_4" text="$(NEAR_SR.gui.GetText(2, 4))" font="$(MEDIUM_FONT)|$(KB_20)" horizontalAlignment="LEFT" verticalAlignment="CENTER" color="INTERFACE_COLOR_TYPE_TEXT_COLORS:INTERFACE_TEXT_COLOR_NORMAL">
+													<Dimensions x="330" y="30"/>
+													<Anchor point="TOPLEFT" relativeTo="$(parent)_3" relativePoint="BOTTOMLEFT" offsetY="0"/>
+													<OnClicked>NEAR_SR.gui.UpdateWindowData()</OnClicked>
+												</Button>
+
+												<Button name="$(parent)_5" text="$(NEAR_SR.gui.GetText(2, 5))" font="$(MEDIUM_FONT)|$(KB_20)" horizontalAlignment="LEFT" verticalAlignment="CENTER" color="INTERFACE_COLOR_TYPE_TEXT_COLORS:INTERFACE_TEXT_COLOR_NORMAL">
+													<Dimensions x="330" y="30"/>
+													<Anchor point="TOPLEFT" relativeTo="$(parent)_4" relativePoint="BOTTOMLEFT" offsetY="0"/>
+													<OnClicked>NEAR_SR.gui.UpdateWindowData()</OnClicked>
+												</Button>
+
+												<Button name="$(parent)_6" text="$(NEAR_SR.gui.GetText(2, 6))" font="$(MEDIUM_FONT)|$(KB_20)" horizontalAlignment="LEFT" verticalAlignment="CENTER" color="INTERFACE_COLOR_TYPE_TEXT_COLORS:INTERFACE_TEXT_COLOR_NORMAL">
+													<Dimensions x="330" y="30"/>
+													<Anchor point="TOPLEFT" relativeTo="$(parent)_5" relativePoint="BOTTOMLEFT" offsetY="0"/>
+													<OnClicked>NEAR_SR.gui.UpdateWindowData()</OnClicked>
+												</Button>
+
+											</Controls>
+										</Control>
+									</Controls>
+
+								</Control>
+
+
+								<!-- Skill type 3 (Armor) -->
+								<Control name="$(parent)_3" hidden="false" resizeToFitDescendents="true">
+									<Dimensions x="330" y="30"/>
+									<Anchor point="TOPLEFT" relativeTo="$(parent)_2" relativePoint="BOTTOMLEFT" offsetY="0"/>
+									<Controls>
+
+										<Button name="$(parent)_button" text="SI_SKILLTYPE3" font="$(MEDIUM_FONT)|$(KB_25)" horizontalAlignment="LEFT" verticalAlignment="CENTER" color="INTERFACE_COLOR_TYPE_TEXT_COLORS:INTERFACE_TEXT_COLOR_NORMAL">
+											<Dimensions x="330" y="30"/>
+											<Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="BOTTOMLEFT" offsetY="0"/>
+											<OnClicked>NEAR_SR.gui.skilltype(3)</OnClicked>
+										</Button>
+
+									</Controls>
+								</Control>
+
+								<!-- Skill type 4 (World) -->
+								<Control name="$(parent)_4" hidden="false" resizeToFitDescendents="true">
+									<Dimensions x="330" y="30"/>
+									<Anchor point="TOPLEFT" relativeTo="$(parent)_3" relativePoint="BOTTOMLEFT" offsetY="0"/>
+									<Controls>
+
+										<Button name="$(parent)_button" text="SI_SKILLTYPE4" font="$(MEDIUM_FONT)|$(KB_25)" horizontalAlignment="LEFT" verticalAlignment="CENTER" color="INTERFACE_COLOR_TYPE_TEXT_COLORS:INTERFACE_TEXT_COLOR_NORMAL">
+											<Dimensions x="330" y="30"/>
+											<Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="BOTTOMLEFT" offsetY="0"/>
+											<OnClicked>NEAR_SR.gui.skilltype(4)</OnClicked>
+										</Button>
+									
+									</Controls>
+								</Control>
+
+								<!-- Skill type 5 (Guild) -->
+								<Control name="$(parent)_5" hidden="false" resizeToFitDescendents="true">
+									<Dimensions x="330" y="30"/>
+									<Anchor point="TOPLEFT" relativeTo="$(parent)_4" relativePoint="BOTTOMLEFT" offsetY="0"/>
+									<Controls>
+
+										<Button name="$(parent)_button" text="SI_SKILLTYPE5" font="$(MEDIUM_FONT)|$(KB_25)" horizontalAlignment="LEFT" verticalAlignment="CENTER" color="INTERFACE_COLOR_TYPE_TEXT_COLORS:INTERFACE_TEXT_COLOR_NORMAL">
+											<Dimensions x="330" y="30"/>
+											<Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="BOTTOMLEFT" offsetY="0"/>
+											<OnClicked>NEAR_SR.gui.skilltype(5)</OnClicked>
+										</Button>
+									
+									</Controls>
+								</Control>
+
+								<!-- Skill type 6 (Alliance War) -->
+								<Control name="$(parent)_6" hidden="false" resizeToFitDescendents="true">
+									<Dimensions x="330" y="30"/>
+									<Anchor point="TOPLEFT" relativeTo="$(parent)_5" relativePoint="BOTTOMLEFT" offsetY="0"/>
+									<Controls>
+
+										<Button name="$(parent)_button" text="SI_SKILLTYPE6" font="$(MEDIUM_FONT)|$(KB_25)" horizontalAlignment="LEFT" verticalAlignment="CENTER" color="INTERFACE_COLOR_TYPE_TEXT_COLORS:INTERFACE_TEXT_COLOR_NORMAL">
+											<Dimensions x="330" y="30"/>
+											<Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="BOTTOMLEFT" offsetY="0"/>
+											<OnClicked>NEAR_SR.gui.skilltype(6)</OnClicked>
+										</Button>
+									
+									</Controls>
+								</Control>
+
+								<!-- Skill type 7 (Racial) -->
+								<Control name="$(parent)_7" hidden="false" resizeToFitDescendents="true">
+									<Dimensions x="330" y="30"/>
+									<Anchor point="TOPLEFT" relativeTo="$(parent)_6" relativePoint="BOTTOMLEFT" offsetY="0"/>
+									<Controls>
+
+										<Button name="$(parent)_button" text="SI_SKILLTYPE7" font="$(MEDIUM_FONT)|$(KB_25)" horizontalAlignment="LEFT" verticalAlignment="CENTER" color="INTERFACE_COLOR_TYPE_TEXT_COLORS:INTERFACE_TEXT_COLOR_NORMAL">
+											<Dimensions x="330" y="30"/>
+											<Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="BOTTOMLEFT" offsetY="0"/>
+											<OnClicked>NEAR_SR.gui.skilltype(7)</OnClicked>
+										</Button>
+									
+									</Controls>
+								</Control>
+
+								<!-- Skill type 8 (Craft) -->
+								<Control name="$(parent)_8" hidden="false" resizeToFitDescendents="true">
+									<Dimensions x="330" y="30"/>
+									<Anchor point="TOPLEFT" relativeTo="$(parent)_7" relativePoint="BOTTOMLEFT" offsetY="0"/>
+									<Controls>
+
+										<Button name="$(parent)_button" text="SI_SKILLTYPE8" font="$(MEDIUM_FONT)|$(KB_25)" horizontalAlignment="LEFT" verticalAlignment="CENTER" color="INTERFACE_COLOR_TYPE_TEXT_COLORS:INTERFACE_TEXT_COLOR_NORMAL">
+											<Dimensions x="330" y="30"/>
+											<Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="BOTTOMLEFT" offsetY="0"/>
+											<OnClicked>NEAR_SR.gui.skilltype(8)</OnClicked>
+										</Button>
+									
+									</Controls>
+								</Control>
+							</Controls>
+
+                		</Control>
+					</Controls>
+				</Control>
+
+            </Controls>
+
+        </TopLevelControl>
+    </Controls>
+</GuiXml>

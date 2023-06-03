@@ -1,11 +1,30 @@
 {
     "Lua.diagnostics.globals": [
         "LibSlashCommander",
-        "LibAddonMenu2"
+        "LibAddonMenu2",
+        "ZO_CreateStringId",
+        "SafeAddVersion",
+        "NSR_GUI",
+        "NSR_GUI_Header_CharList",
+        "SI_SKILLTYPE1",
+        "NSR_GUI_Main_ST_SKILLTYPE1",
+        "NSR_GUI_Main_ST_SKILLTYPE2",
+        "NSR_GUI_Main_ST_SKILLTYPE3",
+        "NSR_GUI_Main_ST_SKILLTYPE4",
+        "NSR_GUI_Main_ST_SKILLTYPE5",
+        "NSR_GUI_Main_ST_SKILLTYPE6",
+        "NSR_GUI_Main_ST_SKILLTYPE7",
+        "NSR_GUI_Main_ST_SKILLTYPE8",
+        "NSR_GUI_Main_ST_SKILLTYPE",
+        "NSR_GUI_Main_ST1_SL_SKILLLINE1",
+        "NSR_GUI_Main_ST1_SL_SKILLLINE2",
+        "NSR_GUI_Main_ST1_SL_SKILLLINE3"
     ],
     "Lua.diagnostics.disable": [
         "need-check-nil",
         "param-type-mismatch",
-        "undefined-doc-name"
+        "undefined-doc-name",
+        "unused-function",
+        "missing-parameter"
     ]
 }

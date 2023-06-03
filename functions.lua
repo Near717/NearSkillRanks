@@ -1,5 +1,6 @@
 NEAR_SR.func = {}
 local addon = NEAR_SR
+local gs = GetString()
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ---@param skillLineId integer
@@ -40,6 +41,9 @@ local t_skillType = {
 
 function NEAR_SR.func.UpdateAllData()
     addon.func.UpdateCharList()
+    --Create the character select box.
+	NEAR_SR.func.CreateCharList()
+
     for i, v in ipairs(t_skillType) do
         addon.func.UpdateData(v)
     end
@@ -209,10 +213,136 @@ end
 
 
 
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
 function NEAR_SR.func.UpdateCharList()
     local sv = addon.ASV.settings
     for i = 1, GetNumCharacters() do
         local name, _, _, classId, _, _, id, _ = GetCharacterInfo(i)
         sv.charInfo[i] = { charId = id, charName = zo_strformat("<<1>>", name), classId = classId, }
     end
+end
+
+local selectedChar = GetCurrentCharacterId()
+addon.selectedChar_classId = GetUnitClassId('player')
+local currentCharName = nil
+
+local function SetSelectedChar(charName)
+	for i = 1, #addon.charData do
+		if charName == addon.charData[i].charName then
+			selectedChar = addon.charData[i].charId
+			break
+		end
+	end
+end
+
+function NEAR_SR.func.CreateCharList()
+    local sv = addon.ASV.settings
+
+	NSR_GUI_Header_CharList.comboBox = NSR_GUI_Header_CharList.comboBox or ZO_ComboBox_ObjectFromContainer(NSR_GUI_Header_CharList)
+	local NSR_comboBox = NSR_GUI_Header_CharList.comboBox
+
+	addon.charNames = {}
+	addon.charData = {}
+	for k,_ in ipairs(sv.charInfo) do
+		addon.charNames[k] = sv.charInfo[k].charName
+		addon.charData[k] = {
+			charId = sv.charInfo[k].charId,
+			charName = sv.charInfo[k].charName,
+			classId = sv.charInfo[k].classId,
+		}
+
+		if GetCurrentCharacterId() == addon.charData[k].charId then
+			currentCharName = addon.charData[k].charName
+			selectedChar = addon.charData[k].charId
+            addon.selectedChar_classId = addon.charData[k].classId
+		end
+	end
+
+	local function OnItemSelect(_, choiceText, choice)
+		SetSelectedChar(choiceText)
+		addon.gui.UpdateWindowData()
+		-- PlaySound(SOUNDS.POSITIVE_CLICK)
+	end
+
+	NSR_comboBox:SetSortsItems(false)
+
+	for k,_ in ipairs(addon.charNames) do
+		NSR_comboBox:AddItem(NSR_comboBox:CreateItemEntry(addon.charNames[k], OnItemSelect))
+		if addon.charNames[k] == currentCharName then
+			NSR_comboBox:SetSelectedItem(addon.charNames[k])
+		end
+	end
+end
+
+
+function NEAR_SR.func.CreateSkillList()
+    local classId = addon.selectedChar_classId
+
+    -- local skillLineName = addon.skilldata[SKILL_TYPE_CLASS][classId][1].name
+    --     NSR_GUI_Main_SkillType_1_SKILLLINE_1.label:SetText(skillLineName)
+    -- skillLineName = addon.skilldata[SKILL_TYPE_CLASS][classId][2].name
+    --     NSR_GUI_Main_SkillType_1_SKILLLINE_2.label:SetText(skillLineName)
+    -- skillLineName = addon.skilldata[SKILL_TYPE_CLASS][classId][3].name
+    --     NSR_GUI_Main_SkillType_1_SKILLLINE_3.label:SetText(skillLineName)
+end
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+NEAR_SR.gui = {}
+
+-- Show or hide the window
+function NEAR_SR.gui.ToggleWindow()
+	NSR_GUI:ToggleHidden()
+end
+
+-- Hide the window
+function NEAR_SR.gui.CloseWindow()
+	NSR_GUI:SetHidden(true)
+end
+
+-- OnShow update window data
+function NEAR_SR.gui.OnShow()
+    NEAR_SR.gui.UpdateWindowData()
+end
+
+function NEAR_SR.gui.GetText(skillType, skillLineIndex)
+    if skillType == SKILL_TYPE_CLASS then
+        local classId = addon.selectedChar_classId
+        return NEAR_SR.skilldata[skillType][classId][skillLineIndex].name
+    else
+        return NEAR_SR.skilldata[skillType][skillLineIndex].name
+    end
+end
+
+function NEAR_SR.gui.UpdateWindowData()
+    d('UpdateWindowData')
+    addon.func.CreateSkillList()
+end
+
+
+function NEAR_SR.gui.skilltype(skillType)
+    d("NEAR_SR.gui.skilltype(): "..tostring(skillType))
+    -- local controls = {
+    --     [1] = NSR_GUI_Main_SkillType_1,
+    --     [2] = NSR_GUI_Main_SkillType_2,
+    --     [3] = NSR_GUI_Main_SkillType_3,
+    --     [4] = NSR_GUI_Main_SkillType_4,
+    --     [5] = NSR_GUI_Main_SkillType_5,
+    --     [6] = NSR_GUI_Main_SkillType_6,
+    --     [7] = NSR_GUI_Main_SkillType_7,
+    --     [8] = NSR_GUI_Main_SkillType_8,
+    -- }
+
+    -- local color_normal = ZO_ColorDef:New(GetInterfaceColor(INTERFACE_COLOR_TYPE_TEXT_COLORS, INTERFACE_TEXT_COLOR_NORMAL))
+    -- local color_selected = ZO_ColorDef:New(GetInterfaceColor(INTERFACE_COLOR_TYPE_TEXT_COLORS, INTERFACE_TEXT_COLOR_SELECTED))
+
+    -- NSR_GUI_Main_SkillType_1.label:SetColor("FFefebbe")
+
+    -- for key, control in ipairs(controls) do
+    --     if skillType == key then
+    --         control.label:SetColor(color_selected)
+    --     else
+    --         control.label:SetColor(color_normal)
+    --     end
+    -- end
+
 end

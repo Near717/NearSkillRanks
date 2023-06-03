@@ -29,7 +29,7 @@ local LSC = LibSlashCommander
 
 function addon.RegisterSlashCommands()
 
-	-- LSC:Register("/rl",			function() addon.toggleKeyboard() ReloadUI() end,		"Reload UI on keyboard mode")
+	LSC:Register("/nsr", function() addon.gui.ToggleWindow() end, "Toggle 'Skill Ranks' window")
 
 end
 
@@ -46,7 +46,7 @@ local function OnAddonLoaded(event, name)
 	addon.ASV.char		= ZO_SavedVars:NewAccountWide(addon.name .. "_Data", asv_version, GetCurrentCharacterId(), addon.defaults_char, GetWorldName())
 
 
-	-- addon.RegisterSlashCommands()
+	addon.RegisterSlashCommands()
 	addon.SetupSettings()
 
 
