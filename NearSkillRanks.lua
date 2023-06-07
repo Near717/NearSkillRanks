@@ -2,36 +2,10 @@ NEAR_SR = {
 	name 		= "NearSkillRanks",
 	title 		= "Near's Skill Ranks",
 	shortTitle 	= "Skill Ranks",
-	version 	= "0.1.1",
+	version 	= "0.1.2",
 	author 		= "|cCC99FFnotnear|r",
 }
 local addon = NEAR_SR
-
-local function Initialize()
-	local funcName = 'Initialize'
-	local dbg = addon.utils.dbg
-	local sv = addon.ASV.settings
-
-	--[[ Debug ]] if sv.debug then d(dbg.open) d(dbg.lightGrey..'start of '..funcName) end
-
-	EVENT_MANAGER:UnregisterForEvent(addon.name .. '_Initialize_OnPlayerActivated', EVENT_PLAYER_ACTIVATED)
-
-	addon.func.UpdateAllData()
-
-	--[[ Debug ]] if sv.debug then d(dbg.grey..'end of '..funcName) d(dbg.close) end
-end
-
--------------------------------------------------------------------------------------------------------------------------------------------------------------------
--- Slash commands
--------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-local LSC = LibSlashCommander
-
-function addon.RegisterSlashCommands()
-
-	-- LSC:Register("/rl",			function() addon.toggleKeyboard() ReloadUI() end,		"Reload UI on keyboard mode")
-
-end
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Addon loading
@@ -45,12 +19,8 @@ local function OnAddonLoaded(event, name)
 	addon.ASV.settings	= ZO_SavedVars:NewAccountWide(addon.name .. "_Data", asv_version, 'settings', addon.defaults, GetWorldName())
 	addon.ASV.char		= ZO_SavedVars:NewAccountWide(addon.name .. "_Data", asv_version, GetCurrentCharacterId(), addon.defaults_char, GetWorldName())
 
-
-	-- addon.RegisterSlashCommands()
+	addon.func.UpdateAllData()
 	addon.SetupSettings()
-
-
-	EVENT_MANAGER:RegisterForEvent(addon.name..'_Initialize_OnPlayerActivated', EVENT_PLAYER_ACTIVATED, Initialize)
 
 end
 

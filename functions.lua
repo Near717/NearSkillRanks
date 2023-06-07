@@ -40,7 +40,7 @@ local t_skillType = {
 
 function NEAR_SR.func.UpdateAllData()
     addon.func.UpdateCharList()
-    for i, v in ipairs(t_skillType) do
+    for _, v in ipairs(t_skillType) do
         addon.func.UpdateData(v)
     end
 end
@@ -208,7 +208,7 @@ function NEAR_SR.func.UpdateData(skillType)
 end
 
 
-
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
 function NEAR_SR.func.UpdateCharList()
     local sv = addon.ASV.settings
     for i = 1, GetNumCharacters() do

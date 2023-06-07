@@ -1,11 +1,20 @@
 {
     "Lua.diagnostics.globals": [
         "LibSlashCommander",
-        "LibAddonMenu2"
+        "LibAddonMenu2",
+        "SI_SKILLTYPE1",
+        "SI_SKILLTYPE2",
+        "SI_SKILLTYPE3",
+        "SI_SKILLTYPE4",
+        "SI_SKILLTYPE5",
+        "SI_SKILLTYPE6",
+        "SI_SKILLTYPE8",
+        "NEARSR_lam_dropdown_SkillLine"
     ],
     "Lua.diagnostics.disable": [
         "need-check-nil",
         "param-type-mismatch",
-        "undefined-doc-name"
+        "undefined-doc-name",
+        "missing-parameter"
     ]
 }
