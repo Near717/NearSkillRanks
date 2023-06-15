@@ -179,340 +179,393 @@ local function UpdateLam_abilities()
 		local sv_skillLine = NEAR_SR.ASV.char[selected_skillType][selectedChar_classId][selected_skillLine]
 		local sd_skillLine = NEAR_SR.skilldata[selected_skillType][selectedChar_classId][selected_skillLine]
 
-		addon.selectedSkillLine_abilities =
-		sd_skillLine.name .. '     ' .. 'Lv: ' .. sv_skillLine.rank .. '\n' ..
+		addon.selectedSkillLine_abilities_name =
+		sd_skillLine.name .. '\n' ..
 
-		'Rank: ' .. sv_skillLine[1][0] .. '     ' .. 'Name: ' .. sd_skillLine[1][0].name .. '\n' ..
-		'Rank: ' .. sv_skillLine[1][1] .. '     ' .. 'Name: ' .. sd_skillLine[1][1].name .. '\n' ..
-		'Rank: ' .. sv_skillLine[1][2] .. '     ' .. 'Name: ' .. sd_skillLine[1][2].name .. '\n' ..
+		'Name: ' .. sd_skillLine[1][0].name .. '\n' ..
+		'Name: ' .. sd_skillLine[1][1].name .. '\n' ..
+		'Name: ' .. sd_skillLine[1][2].name .. '\n' ..
 
-		'Rank: ' .. sv_skillLine[2][0] .. '     ' .. 'Name: ' .. sd_skillLine[2][0].name .. '\n' ..
-		'Rank: ' .. sv_skillLine[2][1] .. '     ' .. 'Name: ' .. sd_skillLine[2][1].name .. '\n' ..
-		'Rank: ' .. sv_skillLine[2][2] .. '     ' .. 'Name: ' .. sd_skillLine[2][2].name .. '\n' ..
+		'Name: ' .. sd_skillLine[2][0].name .. '\n' ..
+		'Name: ' .. sd_skillLine[2][1].name .. '\n' ..
+		'Name: ' .. sd_skillLine[2][2].name .. '\n' ..
 
-		'Rank: ' .. sv_skillLine[3][0] .. '     ' .. 'Name: ' .. sd_skillLine[3][0].name .. '\n' ..
-		'Rank: ' .. sv_skillLine[3][1] .. '     ' .. 'Name: ' .. sd_skillLine[3][1].name .. '\n' ..
-		'Rank: ' .. sv_skillLine[3][2] .. '     ' .. 'Name: ' .. sd_skillLine[3][2].name .. '\n' ..
+		'Name: ' .. sd_skillLine[3][0].name .. '\n' ..
+		'Name: ' .. sd_skillLine[3][1].name .. '\n' ..
+		'Name: ' .. sd_skillLine[3][2].name .. '\n' ..
 
-		'Rank: ' .. sv_skillLine[4][0] .. '     ' .. 'Name: ' .. sd_skillLine[4][0].name .. '\n' ..
-		'Rank: ' .. sv_skillLine[4][1] .. '     ' .. 'Name: ' .. sd_skillLine[4][1].name .. '\n' ..
-		'Rank: ' .. sv_skillLine[4][2] .. '     ' .. 'Name: ' .. sd_skillLine[4][2].name .. '\n' ..
+		'Name: ' .. sd_skillLine[4][0].name .. '\n' ..
+		'Name: ' .. sd_skillLine[4][1].name .. '\n' ..
+		'Name: ' .. sd_skillLine[4][2].name .. '\n' ..
 
-		'Rank: ' .. sv_skillLine[5][0] .. '     ' .. 'Name: ' .. sd_skillLine[5][0].name .. '\n' ..
-		'Rank: ' .. sv_skillLine[5][1] .. '     ' .. 'Name: ' .. sd_skillLine[5][1].name .. '\n' ..
-		'Rank: ' .. sv_skillLine[5][2] .. '     ' .. 'Name: ' .. sd_skillLine[5][2].name .. '\n' ..
+		'Name: ' .. sd_skillLine[5][0].name .. '\n' ..
+		'Name: ' .. sd_skillLine[5][1].name .. '\n' ..
+		'Name: ' .. sd_skillLine[5][2].name .. '\n' ..
 
-		'Rank: ' .. sv_skillLine[6][0] .. '     ' .. 'Name: ' .. sd_skillLine[6][0].name .. '\n' ..
-		'Rank: ' .. sv_skillLine[6][1] .. '     ' .. 'Name: ' .. sd_skillLine[6][1].name .. '\n' ..
-		'Rank: ' .. sv_skillLine[6][2] .. '     ' .. 'Name: ' .. sd_skillLine[6][2].name
+		'Name: ' .. sd_skillLine[6][0].name .. '\n' ..
+		'Name: ' .. sd_skillLine[6][1].name .. '\n' ..
+		'Name: ' .. sd_skillLine[6][2].name
+
+		addon.selectedSkillLine_abilities_rank =
+		'Lv: ' .. sv_skillLine.rank .. '\n' ..
+
+		'Rank: ' .. sv_skillLine[1][0] .. '\n' ..
+		'Rank: ' .. sv_skillLine[1][1] .. '\n' ..
+		'Rank: ' .. sv_skillLine[1][2] .. '\n' ..
+
+		'Rank: ' .. sv_skillLine[2][0] .. '\n' ..
+		'Rank: ' .. sv_skillLine[2][1] .. '\n' ..
+		'Rank: ' .. sv_skillLine[2][2] .. '\n' ..
+
+		'Rank: ' .. sv_skillLine[3][0] .. '\n' ..
+		'Rank: ' .. sv_skillLine[3][1] .. '\n' ..
+		'Rank: ' .. sv_skillLine[3][2] .. '\n' ..
+
+		'Rank: ' .. sv_skillLine[4][0] .. '\n' ..
+		'Rank: ' .. sv_skillLine[4][1] .. '\n' ..
+		'Rank: ' .. sv_skillLine[4][2] .. '\n' ..
+
+		'Rank: ' .. sv_skillLine[5][0] .. '\n' ..
+		'Rank: ' .. sv_skillLine[5][1] .. '\n' ..
+		'Rank: ' .. sv_skillLine[5][2] .. '\n' ..
+
+		'Rank: ' .. sv_skillLine[6][0] .. '\n' ..
+		'Rank: ' .. sv_skillLine[6][1] .. '\n' ..
+		'Rank: ' .. sv_skillLine[6][2]
 
 	else
 		local sv_skillLine = NEAR_SR.ASV.char[selected_skillType][selected_skillLine]
 		local sd_skillLine = NEAR_SR.skilldata[selected_skillType][selected_skillLine]
 
 		if selected_skillType == SKILL_TYPE_WEAPON then
-			addon.selectedSkillLine_abilities =
-			sd_skillLine.name .. '     ' .. 'Lv: ' .. sv_skillLine.rank .. '\n' ..
+			addon.selectedSkillLine_abilities_name =
+			sd_skillLine.name .. '\n' ..
 
-			'Rank: ' .. sv_skillLine[1][0] .. '     ' .. 'Name: ' .. sd_skillLine[1][0].name .. '\n' ..
-			'Rank: ' .. sv_skillLine[1][1] .. '     ' .. 'Name: ' .. sd_skillLine[1][1].name .. '\n' ..
-			'Rank: ' .. sv_skillLine[1][2] .. '     ' .. 'Name: ' .. sd_skillLine[1][2].name .. '\n' ..
+			'Name: ' .. sd_skillLine[1][0].name .. '\n' ..
+			'Name: ' .. sd_skillLine[1][1].name .. '\n' ..
+			'Name: ' .. sd_skillLine[1][2].name .. '\n' ..
 
-			'Rank: ' .. sv_skillLine[2][0] .. '     ' .. 'Name: ' .. sd_skillLine[2][0].name .. '\n' ..
-			'Rank: ' .. sv_skillLine[2][1] .. '     ' .. 'Name: ' .. sd_skillLine[2][1].name .. '\n' ..
-			'Rank: ' .. sv_skillLine[2][2] .. '     ' .. 'Name: ' .. sd_skillLine[2][2].name .. '\n' ..
+			'Name: ' .. sd_skillLine[2][0].name .. '\n' ..
+			'Name: ' .. sd_skillLine[2][1].name .. '\n' ..
+			'Name: ' .. sd_skillLine[2][2].name .. '\n' ..
 
-			'Rank: ' .. sv_skillLine[3][0] .. '     ' .. 'Name: ' .. sd_skillLine[3][0].name .. '\n' ..
-			'Rank: ' .. sv_skillLine[3][1] .. '     ' .. 'Name: ' .. sd_skillLine[3][1].name .. '\n' ..
-			'Rank: ' .. sv_skillLine[3][2] .. '     ' .. 'Name: ' .. sd_skillLine[3][2].name .. '\n' ..
+			'Name: ' .. sd_skillLine[3][0].name .. '\n' ..
+			'Name: ' .. sd_skillLine[3][1].name .. '\n' ..
+			'Name: ' .. sd_skillLine[3][2].name .. '\n' ..
 
-			'Rank: ' .. sv_skillLine[4][0] .. '     ' .. 'Name: ' .. sd_skillLine[4][0].name .. '\n' ..
-			'Rank: ' .. sv_skillLine[4][1] .. '     ' .. 'Name: ' .. sd_skillLine[4][1].name .. '\n' ..
-			'Rank: ' .. sv_skillLine[4][2] .. '     ' .. 'Name: ' .. sd_skillLine[4][2].name .. '\n' ..
+			'Name: ' .. sd_skillLine[4][0].name .. '\n' ..
+			'Name: ' .. sd_skillLine[4][1].name .. '\n' ..
+			'Name: ' .. sd_skillLine[4][2].name .. '\n' ..
 
-			'Rank: ' .. sv_skillLine[5][0] .. '     ' .. 'Name: ' .. sd_skillLine[5][0].name .. '\n' ..
-			'Rank: ' .. sv_skillLine[5][1] .. '     ' .. 'Name: ' .. sd_skillLine[5][1].name .. '\n' ..
-			'Rank: ' .. sv_skillLine[5][2] .. '     ' .. 'Name: ' .. sd_skillLine[5][2].name .. '\n' ..
+			'Name: ' .. sd_skillLine[5][0].name .. '\n' ..
+			'Name: ' .. sd_skillLine[5][1].name .. '\n' ..
+			'Name: ' .. sd_skillLine[5][2].name .. '\n' ..
 
-			'Rank: ' .. sv_skillLine[6][0] .. '     ' .. 'Name: ' .. sd_skillLine[6][0].name .. '\n' ..
-			'Rank: ' .. sv_skillLine[6][1] .. '     ' .. 'Name: ' .. sd_skillLine[6][1].name .. '\n' ..
-			'Rank: ' .. sv_skillLine[6][2] .. '     ' .. 'Name: ' .. sd_skillLine[6][2].name
+			'Name: ' .. sd_skillLine[6][0].name .. '\n' ..
+			'Name: ' .. sd_skillLine[6][1].name .. '\n' ..
+			'Name: ' .. sd_skillLine[6][2].name
+
+			addon.selectedSkillLine_abilities_rank =
+			'Lv: ' .. sv_skillLine.rank .. '\n' ..
+
+			'Rank: ' .. sv_skillLine[1][0] .. '\n' ..
+			'Rank: ' .. sv_skillLine[1][1] .. '\n' ..
+			'Rank: ' .. sv_skillLine[1][2] .. '\n' ..
+
+			'Rank: ' .. sv_skillLine[2][0] .. '\n' ..
+			'Rank: ' .. sv_skillLine[2][1] .. '\n' ..
+			'Rank: ' .. sv_skillLine[2][2] .. '\n' ..
+
+			'Rank: ' .. sv_skillLine[3][0] .. '\n' ..
+			'Rank: ' .. sv_skillLine[3][1] .. '\n' ..
+			'Rank: ' .. sv_skillLine[3][2] .. '\n' ..
+
+			'Rank: ' .. sv_skillLine[4][0] .. '\n' ..
+			'Rank: ' .. sv_skillLine[4][1] .. '\n' ..
+			'Rank: ' .. sv_skillLine[4][2] .. '\n' ..
+
+			'Rank: ' .. sv_skillLine[5][0] .. '\n' ..
+			'Rank: ' .. sv_skillLine[5][1] .. '\n' ..
+			'Rank: ' .. sv_skillLine[5][2] .. '\n' ..
+
+			'Rank: ' .. sv_skillLine[6][0] .. '\n' ..
+			'Rank: ' .. sv_skillLine[6][1] .. '\n' ..
+			'Rank: ' .. sv_skillLine[6][2]
 
 		elseif selected_skillType == SKILL_TYPE_ARMOR then
-			addon.selectedSkillLine_abilities =
-			sd_skillLine.name .. '     ' .. 'Lv: ' .. sv_skillLine.rank .. '\n' ..
+			addon.selectedSkillLine_abilities_name =
+			sd_skillLine.name.. '\n' ..
 
-			'Rank: ' .. sv_skillLine[1][0] .. '     ' .. 'Name: ' .. sd_skillLine[1][0].name .. '\n' ..
-			'Rank: ' .. sv_skillLine[1][1] .. '     ' .. 'Name: ' .. sd_skillLine[1][1].name .. '\n' ..
-			'Rank: ' .. sv_skillLine[1][2] .. '     ' .. 'Name: ' .. sd_skillLine[1][2].name
+			'Name: ' .. sd_skillLine[1][0].name .. '\n' ..
+			'Name: ' .. sd_skillLine[1][1].name .. '\n' ..
+			'Name: ' .. sd_skillLine[1][2].name
+
+			addon.selectedSkillLine_abilities_rank =
+			'Lv: ' .. sv_skillLine.rank .. '\n' ..
+
+			'Rank: ' .. sv_skillLine[1][0].. '\n' ..
+			'Rank: ' .. sv_skillLine[1][1].. '\n' ..
+			'Rank: ' .. sv_skillLine[1][2]
 
 		elseif selected_skillType == SKILL_TYPE_WORLD then
-			if selected_skillLine == 1 then
-				addon.selectedSkillLine_abilities =
-				sd_skillLine.name .. '     ' .. 'Lv: ' .. sv_skillLine.rank
+			if selected_skillLine == 1 or selected_skillLine == 2 or selected_skillLine == 3 then
+				addon.selectedSkillLine_abilities_name =
+				sd_skillLine.name
 
-			elseif selected_skillLine == 2 then
-				addon.selectedSkillLine_abilities =
-				sd_skillLine.name .. '     ' .. 'Lv: ' .. sv_skillLine.rank
-
-			elseif selected_skillLine == 3 then
-				addon.selectedSkillLine_abilities =
-				sd_skillLine.name .. '     ' .. 'Lv: ' .. sv_skillLine.rank
+				addon.selectedSkillLine_abilities_rank =
+				'Lv: ' .. sv_skillLine.rank
 
 			elseif selected_skillLine == 4 then
-				addon.selectedSkillLine_abilities =
-				sd_skillLine.name .. '     ' .. 'Lv: ' .. sv_skillLine.rank .. '\n' ..
+				addon.selectedSkillLine_abilities_name =
+				sd_skillLine.name .. '\n' ..
 
-				'Rank: ' .. sv_skillLine[1][0] .. '     ' .. 'Name: ' .. sd_skillLine[1][0].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[1][1] .. '     ' .. 'Name: ' .. sd_skillLine[1][1].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[1][2] .. '     ' .. 'Name: ' .. sd_skillLine[1][2].name .. '\n' ..
+				'Name: ' .. sd_skillLine[1][0].name .. '\n' ..
+				'Name: ' .. sd_skillLine[1][1].name .. '\n' ..
+				'Name: ' .. sd_skillLine[1][2].name .. '\n' ..
 
-				'Rank: ' .. sv_skillLine[2][0] .. '     ' .. 'Name: ' .. sd_skillLine[2][0].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[2][1] .. '     ' .. 'Name: ' .. sd_skillLine[2][1].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[2][2] .. '     ' .. 'Name: ' .. sd_skillLine[2][2].name
+				'Name: ' .. sd_skillLine[2][0].name .. '\n' ..
+				'Name: ' .. sd_skillLine[2][1].name .. '\n' ..
+				'Name: ' .. sd_skillLine[2][2].name
 
-			elseif selected_skillLine == 5 then
-				addon.selectedSkillLine_abilities =
-				sd_skillLine.name .. '     ' .. 'Lv: ' .. sv_skillLine.rank .. '\n' ..
+				addon.selectedSkillLine_abilities_rank =
+				'Lv: ' .. sv_skillLine.rank .. '\n' ..
 
-				'Rank: ' .. sv_skillLine[1][0] .. '     ' .. 'Name: ' .. sd_skillLine[1][0].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[1][1] .. '     ' .. 'Name: ' .. sd_skillLine[1][1].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[1][2] .. '     ' .. 'Name: ' .. sd_skillLine[1][2].name .. '\n' ..
+				'Rank: ' .. sv_skillLine[1][0]'\n' ..
+				'Rank: ' .. sv_skillLine[1][1]'\n' ..
+				'Rank: ' .. sv_skillLine[1][2]'\n' ..
 
-				'Rank: ' .. sv_skillLine[2][0] .. '     ' .. 'Name: ' .. sd_skillLine[2][0].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[2][1] .. '     ' .. 'Name: ' .. sd_skillLine[2][1].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[2][2] .. '     ' .. 'Name: ' .. sd_skillLine[2][2].name .. '\n' ..
+				'Rank: ' .. sv_skillLine[2][0]'\n' ..
+				'Rank: ' .. sv_skillLine[2][1]'\n' ..
+				'Rank: ' .. sv_skillLine[2][2]
 
-				'Rank: ' .. sv_skillLine[3][0] .. '     ' .. 'Name: ' .. sd_skillLine[3][0].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[3][1] .. '     ' .. 'Name: ' .. sd_skillLine[3][1].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[3][2] .. '     ' .. 'Name: ' .. sd_skillLine[3][2].name .. '\n' ..
+			elseif selected_skillLine == 5 or selected_skillLine == 6 then
+				addon.selectedSkillLine_abilities_name =
+				sd_skillLine.name .. '\n' ..
 
-				'Rank: ' .. sv_skillLine[4][0] .. '     ' .. 'Name: ' .. sd_skillLine[4][0].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[4][1] .. '     ' .. 'Name: ' .. sd_skillLine[4][1].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[4][2] .. '     ' .. 'Name: ' .. sd_skillLine[4][2].name .. '\n' ..
+				'Name: ' .. sd_skillLine[1][0].name .. '\n' ..
+				'Name: ' .. sd_skillLine[1][1].name .. '\n' ..
+				'Name: ' .. sd_skillLine[1][2].name .. '\n' ..
 
-				'Rank: ' .. sv_skillLine[5][0] .. '     ' .. 'Name: ' .. sd_skillLine[5][0].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[5][1] .. '     ' .. 'Name: ' .. sd_skillLine[5][1].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[5][2] .. '     ' .. 'Name: ' .. sd_skillLine[5][2].name .. '\n' ..
+				'Name: ' .. sd_skillLine[2][0].name .. '\n' ..
+				'Name: ' .. sd_skillLine[2][1].name .. '\n' ..
+				'Name: ' .. sd_skillLine[2][2].name .. '\n' ..
 
-				'Rank: ' .. sv_skillLine[6][0] .. '     ' .. 'Name: ' .. sd_skillLine[6][0].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[6][1] .. '     ' .. 'Name: ' .. sd_skillLine[6][1].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[6][2] .. '     ' .. 'Name: ' .. sd_skillLine[6][2].name
+				'Name: ' .. sd_skillLine[3][0].name .. '\n' ..
+				'Name: ' .. sd_skillLine[3][1].name .. '\n' ..
+				'Name: ' .. sd_skillLine[3][2].name .. '\n' ..
 
-			elseif selected_skillLine == 6 then
-				addon.selectedSkillLine_abilities =
-				sd_skillLine.name .. '     ' .. 'Lv: ' .. sv_skillLine.rank .. '\n' ..
+				'Name: ' .. sd_skillLine[4][0].name .. '\n' ..
+				'Name: ' .. sd_skillLine[4][1].name .. '\n' ..
+				'Name: ' .. sd_skillLine[4][2].name .. '\n' ..
 
-				'Rank: ' .. sv_skillLine[1][0] .. '     ' .. 'Name: ' .. sd_skillLine[1][0].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[1][1] .. '     ' .. 'Name: ' .. sd_skillLine[1][1].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[1][2] .. '     ' .. 'Name: ' .. sd_skillLine[1][2].name .. '\n' ..
+				'Name: ' .. sd_skillLine[5][0].name .. '\n' ..
+				'Name: ' .. sd_skillLine[5][1].name .. '\n' ..
+				'Name: ' .. sd_skillLine[5][2].name .. '\n' ..
 
-				'Rank: ' .. sv_skillLine[2][0] .. '     ' .. 'Name: ' .. sd_skillLine[2][0].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[2][1] .. '     ' .. 'Name: ' .. sd_skillLine[2][1].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[2][2] .. '     ' .. 'Name: ' .. sd_skillLine[2][2].name .. '\n' ..
+				'Name: ' .. sd_skillLine[6][0].name .. '\n' ..
+				'Name: ' .. sd_skillLine[6][1].name .. '\n' ..
+				'Name: ' .. sd_skillLine[6][2].name
 
-				'Rank: ' .. sv_skillLine[3][0] .. '     ' .. 'Name: ' .. sd_skillLine[3][0].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[3][1] .. '     ' .. 'Name: ' .. sd_skillLine[3][1].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[3][2] .. '     ' .. 'Name: ' .. sd_skillLine[3][2].name .. '\n' ..
+				addon.selectedSkillLine_abilities_rank =
+				'Lv: ' .. sv_skillLine.rank .. '\n' ..
 
-				'Rank: ' .. sv_skillLine[4][0] .. '     ' .. 'Name: ' .. sd_skillLine[4][0].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[4][1] .. '     ' .. 'Name: ' .. sd_skillLine[4][1].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[4][2] .. '     ' .. 'Name: ' .. sd_skillLine[4][2].name .. '\n' ..
+				'Rank: ' .. sv_skillLine[1][0].. '\n' ..
+				'Rank: ' .. sv_skillLine[1][1].. '\n' ..
+				'Rank: ' .. sv_skillLine[1][2].. '\n' ..
 
-				'Rank: ' .. sv_skillLine[5][0] .. '     ' .. 'Name: ' .. sd_skillLine[5][0].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[5][1] .. '     ' .. 'Name: ' .. sd_skillLine[5][1].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[5][2] .. '     ' .. 'Name: ' .. sd_skillLine[5][2].name .. '\n' ..
+				'Rank: ' .. sv_skillLine[2][0].. '\n' ..
+				'Rank: ' .. sv_skillLine[2][1].. '\n' ..
+				'Rank: ' .. sv_skillLine[2][2].. '\n' ..
 
-				'Rank: ' .. sv_skillLine[6][0] .. '     ' .. 'Name: ' .. sd_skillLine[6][0].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[6][1] .. '     ' .. 'Name: ' .. sd_skillLine[6][1].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[6][2] .. '     ' .. 'Name: ' .. sd_skillLine[6][2].name
+				'Rank: ' .. sv_skillLine[3][0].. '\n' ..
+				'Rank: ' .. sv_skillLine[3][1].. '\n' ..
+				'Rank: ' .. sv_skillLine[3][2].. '\n' ..
+
+				'Rank: ' .. sv_skillLine[4][0].. '\n' ..
+				'Rank: ' .. sv_skillLine[4][1].. '\n' ..
+				'Rank: ' .. sv_skillLine[4][2].. '\n' ..
+
+				'Rank: ' .. sv_skillLine[5][0].. '\n' ..
+				'Rank: ' .. sv_skillLine[5][1].. '\n' ..
+				'Rank: ' .. sv_skillLine[5][2].. '\n' ..
+
+				'Rank: ' .. sv_skillLine[6][0].. '\n' ..
+				'Rank: ' .. sv_skillLine[6][1].. '\n' ..
+				'Rank: ' .. sv_skillLine[6][2]
 
 			end
 		elseif selected_skillType == SKILL_TYPE_GUILD then
-			if selected_skillLine == 1 then
-				addon.selectedSkillLine_abilities =
-				sd_skillLine.name .. '     ' .. 'Lv: ' .. sv_skillLine.rank
+			if selected_skillLine == 1 or selected_skillLine == 5 then
+				addon.selectedSkillLine_abilities_name =
+				sd_skillLine.name
 
-			elseif selected_skillLine == 2 then
-				addon.selectedSkillLine_abilities =
-				sd_skillLine.name .. '     ' .. 'Lv: ' .. sv_skillLine.rank .. '\n' ..
+				addon.selectedSkillLine_abilities_rank =
+				'Lv: ' .. sv_skillLine.rank
 
-				'Rank: ' .. sv_skillLine[1][0] .. '     ' .. 'Name: ' .. sd_skillLine[1][0].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[1][1] .. '     ' .. 'Name: ' .. sd_skillLine[1][1].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[1][2] .. '     ' .. 'Name: ' .. sd_skillLine[1][2].name .. '\n' ..
+			elseif selected_skillLine == 2 or selected_skillLine == 3 or selected_skillLine == 6 then
+				addon.selectedSkillLine_abilities_name =
+				sd_skillLine.name .. '\n' ..
 
-				'Rank: ' .. sv_skillLine[2][0] .. '     ' .. 'Name: ' .. sd_skillLine[2][0].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[2][1] .. '     ' .. 'Name: ' .. sd_skillLine[2][1].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[2][2] .. '     ' .. 'Name: ' .. sd_skillLine[2][2].name .. '\n' ..
+				'Name: ' .. sd_skillLine[1][0].name .. '\n' ..
+				'Name: ' .. sd_skillLine[1][1].name .. '\n' ..
+				'Name: ' .. sd_skillLine[1][2].name .. '\n' ..
 
-				'Rank: ' .. sv_skillLine[3][0] .. '     ' .. 'Name: ' .. sd_skillLine[3][0].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[3][1] .. '     ' .. 'Name: ' .. sd_skillLine[3][1].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[3][2] .. '     ' .. 'Name: ' .. sd_skillLine[3][2].name .. '\n' ..
+				'Name: ' .. sd_skillLine[2][0].name .. '\n' ..
+				'Name: ' .. sd_skillLine[2][1].name .. '\n' ..
+				'Name: ' .. sd_skillLine[2][2].name .. '\n' ..
 
-				'Rank: ' .. sv_skillLine[4][0] .. '     ' .. 'Name: ' .. sd_skillLine[4][0].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[4][1] .. '     ' .. 'Name: ' .. sd_skillLine[4][1].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[4][2] .. '     ' .. 'Name: ' .. sd_skillLine[4][2].name .. '\n' ..
+				'Name: ' .. sd_skillLine[3][0].name .. '\n' ..
+				'Name: ' .. sd_skillLine[3][1].name .. '\n' ..
+				'Name: ' .. sd_skillLine[3][2].name .. '\n' ..
 
-				'Rank: ' .. sv_skillLine[5][0] .. '     ' .. 'Name: ' .. sd_skillLine[5][0].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[5][1] .. '     ' .. 'Name: ' .. sd_skillLine[5][1].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[5][2] .. '     ' .. 'Name: ' .. sd_skillLine[5][2].name
+				'Name: ' .. sd_skillLine[4][0].name .. '\n' ..
+				'Name: ' .. sd_skillLine[4][1].name .. '\n' ..
+				'Name: ' .. sd_skillLine[4][2].name .. '\n' ..
 
-			elseif selected_skillLine == 3 then
-				addon.selectedSkillLine_abilities =
-				sd_skillLine.name .. '     ' .. 'Lv: ' .. sv_skillLine.rank .. '\n' ..
+				'Name: ' .. sd_skillLine[5][0].name .. '\n' ..
+				'Name: ' .. sd_skillLine[5][1].name .. '\n' ..
+				'Name: ' .. sd_skillLine[5][2].name
 
-				'Rank: ' .. sv_skillLine[1][0] .. '     ' .. 'Name: ' .. sd_skillLine[1][0].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[1][1] .. '     ' .. 'Name: ' .. sd_skillLine[1][1].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[1][2] .. '     ' .. 'Name: ' .. sd_skillLine[1][2].name .. '\n' ..
+				addon.selectedSkillLine_abilities_rank =
+				'Lv: ' .. sv_skillLine.rank .. '\n' ..
 
-				'Rank: ' .. sv_skillLine[2][0] .. '     ' .. 'Name: ' .. sd_skillLine[2][0].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[2][1] .. '     ' .. 'Name: ' .. sd_skillLine[2][1].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[2][2] .. '     ' .. 'Name: ' .. sd_skillLine[2][2].name .. '\n' ..
+				'Rank: ' .. sv_skillLine[1][0].. '\n' ..
+				'Rank: ' .. sv_skillLine[1][1].. '\n' ..
+				'Rank: ' .. sv_skillLine[1][2].. '\n' ..
 
-				'Rank: ' .. sv_skillLine[3][0] .. '     ' .. 'Name: ' .. sd_skillLine[3][0].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[3][1] .. '     ' .. 'Name: ' .. sd_skillLine[3][1].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[3][2] .. '     ' .. 'Name: ' .. sd_skillLine[3][2].name .. '\n' ..
+				'Rank: ' .. sv_skillLine[2][0].. '\n' ..
+				'Rank: ' .. sv_skillLine[2][1].. '\n' ..
+				'Rank: ' .. sv_skillLine[2][2].. '\n' ..
 
-				'Rank: ' .. sv_skillLine[4][0] .. '     ' .. 'Name: ' .. sd_skillLine[4][0].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[4][1] .. '     ' .. 'Name: ' .. sd_skillLine[4][1].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[4][2] .. '     ' .. 'Name: ' .. sd_skillLine[4][2].name .. '\n' ..
+				'Rank: ' .. sv_skillLine[3][0].. '\n' ..
+				'Rank: ' .. sv_skillLine[3][1].. '\n' ..
+				'Rank: ' .. sv_skillLine[3][2].. '\n' ..
 
-				'Rank: ' .. sv_skillLine[5][0] .. '     ' .. 'Name: ' .. sd_skillLine[5][0].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[5][1] .. '     ' .. 'Name: ' .. sd_skillLine[5][1].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[5][2] .. '     ' .. 'Name: ' .. sd_skillLine[5][2].name
+				'Rank: ' .. sv_skillLine[4][0].. '\n' ..
+				'Rank: ' .. sv_skillLine[4][1].. '\n' ..
+				'Rank: ' .. sv_skillLine[4][2].. '\n' ..
+
+				'Rank: ' .. sv_skillLine[5][0].. '\n' ..
+				'Rank: ' .. sv_skillLine[5][1].. '\n' ..
+				'Rank: ' .. sv_skillLine[5][2]
 
 			elseif selected_skillLine == 4 then
-				addon.selectedSkillLine_abilities =
-				sd_skillLine.name .. '     ' .. 'Lv: ' .. sv_skillLine.rank .. '\n' ..
+				addon.selectedSkillLine_abilities_name =
+				sd_skillLine.name .. '\n' ..
 
-				'Rank: ' .. sv_skillLine[1][0] .. '     ' .. 'Name: ' .. sd_skillLine[1][0].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[1][1] .. '     ' .. 'Name: ' .. sd_skillLine[1][1].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[1][2] .. '     ' .. 'Name: ' .. sd_skillLine[1][2].name .. '\n' ..
+				'Name: ' .. sd_skillLine[1][0].name .. '\n' ..
+				'Name: ' .. sd_skillLine[1][1].name .. '\n' ..
+				'Name: ' .. sd_skillLine[1][2].name .. '\n' ..
 
-				'Rank: ' .. sv_skillLine[2][0] .. '     ' .. 'Name: ' .. sd_skillLine[2][0].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[2][1] .. '     ' .. 'Name: ' .. sd_skillLine[2][1].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[2][2] .. '     ' .. 'Name: ' .. sd_skillLine[2][2].name .. '\n' ..
+				'Name: ' .. sd_skillLine[2][0].name .. '\n' ..
+				'Name: ' .. sd_skillLine[2][1].name .. '\n' ..
+				'Name: ' .. sd_skillLine[2][2].name .. '\n' ..
 
-				'Rank: ' .. sv_skillLine[3][0] .. '     ' .. 'Name: ' .. sd_skillLine[3][0].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[3][1] .. '     ' .. 'Name: ' .. sd_skillLine[3][1].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[3][2] .. '     ' .. 'Name: ' .. sd_skillLine[3][2].name .. '\n' ..
+				'Name: ' .. sd_skillLine[3][0].name .. '\n' ..
+				'Name: ' .. sd_skillLine[3][1].name .. '\n' ..
+				'Name: ' .. sd_skillLine[3][2].name .. '\n' ..
 
-				'Rank: ' .. sv_skillLine[4][0] .. '     ' .. 'Name: ' .. sd_skillLine[4][0].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[4][1] .. '     ' .. 'Name: ' .. sd_skillLine[4][1].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[4][2] .. '     ' .. 'Name: ' .. sd_skillLine[4][2].name .. '\n' ..
+				'Name: ' .. sd_skillLine[4][0].name .. '\n' ..
+				'Name: ' .. sd_skillLine[4][1].name .. '\n' ..
+				'Name: ' .. sd_skillLine[4][2].name .. '\n' ..
 
-				'Rank: ' .. sv_skillLine[5][0] .. '     ' .. 'Name: ' .. sd_skillLine[5][0].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[5][1] .. '     ' .. 'Name: ' .. sd_skillLine[5][1].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[5][2] .. '     ' .. 'Name: ' .. sd_skillLine[5][2].name .. '\n' ..
+				'Name: ' .. sd_skillLine[5][0].name .. '\n' ..
+				'Name: ' .. sd_skillLine[5][1].name .. '\n' ..
+				'Name: ' .. sd_skillLine[5][2].name .. '\n' ..
 
-				'Rank: ' .. sv_skillLine[6][0] .. '     ' .. 'Name: ' .. sd_skillLine[6][0].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[6][1] .. '     ' .. 'Name: ' .. sd_skillLine[6][1].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[6][2] .. '     ' .. 'Name: ' .. sd_skillLine[6][2].name
+				'Name: ' .. sd_skillLine[6][0].name .. '\n' ..
+				'Name: ' .. sd_skillLine[6][1].name .. '\n' ..
+				'Name: ' .. sd_skillLine[6][2].name
 
-			elseif selected_skillLine == 5 then
-				addon.selectedSkillLine_abilities =
-				sd_skillLine.name .. '     ' .. 'Lv: ' .. sv_skillLine.rank
+				addon.selectedSkillLine_abilities_rank =
+				'Lv: ' .. sv_skillLine.rank .. '\n' ..
 
-			elseif selected_skillLine == 6 then
-				addon.selectedSkillLine_abilities =
-				sd_skillLine.name .. '     ' .. 'Lv: ' .. sv_skillLine.rank .. '\n' ..
+				'Rank: ' .. sv_skillLine[1][0].. '\n' ..
+				'Rank: ' .. sv_skillLine[1][1].. '\n' ..
+				'Rank: ' .. sv_skillLine[1][2].. '\n' ..
 
-				'Rank: ' .. sv_skillLine[1][0] .. '     ' .. 'Name: ' .. sd_skillLine[1][0].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[1][1] .. '     ' .. 'Name: ' .. sd_skillLine[1][1].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[1][2] .. '     ' .. 'Name: ' .. sd_skillLine[1][2].name .. '\n' ..
+				'Rank: ' .. sv_skillLine[2][0].. '\n' ..
+				'Rank: ' .. sv_skillLine[2][1].. '\n' ..
+				'Rank: ' .. sv_skillLine[2][2].. '\n' ..
 
-				'Rank: ' .. sv_skillLine[2][0] .. '     ' .. 'Name: ' .. sd_skillLine[2][0].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[2][1] .. '     ' .. 'Name: ' .. sd_skillLine[2][1].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[2][2] .. '     ' .. 'Name: ' .. sd_skillLine[2][2].name .. '\n' ..
+				'Rank: ' .. sv_skillLine[3][0].. '\n' ..
+				'Rank: ' .. sv_skillLine[3][1].. '\n' ..
+				'Rank: ' .. sv_skillLine[3][2].. '\n' ..
 
-				'Rank: ' .. sv_skillLine[3][0] .. '     ' .. 'Name: ' .. sd_skillLine[3][0].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[3][1] .. '     ' .. 'Name: ' .. sd_skillLine[3][1].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[3][2] .. '     ' .. 'Name: ' .. sd_skillLine[3][2].name .. '\n' ..
+				'Rank: ' .. sv_skillLine[4][0].. '\n' ..
+				'Rank: ' .. sv_skillLine[4][1].. '\n' ..
+				'Rank: ' .. sv_skillLine[4][2].. '\n' ..
 
-				'Rank: ' .. sv_skillLine[4][0] .. '     ' .. 'Name: ' .. sd_skillLine[4][0].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[4][1] .. '     ' .. 'Name: ' .. sd_skillLine[4][1].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[4][2] .. '     ' .. 'Name: ' .. sd_skillLine[4][2].name .. '\n' ..
+				'Rank: ' .. sv_skillLine[5][0].. '\n' ..
+				'Rank: ' .. sv_skillLine[5][1].. '\n' ..
+				'Rank: ' .. sv_skillLine[5][2].. '\n' ..
 
-				'Rank: ' .. sv_skillLine[5][0] .. '     ' .. 'Name: ' .. sd_skillLine[5][0].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[5][1] .. '     ' .. 'Name: ' .. sd_skillLine[5][1].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[5][2] .. '     ' .. 'Name: ' .. sd_skillLine[5][2].name
+				'Rank: ' .. sv_skillLine[6][0].. '\n' ..
+				'Rank: ' .. sv_skillLine[6][1].. '\n' ..
+				'Rank: ' .. sv_skillLine[6][2]
+
 			end
 		elseif selected_skillType == SKILL_TYPE_AVA then
-			if selected_skillLine == 1 then
-				addon.selectedSkillLine_abilities =
-				sd_skillLine.name .. '     ' .. 'Lv: ' .. sv_skillLine.rank .. '\n' ..
+			if selected_skillLine == 1 or selected_skillLine == 3 then
+				addon.selectedSkillLine_abilities_name =
+				sd_skillLine.name .. '\n' ..
 
-				'Rank: ' .. sv_skillLine[1][0] .. '     ' .. 'Name: ' .. sd_skillLine[1][0].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[1][1] .. '     ' .. 'Name: ' .. sd_skillLine[1][1].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[1][2] .. '     ' .. 'Name: ' .. sd_skillLine[1][2].name .. '\n' ..
+				'Name: ' .. sd_skillLine[1][0].name .. '\n' ..
+				'Name: ' .. sd_skillLine[1][1].name .. '\n' ..
+				'Name: ' .. sd_skillLine[1][2].name .. '\n' ..
 
-				'Rank: ' .. sv_skillLine[2][0] .. '     ' .. 'Name: ' .. sd_skillLine[2][0].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[2][1] .. '     ' .. 'Name: ' .. sd_skillLine[2][1].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[2][2] .. '     ' .. 'Name: ' .. sd_skillLine[2][2].name .. '\n' ..
+				'Name: ' .. sd_skillLine[2][0].name .. '\n' ..
+				'Name: ' .. sd_skillLine[2][1].name .. '\n' ..
+				'Name: ' .. sd_skillLine[2][2].name .. '\n' ..
 
-				'Rank: ' .. sv_skillLine[3][0] .. '     ' .. 'Name: ' .. sd_skillLine[3][0].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[3][1] .. '     ' .. 'Name: ' .. sd_skillLine[3][1].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[3][2] .. '     ' .. 'Name: ' .. sd_skillLine[3][2].name .. '\n' ..
+				'Name: ' .. sd_skillLine[3][0].name .. '\n' ..
+				'Name: ' .. sd_skillLine[3][1].name .. '\n' ..
+				'Name: ' .. sd_skillLine[3][2].name .. '\n' ..
 
-				'Rank: ' .. sv_skillLine[4][0] .. '     ' .. 'Name: ' .. sd_skillLine[4][0].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[4][1] .. '     ' .. 'Name: ' .. sd_skillLine[4][1].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[4][2] .. '     ' .. 'Name: ' .. sd_skillLine[4][2].name .. '\n' ..
+				'Name: ' .. sd_skillLine[4][0].name .. '\n' ..
+				'Name: ' .. sd_skillLine[4][1].name .. '\n' ..
+				'Name: ' .. sd_skillLine[4][2].name .. '\n' ..
 
-				'Rank: ' .. sv_skillLine[5][0] .. '     ' .. 'Name: ' .. sd_skillLine[5][0].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[5][1] .. '     ' .. 'Name: ' .. sd_skillLine[5][1].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[5][2] .. '     ' .. 'Name: ' .. sd_skillLine[5][2].name
+				'Name: ' .. sd_skillLine[5][0].name .. '\n' ..
+				'Name: ' .. sd_skillLine[5][1].name .. '\n' ..
+				'Name: ' .. sd_skillLine[5][2].name
+
+				addon.selectedSkillLine_abilities_rank =
+				'Lv: ' .. sv_skillLine.rank .. '\n' ..
+
+				'Rank: ' .. sv_skillLine[1][0].. '\n' ..
+				'Rank: ' .. sv_skillLine[1][1].. '\n' ..
+				'Rank: ' .. sv_skillLine[1][2].. '\n' ..
+
+				'Rank: ' .. sv_skillLine[2][0].. '\n' ..
+				'Rank: ' .. sv_skillLine[2][1].. '\n' ..
+				'Rank: ' .. sv_skillLine[2][2].. '\n' ..
+
+				'Rank: ' .. sv_skillLine[3][0].. '\n' ..
+				'Rank: ' .. sv_skillLine[3][1].. '\n' ..
+				'Rank: ' .. sv_skillLine[3][2].. '\n' ..
+
+				'Rank: ' .. sv_skillLine[4][0].. '\n' ..
+				'Rank: ' .. sv_skillLine[4][1].. '\n' ..
+				'Rank: ' .. sv_skillLine[4][2].. '\n' ..
+
+				'Rank: ' .. sv_skillLine[5][0].. '\n' ..
+				'Rank: ' .. sv_skillLine[5][1].. '\n' ..
+				'Rank: ' .. sv_skillLine[5][2]
 
 			elseif selected_skillLine == 2 then
-				addon.selectedSkillLine_abilities =
-				sd_skillLine.name .. '     ' .. 'Lv: ' .. sv_skillLine.rank
+				addon.selectedSkillLine_abilities_name =
+				sd_skillLine.name
 
-			elseif selected_skillLine == 3 then
-				addon.selectedSkillLine_abilities =
-				sd_skillLine.name .. '     ' .. 'Lv: ' .. sv_skillLine.rank .. '\n' ..
-
-				'Rank: ' .. sv_skillLine[1][0] .. '     ' .. 'Name: ' .. sd_skillLine[1][0].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[1][1] .. '     ' .. 'Name: ' .. sd_skillLine[1][1].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[1][2] .. '     ' .. 'Name: ' .. sd_skillLine[1][2].name .. '\n' ..
-
-				'Rank: ' .. sv_skillLine[2][0] .. '     ' .. 'Name: ' .. sd_skillLine[2][0].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[2][1] .. '     ' .. 'Name: ' .. sd_skillLine[2][1].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[2][2] .. '     ' .. 'Name: ' .. sd_skillLine[2][2].name .. '\n' ..
-
-				'Rank: ' .. sv_skillLine[3][0] .. '     ' .. 'Name: ' .. sd_skillLine[3][0].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[3][1] .. '     ' .. 'Name: ' .. sd_skillLine[3][1].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[3][2] .. '     ' .. 'Name: ' .. sd_skillLine[3][2].name .. '\n' ..
-
-				'Rank: ' .. sv_skillLine[4][0] .. '     ' .. 'Name: ' .. sd_skillLine[4][0].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[4][1] .. '     ' .. 'Name: ' .. sd_skillLine[4][1].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[4][2] .. '     ' .. 'Name: ' .. sd_skillLine[4][2].name .. '\n' ..
-
-				'Rank: ' .. sv_skillLine[5][0] .. '     ' .. 'Name: ' .. sd_skillLine[5][0].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[5][1] .. '     ' .. 'Name: ' .. sd_skillLine[5][1].name .. '\n' ..
-				'Rank: ' .. sv_skillLine[5][2] .. '     ' .. 'Name: ' .. sd_skillLine[5][2].name
+				addon.selectedSkillLine_abilities_rank =
+				'Lv: ' .. sv_skillLine.rank
 			end
 		elseif selected_skillType == SKILL_TYPE_TRADESKILL then
-			if selected_skillLine == 1 then
-				addon.selectedSkillLine_abilities =
-				sd_skillLine.name .. '     ' .. 'Lv: ' .. sv_skillLine.rank
-			elseif selected_skillLine == 2 then
-				addon.selectedSkillLine_abilities =
-				sd_skillLine.name .. '     ' .. 'Lv: ' .. sv_skillLine.rank
-			elseif selected_skillLine == 3 then
-				addon.selectedSkillLine_abilities =
-				sd_skillLine.name .. '     ' .. 'Lv: ' .. sv_skillLine.rank
-			elseif selected_skillLine == 4 then
-				addon.selectedSkillLine_abilities =
-				sd_skillLine.name .. '     ' .. 'Lv: ' .. sv_skillLine.rank
-			elseif selected_skillLine == 5 then
-				addon.selectedSkillLine_abilities =
-				sd_skillLine.name .. '     ' .. 'Lv: ' .. sv_skillLine.rank
-			elseif selected_skillLine == 6 then
-				addon.selectedSkillLine_abilities =
-				sd_skillLine.name .. '     ' .. 'Lv: ' .. sv_skillLine.rank
-			elseif selected_skillLine == 7 then
-				addon.selectedSkillLine_abilities =
-				sd_skillLine.name .. '     ' .. 'Lv: ' .. sv_skillLine.rank
-			end
+			addon.selectedSkillLine_abilities_name =
+			sd_skillLine.name
+
+			addon.selectedSkillLine_abilities_rank =
+			'Lv: ' .. sv_skillLine.rank
 		end
 
 	end
@@ -595,14 +648,12 @@ function NEAR_SR.SetupSettings()
 		},
 		{
 			type = 'description',
-			title = 'Selected Skill Line',
 			reference = 'NEARSR_lam_abilities_name',
 			width = 'half',
 			text = function() return addon.selectedSkillLine_abilities_name end,
 		},
 		{
 			type = 'description',
-			title = '',
 			reference = 'NEARSR_lam_abilities_rank',
 			width = 'half',
 			text = function() return addon.selectedSkillLine_abilities_rank end,
