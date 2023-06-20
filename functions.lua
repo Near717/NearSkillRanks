@@ -50,10 +50,16 @@ function NEAR_SR.func.UpdateData(skillType)
     local funcName = 'Initialize'
     local dbg      = addon.utils.dbg
     local sv       = addon.ASV.settings
-    local svc      = addon.ASV.char
     local c        = addon.utils.color
 
     --[[ Debug ]] if sv.debug then d(dbg.open) d(dbg.lightGrey .. 'start of ' .. funcName) end
+
+    local charId = GetCurrentCharacterId()
+
+    if addon.ASV.char[charId] == nil then
+        addon.ASV.char[charId] = addon.defaults_char -- add default table for charId
+    end
+    local svc = addon.ASV.char[charId]
 
     local unitTag = "player"
 
@@ -129,9 +135,11 @@ function NEAR_SR.func.UpdateData(skillType)
         local classId = GetUnitClassId(unitTag)
 
         -- purge other classes from that character's info
-        for key, _ in pairs(svc[skillType]) do
-            if key ~= classId then
-                svc[skillType][key] = nil
+        if svc[skillType] ~= nil then
+            for key, _ in pairs(svc[skillType]) do
+                if key ~= classId then
+                    svc[skillType][key] = nil
+                end
             end
         end
 

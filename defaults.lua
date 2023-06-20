@@ -1,9 +1,12 @@
-NEAR_SR.defaults = {}
--------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 NEAR_SR.defaults = {
-    debug = false,
-    charInfo = {}
+    settings = {
+        debug = false,
+        charInfo = {},
+    },
+    char_data = {
+        char = {},
+    }
 }
 
 NEAR_SR.defaults_char = {

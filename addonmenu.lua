@@ -20,7 +20,8 @@ local function UpdateLam_char()
 end
 
 local function UpdateLam_selectedChar_classId()
-	local sv = addon.ASV.settings
+	local sv	= addon.ASV.settings
+	local dbg	= addon.utils.dbg
 
 	for i, value in ipairs(sv.charInfo) do
 		if value.charId == addon.selectedChar_charId then
@@ -28,7 +29,7 @@ local function UpdateLam_selectedChar_classId()
 		end
 	end
 
-	d(addon.selectedChar_classId)
+	--[[ Debug ]] if sv.debug then d(dbg.lightGrey .. 'Selected character classId: ' .. addon.selectedChar_classId) end
 end
 
 -----------------------------------------------------------------
@@ -67,30 +68,47 @@ addon.skillLine_dropdown = {
 }
 local skillLine_dropdown = addon.skillLine_dropdown
 
-local t_skillLineMax = {
-	[SKILL_TYPE_CLASS] = 3,
-	[SKILL_TYPE_WEAPON] = 6,
-	[SKILL_TYPE_ARMOR] = 3,
-	[SKILL_TYPE_WORLD] = 6,
-	[SKILL_TYPE_GUILD] = 6,
-	[SKILL_TYPE_AVA] = 3,
-	-- [SKILL_TYPE_RACIAL] = 10,
-	[SKILL_TYPE_TRADESKILL] = 7,
-}
-
 local function CreateLam_skillLine()
+	local sv = addon.ASV.settings
+
+	local t_skillLineMax = {
+		[SKILL_TYPE_CLASS] = 3,
+		[SKILL_TYPE_WEAPON] = 6,
+		[SKILL_TYPE_ARMOR] = 3,
+		[SKILL_TYPE_WORLD] = 6,
+		[SKILL_TYPE_GUILD] = 6,
+		[SKILL_TYPE_AVA] = 3,
+		-- [SKILL_TYPE_RACIAL] = 10,
+		[SKILL_TYPE_TRADESKILL] = 7,
+	}
+
 	for i = 1, t_skillLineMax[selected_skillType], 1 do
 
+		local selectedChar_charId = addon.selectedChar_charId
+		local selectedChar_classId = addon.selectedChar_classId
+
 		if selected_skillType ~= SKILL_TYPE_CLASS then
+			local sv_skillLine = addon.ASV.char[selectedChar_charId][selected_skillType][i]
+
 			local skillLineName = GetSkillLineNameById(GetSkillLineId(selected_skillType, i))
-			table.insert(skillLine_dropdown.choices, selected_skillType, skillLineName)
+			local skillLineRank = sv_skillLine.rank
+
+			local skillLineData = skillLineRank ..' '.. skillLineName
+
+			table.insert(skillLine_dropdown.choices, selected_skillType, skillLineData)
 			table.insert(skillLine_dropdown.choicesValues, selected_skillType, i)
 		elseif selected_skillType == SKILL_TYPE_CLASS then
+			local sv_skillLine = addon.ASV.char[selectedChar_charId][selected_skillType][selectedChar_classId][i]
+
 			local skillLineName = addon.skilldata[selected_skillType][addon.selectedChar_classId][i].name
-			table.insert(skillLine_dropdown.choices, selected_skillType, skillLineName)
+			local skillLineRank = sv_skillLine.rank
+
+			local skillLineData = skillLineRank ..' '.. skillLineName
+
+			table.insert(skillLine_dropdown.choices, selected_skillType, skillLineData)
 			table.insert(skillLine_dropdown.choicesValues, selected_skillType, i)
 		else
-			d('error')
+			--[[ Debug ]] if sv.debug then d('error at CreateLam_skillLine()') end
 		end
 
 	end
@@ -98,55 +116,57 @@ end
 
 
 local function UpdateLam_skillLine()
+	local sv_char = addon.ASV.char[addon.selectedChar_charId]
+
 	local t_skillLine = {
 		[SKILL_TYPE_CLASS] = {
-			[1] = addon.skilldata[SKILL_TYPE_CLASS][addon.selectedChar_classId][1].name,
-			[2] = addon.skilldata[SKILL_TYPE_CLASS][addon.selectedChar_classId][2].name,
-			[3] = addon.skilldata[SKILL_TYPE_CLASS][addon.selectedChar_classId][3].name,
+			[1] = sv_char[SKILL_TYPE_CLASS][addon.selectedChar_classId][1].rank ..' '.. addon.skilldata[SKILL_TYPE_CLASS][addon.selectedChar_classId][1].name,
+			[2] = sv_char[SKILL_TYPE_CLASS][addon.selectedChar_classId][2].rank ..' '.. addon.skilldata[SKILL_TYPE_CLASS][addon.selectedChar_classId][2].name,
+			[3] = sv_char[SKILL_TYPE_CLASS][addon.selectedChar_classId][3].rank ..' '.. addon.skilldata[SKILL_TYPE_CLASS][addon.selectedChar_classId][3].name,
 		},
 		[SKILL_TYPE_WEAPON] = {
-			[1] = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_WEAPON, 1)),
-			[2] = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_WEAPON, 2)),
-			[3] = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_WEAPON, 3)),
-			[4] = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_WEAPON, 4)),
-			[5] = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_WEAPON, 5)),
-			[6] = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_WEAPON, 6)),
+			[1] = sv_char[SKILL_TYPE_WEAPON][1].rank ..' '.. GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_WEAPON, 1)),
+			[2] = sv_char[SKILL_TYPE_WEAPON][2].rank ..' '.. GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_WEAPON, 2)),
+			[3] = sv_char[SKILL_TYPE_WEAPON][3].rank ..' '.. GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_WEAPON, 3)),
+			[4] = sv_char[SKILL_TYPE_WEAPON][4].rank ..' '.. GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_WEAPON, 4)),
+			[5] = sv_char[SKILL_TYPE_WEAPON][5].rank ..' '.. GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_WEAPON, 5)),
+			[6] = sv_char[SKILL_TYPE_WEAPON][6].rank ..' '.. GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_WEAPON, 6)),
 		},
 		[SKILL_TYPE_ARMOR] = {
-			[1] = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_ARMOR, 1)),
-			[2] = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_ARMOR, 2)),
-			[3] = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_ARMOR, 3)),
+			[1] = sv_char[SKILL_TYPE_ARMOR][1].rank ..' '.. GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_ARMOR, 1)),
+			[2] = sv_char[SKILL_TYPE_ARMOR][2].rank ..' '.. GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_ARMOR, 2)),
+			[3] = sv_char[SKILL_TYPE_ARMOR][3].rank ..' '.. GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_ARMOR, 3)),
 		},
 		[SKILL_TYPE_WORLD] = {
-			[1] = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_WORLD, 1)),
-			[2] = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_WORLD, 2)),
-			[3] = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_WORLD, 3)),
-			[4] = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_WORLD, 4)),
-			[5] = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_WORLD, 5)),
-			[6] = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_WORLD, 6)),
+			[1] = sv_char[SKILL_TYPE_WORLD][1].rank ..' '.. GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_WORLD, 1)),
+			[2] = sv_char[SKILL_TYPE_WORLD][2].rank ..' '.. GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_WORLD, 2)),
+			[3] = sv_char[SKILL_TYPE_WORLD][3].rank ..' '.. GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_WORLD, 3)),
+			[4] = sv_char[SKILL_TYPE_WORLD][4].rank ..' '.. GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_WORLD, 4)),
+			[5] = sv_char[SKILL_TYPE_WORLD][5].rank ..' '.. GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_WORLD, 5)),
+			[6] = sv_char[SKILL_TYPE_WORLD][6].rank ..' '.. GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_WORLD, 6)),
 		},
 		[SKILL_TYPE_GUILD] = {
-			[1] = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_GUILD, 1)),
-			[2] = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_GUILD, 2)),
-			[3] = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_GUILD, 3)),
-			[4] = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_GUILD, 4)),
-			[5] = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_GUILD, 5)),
-			[6] = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_GUILD, 6)),
+			[1] = sv_char[SKILL_TYPE_GUILD][1].rank ..' '.. GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_GUILD, 1)),
+			[2] = sv_char[SKILL_TYPE_GUILD][2].rank ..' '.. GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_GUILD, 2)),
+			[3] = sv_char[SKILL_TYPE_GUILD][3].rank ..' '.. GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_GUILD, 3)),
+			[4] = sv_char[SKILL_TYPE_GUILD][4].rank ..' '.. GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_GUILD, 4)),
+			[5] = sv_char[SKILL_TYPE_GUILD][5].rank ..' '.. GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_GUILD, 5)),
+			[6] = sv_char[SKILL_TYPE_GUILD][6].rank ..' '.. GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_GUILD, 6)),
 		},
 		[SKILL_TYPE_AVA] = {
-			[1] = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_AVA, 1)),
-			[2] = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_AVA, 2)),
-			[3] = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_AVA, 3)),
+			[1] = sv_char[SKILL_TYPE_AVA][1].rank ..' '.. GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_AVA, 1)),
+			[2] = sv_char[SKILL_TYPE_AVA][2].rank ..' '.. GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_AVA, 2)),
+			[3] = sv_char[SKILL_TYPE_AVA][3].rank ..' '.. GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_AVA, 3)),
 		},
 		-- [SKILL_TYPE_RACIAL] = {},
 		[SKILL_TYPE_TRADESKILL] = {
-			[1] = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_TRADESKILL, 1)),
-			[2] = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_TRADESKILL, 2)),
-			[3] = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_TRADESKILL, 3)),
-			[4] = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_TRADESKILL, 4)),
-			[5] = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_TRADESKILL, 5)),
-			[6] = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_TRADESKILL, 6)),
-			[7] = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_TRADESKILL, 7)),
+			[1] = sv_char[SKILL_TYPE_TRADESKILL][1].rank ..' '.. GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_TRADESKILL, 1)),
+			[2] = sv_char[SKILL_TYPE_TRADESKILL][2].rank ..' '.. GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_TRADESKILL, 2)),
+			[3] = sv_char[SKILL_TYPE_TRADESKILL][3].rank ..' '.. GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_TRADESKILL, 3)),
+			[4] = sv_char[SKILL_TYPE_TRADESKILL][4].rank ..' '.. GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_TRADESKILL, 4)),
+			[5] = sv_char[SKILL_TYPE_TRADESKILL][5].rank ..' '.. GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_TRADESKILL, 5)),
+			[6] = sv_char[SKILL_TYPE_TRADESKILL][6].rank ..' '.. GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_TRADESKILL, 6)),
+			[7] = sv_char[SKILL_TYPE_TRADESKILL][7].rank ..' '.. GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_TRADESKILL, 7)),
 		},
 	}
 
@@ -155,10 +175,12 @@ local function UpdateLam_skillLine()
 		if index == selected_skillType then
 			skillLine_dropdown.choices = value
 
+			-- purge previous data
 			for k in pairs(skillLine_dropdown.choicesValues) do
 				skillLine_dropdown.choicesValues[k] = nil
 			end
 
+			-- insert new data
 			for k in pairs(t_skillLine[selected_skillType]) do
 				table.insert(skillLine_dropdown.choicesValues, k)
 			end
@@ -172,12 +194,23 @@ end
 -----------------------------------------------------------------
 
 local function UpdateLam_abilities()
+	local utils = addon.utils
+
 	local selectedChar_charId = addon.selectedChar_charId
 	local selectedChar_classId = addon.selectedChar_classId
 
+	-- check if there is data for that character, if not clear shown data and send warning message
+	if addon.ASV.char[selectedChar_charId] == nil then
+		d(utils.dbg.default .. GetString(NEARSR_nodata))
+
+		addon.selectedSkillLine_abilities_name = utils.color.red .. GetString(NEARSR_nodata) .. "|r"
+		addon.selectedSkillLine_abilities_rank = ''
+		return
+	end
+
 	if selected_skillType == SKILL_TYPE_CLASS then
-		local sv_skillLine = NEAR_SR.ASV.char[selected_skillType][selectedChar_classId][selected_skillLine]
-		local sd_skillLine = NEAR_SR.skilldata[selected_skillType][selectedChar_classId][selected_skillLine]
+		local sv_skillLine = addon.ASV.char[selectedChar_charId][selected_skillType][selectedChar_classId][selected_skillLine]
+		local sd_skillLine = addon.skilldata[selected_skillType][selectedChar_classId][selected_skillLine]
 
 		addon.selectedSkillLine_abilities_name =
 		sd_skillLine.name .. '\n' ..
@@ -234,8 +267,8 @@ local function UpdateLam_abilities()
 		'Rank: ' .. sv_skillLine[6][2]
 
 	else
-		local sv_skillLine = NEAR_SR.ASV.char[selected_skillType][selected_skillLine]
-		local sd_skillLine = NEAR_SR.skilldata[selected_skillType][selected_skillLine]
+		local sv_skillLine = addon.ASV.char[selectedChar_charId][selected_skillType][selected_skillLine]
+		local sd_skillLine = addon.skilldata[selected_skillType][selected_skillLine]
 
 		--------------------------------------------------------------------------------
 		-- 0 skills
@@ -428,9 +461,10 @@ end
 -- Addon settings panel
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 function NEAR_SR.SetupSettings()
-	local LAM2 = LibAddonMenu2
-	local color = addon.utils.color
-	local sv = addon.ASV.settings
+	local LAM2	= LibAddonMenu2
+	local sv	= addon.ASV.settings
+	local dbg	= addon.utils.dbg
+	local color	= addon.utils.color
 
 	local panelData = {
 		type                = "panel",
@@ -460,7 +494,7 @@ function NEAR_SR.SetupSettings()
 			choicesValues = char_dropdown.choicesValues,
 			getFunc = function() return addon.selectedChar_charId end,
 			setFunc = function(v)
-				d(v)
+				--[[ Debug ]] if sv.debug then d(dbg.lightGrey .. 'Selected character charId: ' .. v) end
 				addon.selectedChar_charId = v
 				UpdateLam_selectedChar_classId()
 				UpdateLam_skillLine()
@@ -480,7 +514,6 @@ function NEAR_SR.SetupSettings()
 				selected_skillType = v
 				selected_skillLine = 1
 				UpdateLam_skillLine()
-				-- NEARSR_lam_dropdown_SkillLine:UpdateChoices(skillLine_dropdown.choices, skillLine_dropdown.choicesValues)
 				UpdateLam_abilities()
 			end
 		},
