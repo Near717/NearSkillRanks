@@ -1,7 +1,7 @@
 ## Title: Near's Skill Ranks
 ## APIVersion: 101038
-## Version: 0.1.4
-## AddOnVersion: 014
+## Version: 0.1.5
+## AddOnVersion: 015
 ## SavedVariables: NearSkillRanks_Data
 ## Author: |cCC99FFnotnear|r
 ## DependsOn: LibSlashCommander LibAddonMenu-2.0>=30
@@ -17,6 +17,3 @@ addonmenu.lua
 
 defaults.lua
 utils.lua
-
-# Bindings.lua
-# Bindings.xml

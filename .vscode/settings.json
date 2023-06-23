@@ -12,7 +12,9 @@
         "NEARSR_lam_dropdown_SkillLine",
         "ZO_CreateStringId",
         "SafeAddVersion",
-        "NEARSR_nodata"
+        "NEARSR_nodata",
+        "SI_SKILLTYPE7",
+        "NEARSR_notdiscovered"
     ],
     "Lua.diagnostics.disable": [
         "need-check-nil",

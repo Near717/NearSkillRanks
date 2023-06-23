@@ -473,7 +473,7 @@ NEAR_SR.defaults_char = {
     --         rank = 0,
     --     },
     -- },
-    [SKILL_TYPE_TRADESKILL] = {
+    [NEAR_SR.SKILL_TYPE_TRADESKILL] = {
         [1] = { -- Alchemy
             rank = 0,
             discovered = false,

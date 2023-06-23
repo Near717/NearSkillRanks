@@ -1339,49 +1339,49 @@ NEAR_SR.skilldata = {
             },
         },
     },
-    [SKILL_TYPE_RACIAL] = {
-        [1] = {
-            id = GetSkillLineId(SKILL_TYPE_RACIAL, 1),                         -- 58
-            name = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_RACIAL, 1)), -- Khajiit
-        },
-        [2] = {
-            id = GetSkillLineId(SKILL_TYPE_RACIAL, 2),                         --
-            name = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_RACIAL, 2)), -- Orc
-        },
-        [3] = {
-            id = GetSkillLineId(SKILL_TYPE_RACIAL, 3),                         --
-            name = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_RACIAL, 3)), -- High Elf
-        },
-        [4] = {
-            id = GetSkillLineId(SKILL_TYPE_RACIAL, 4),                         --
-            name = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_RACIAL, 4)), -- Wood Eld
-        },
-        [5] = {
-            id = GetSkillLineId(SKILL_TYPE_RACIAL, 5),                         --
-            name = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_RACIAL, 5)), -- Imperial
-        },
-        [6] = {
-            id = GetSkillLineId(SKILL_TYPE_RACIAL, 6),                         --
-            name = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_RACIAL, 6)), -- Breton
-        },
-        [7] = {
-            id = GetSkillLineId(SKILL_TYPE_RACIAL, 7),                         --
-            name = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_RACIAL, 7)), -- Redguard
-        },
-        [8] = {
-            id = GetSkillLineId(SKILL_TYPE_RACIAL, 8),                         --
-            name = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_RACIAL, 8)), -- Argonian
-        },
-        [9] = {
-            id = GetSkillLineId(SKILL_TYPE_RACIAL, 9),                         --
-            name = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_RACIAL, 9)), -- Dark Elf
-        },
-        [10] = {
-            id = GetSkillLineId(SKILL_TYPE_RACIAL, 10),                         --
-            name = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_RACIAL, 10)), -- Nord
-        },
-    },
-    [SKILL_TYPE_TRADESKILL] = {
+    -- [SKILL_TYPE_RACIAL] = {
+    --     [1] = {
+    --         id = GetSkillLineId(SKILL_TYPE_RACIAL, 1),                         -- 58
+    --         name = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_RACIAL, 1)), -- Khajiit
+    --     },
+    --     [2] = {
+    --         id = GetSkillLineId(SKILL_TYPE_RACIAL, 2),                         --
+    --         name = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_RACIAL, 2)), -- Orc
+    --     },
+    --     [3] = {
+    --         id = GetSkillLineId(SKILL_TYPE_RACIAL, 3),                         --
+    --         name = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_RACIAL, 3)), -- High Elf
+    --     },
+    --     [4] = {
+    --         id = GetSkillLineId(SKILL_TYPE_RACIAL, 4),                         --
+    --         name = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_RACIAL, 4)), -- Wood Eld
+    --     },
+    --     [5] = {
+    --         id = GetSkillLineId(SKILL_TYPE_RACIAL, 5),                         --
+    --         name = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_RACIAL, 5)), -- Imperial
+    --     },
+    --     [6] = {
+    --         id = GetSkillLineId(SKILL_TYPE_RACIAL, 6),                         --
+    --         name = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_RACIAL, 6)), -- Breton
+    --     },
+    --     [7] = {
+    --         id = GetSkillLineId(SKILL_TYPE_RACIAL, 7),                         --
+    --         name = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_RACIAL, 7)), -- Redguard
+    --     },
+    --     [8] = {
+    --         id = GetSkillLineId(SKILL_TYPE_RACIAL, 8),                         --
+    --         name = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_RACIAL, 8)), -- Argonian
+    --     },
+    --     [9] = {
+    --         id = GetSkillLineId(SKILL_TYPE_RACIAL, 9),                         --
+    --         name = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_RACIAL, 9)), -- Dark Elf
+    --     },
+    --     [10] = {
+    --         id = GetSkillLineId(SKILL_TYPE_RACIAL, 10),                         --
+    --         name = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_RACIAL, 10)), -- Nord
+    --     },
+    -- },
+    [NEAR_SR.SKILL_TYPE_TRADESKILL] = {
         [1] = {
             id = GetSkillLineId(SKILL_TYPE_TRADESKILL, 1),                         -- 77
             name = GetSkillLineNameById(GetSkillLineId(SKILL_TYPE_TRADESKILL, 1)), -- Alchemy
