@@ -21,12 +21,12 @@ NEAR_SR = {
 	name 		= "NearSkillRanks",
 	title 		= "Near's Skill Ranks",
 	shortTitle 	= "Skill Ranks",
-	version 	= "0.1.5",
+	version 	= "0.1.6",
 	author 		= "|cCC99FFnotnear|r",
 }
 local addon = NEAR_SR
 
-addon.SKILL_TYPE_TRADESKILL = 7
+NEAR_SR.SKILL_TYPE_TRADESKILL = 7
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Addon loading
@@ -40,8 +40,9 @@ local function OnAddonLoaded(event, name)
 	addon.ASV.settings	= ZO_SavedVars:NewAccountWide(addon.name .. "_Data", asv_version, 'settings', addon.defaults.settings, GetWorldName())
 	addon.ASV.char		= ZO_SavedVars:NewAccountWide(addon.name .. "_Data", asv_version, 'char_data', addon.defaults.char, GetWorldName())
 
-	addon.func.Init()
+	-- addon.func.Init()
 	addon.SetupSettings()
+	EVENT_MANAGER:RegisterForEvent(addon.name, EVENT_PLAYER_ACTIVATED, NEAR_SR.func.Init)
 
 	-- Events
     EVENT_MANAGER:RegisterForEvent(addon.name, EVENT_ABILITY_PROGRESSION_RANK_UPDATE,   NEAR_SR.func.OnMorphRankUpdate)

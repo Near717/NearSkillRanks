@@ -130,6 +130,14 @@ local function CreateLam_skillLine()
 	end
 end
 
+--[[
+	FIXME: remove UpdateLam_skillLine()
+	CreateLam_skillLine():
+	add the unknown check
+	add purge of previous data before the loop
+	add param "update"
+		if update then NEARSR_lam_dropdown_SkillLine:UpdateChoices(skillLine_dropdown.choices, skillLine_dropdown.choicesValues) end
+]]
 
 local function UpdateLam_skillLine()
 	local sv_char = addon.ASV.char[addon.selectedChar_charId]
