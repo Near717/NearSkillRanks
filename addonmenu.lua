@@ -1,8 +1,8 @@
 local addon = NEAR_SR
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-addon.selectedChar_charId = GetCurrentCharacterId()
-addon.selectedChar_classId = GetUnitClassId('player')
+local selectedChar_charId = GetCurrentCharacterId()
+local selectedChar_classId = GetUnitClassId('player')
 
 addon.char_dropdown = {
 	choices = {},
@@ -24,12 +24,12 @@ local function UpdateLam_selectedChar_classId()
 	local dbg	= addon.utils.dbg
 
 	for i, value in ipairs(sv.charInfo) do
-		if value.charId == addon.selectedChar_charId then
-			addon.selectedChar_classId = value.classId
+		if value.charId == selectedChar_charId then
+			selectedChar_classId = value.classId
 		end
 	end
 
-	--[[ Debug ]] if sv.debug then d(dbg.lightGrey .. 'Selected character classId: ' .. addon.selectedChar_classId) end
+	--[[ Debug ]] if sv.debug then d(dbg.lightGrey .. 'Selected character classId: ' .. selectedChar_classId) end
 end
 
 -----------------------------------------------------------------
@@ -70,9 +70,7 @@ local skillLine_dropdown = addon.skillLine_dropdown
 
 local function CreateLam_skillLine()
 	local sv = addon.ASV.settings
-	local sv_char = addon.ASV.char[addon.selectedChar_charId]
-
-	local selectedChar_classId = addon.selectedChar_classId
+	local sv_char = addon.ASV.char[selectedChar_charId]
 
 	local t_skillLineMax = {
 		[SKILL_TYPE_CLASS]		= 3,
@@ -140,7 +138,7 @@ end
 ]]
 
 local function UpdateLam_skillLine()
-	local sv_char = addon.ASV.char[addon.selectedChar_charId]
+	local sv_char = addon.ASV.char[selectedChar_charId]
 	local skilldata = addon.skilldata
 
 	local choices_skillLine = {}
@@ -174,7 +172,7 @@ local function UpdateLam_skillLine()
 		}
 
 	else
-		local classId = addon.selectedChar_classId
+		local classId = selectedChar_classId
 
 		local function color(skillType, skillLine)
 			if skillType ~= SKILL_TYPE_CLASS then
@@ -274,9 +272,6 @@ end
 
 local function UpdateLam_abilities()
 	local utils = addon.utils
-
-	local selectedChar_charId = addon.selectedChar_charId
-	local selectedChar_classId = addon.selectedChar_classId
 
 	-- check if there is data for that character, if not, clear shown data and send warning message
 	if addon.ASV.char[selectedChar_charId] == nil then
@@ -586,7 +581,7 @@ function NEAR_SR.SetupSettings()
 		displayName         = addon.title,
 		author              = addon.author,
 		version             = addon.version,
-		slashCommand        = "/sr",
+		slashCommand        = "/srm",
 		registerForRefresh  = true,
 		registerForDefaults = true,
 	}
@@ -604,12 +599,13 @@ function NEAR_SR.SetupSettings()
 		{
 			type = 'dropdown',
 			name = 'Character',
+			reference = 'NEARSR_lam_dropdown_Character',
 			choices = char_dropdown.choices,
 			choicesValues = char_dropdown.choicesValues,
-			getFunc = function() return addon.selectedChar_charId end,
+			getFunc = function() return selectedChar_charId end,
 			setFunc = function(v)
 				--[[ Debug ]] if sv.debug then d(dbg.lightGrey .. 'Selected character charId: ' .. v) end
-				addon.selectedChar_charId = v
+				selectedChar_charId = v
 				UpdateLam_selectedChar_classId()
 				UpdateLam_skillLine()
 				UpdateLam_abilities()
@@ -621,6 +617,7 @@ function NEAR_SR.SetupSettings()
 		{
 			type = 'dropdown',
 			name = 'Skill Type',
+			reference = 'NEARSR_lam_dropdown_SkillType',
 			choices = skillType_dropdown.choices,
 			choicesValues = skillType_dropdown.choicesValues,
 			getFunc = function() return selected_skillType end,
@@ -646,6 +643,9 @@ function NEAR_SR.SetupSettings()
 				UpdateLam_abilities()
 			end
 		},
+		---------------------------------------------------------------------------------
+		-- Abilities
+		---------------------------------------------------------------------------------
 		{
 			type = 'description',
 			reference = 'NEARSR_lam_abilities_name',

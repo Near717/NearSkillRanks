@@ -1,0 +1,98 @@
+<GuiXml>
+    <Controls>
+        <TopLevelControl name="NSR_GUI" mouseEnabled="true" movable="true" clampedToScreen="true" resizeHandleSize="8" hidden="true">
+            <Dimensions x="800" y="800" />
+            <DimensionConstraints minX="800" minY="600" />
+            <Anchor point="CENTER" />
+
+            <OnShow>
+				NEAR_SR.gui.OnShow()
+			</OnShow>
+
+            <Controls>
+                <Backdrop name="$(parent)_BG" inherits="ZO_DefaultBackdrop"/>
+
+				<!-- Add a header -->
+                <Control name="$(parent)_HEADER" hidden="false" resizeToFitDescendents="true">
+					<Dimensions y="30"/>
+					<Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT"/>
+					<Anchor point="TOPRIGHT" relativeTo="$(parent)" relativePoint="TOPRIGHT"/>
+					<Controls>
+
+						<!-- Button to close the window on the right side -->
+						<Button name="$(parent)_CloseButton">
+							<Dimensions x="25" y="25" />
+							<Anchor point="TOPRIGHT" relativeTo="$(parent)" relativePoint="TOPRIGHT" offsetX="-3" offsetY="3"/>
+							<Textures normal="/esoui/art/buttons/decline_up.dds" pressed="/esoui/art/buttons/decline_down.dds" mouseOver="/esoui/art/buttons/decline_over.dds" />
+							<OnClicked>NEAR_SR.gui.CloseWindow()</OnClicked>
+						</Button>
+
+						<!-- Add title on the center -->
+						<Label name="$(parent)_Title" font="ZoFontWindowTitle" text="Near's Skill Ranks" horizontalAlignment="CENTER" verticalAlignment="CENTER" color="INTERFACE_COLOR_TYPE_TEXT_COLORS:INTERFACE_TEXT_COLOR_NORMAL">
+							<Dimensions y="30"/>
+							<Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT"/>
+							<Anchor point="TOPRIGHT" relativeTo="$(parent)" relativePoint="TOPRIGHT"/>
+						</Label>
+
+
+					</Controls>
+				</Control>
+
+				<!-- Add main control -->
+				<Control name="$(parent)_MAIN" hidden="false" resizeToFitDescendents="true">
+                	<Anchor point="TOPLEFT" relativeTo="$(parent)_HEADER" relativePoint="BOTTOMLEFT" offsetX="10" offsetY="10"/>
+					<Controls>
+					
+                		<!-- Left Side -->
+                		<Control name="$(parent)_skilldata">
+                		    <Dimensions x="280"/>
+                		    <Anchor point="TOPLEFT" relativeTo="$(parent)" offsetY="50"/>
+							<Controls>
+
+								<!-- Add character list dropdown -->
+								<Control name="$(parent)_CharList" inherits="ZO_ComboBox">
+									<Dimensions x="280" y="30" />
+									<Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetY="5"/>
+                        		</Control>
+
+								<!-- Add skill type list dropdown -->
+								<Control name="$(parent)_SkillType" inherits="ZO_ComboBox">
+									<Dimensions x="280" y="30"/>
+									<Anchor point="TOPLEFT" relativeTo="$(parent)_CharList" relativePoint="BOTTOMLEFT" offsetY="5"/>
+                        		</Control>
+
+								<!-- Add skill line list dropdown -->
+								<Control name="$(parent)_SkillLine" inherits="ZO_ComboBox">
+									<Dimensions x="280" y="30"/>
+									<Anchor point="TOPLEFT" relativeTo="$(parent)_SkillType" relativePoint="BOTTOMLEFT" offsetY="5"/>
+                        		</Control>
+
+							</Controls>
+                		</Control>
+
+						<!-- Right Side -->
+						<Control name="$(parent)_Abilities">
+							<Anchor point="TOPLEFT" relativeTo="$(parent)_skilldata" relativePoint="TOPRIGHT" offsetX="40"/>
+							<Controls>
+
+							<Label name="$(parent)_Name" font="ZoFontGameMedium">
+								<Dimensions x="440"/>
+								<Anchor point="TOPLEFT"/>
+							</Label>
+
+							<Label name="$(parent)_Rank" font="ZoFontGameMedium">
+								<Dimensions x="60"/>
+								<Anchor point="TOPRIGHT" relativeTo="$(parent)_Name" offsetX="20"/>
+							</Label>
+
+							</Controls>
+						</Control>
+
+					</Controls>
+				</Control>
+
+            </Controls>
+
+        </TopLevelControl>
+    </Controls>
+</GuiXml>

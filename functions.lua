@@ -40,8 +40,6 @@ local t_skillType = {
 }
 
 function NEAR_SR.func.Init()
-    EVENT_MANAGER:UnregisterForEvent(addon.name, EVENT_PLAYER_ACTIVATED)
-
     addon.func.UpdateCharList()
     for _, v in ipairs(t_skillType) do
         addon.func.CreateCharData(v)
@@ -187,7 +185,7 @@ function NEAR_SR.func.CreateCharData(skillType)
             -- define ability data
             for i = 1, 6, 1 do
                 local skillIndex = i
-                if skillLine[i] ~= nil then
+                -- if skillLine[i] ~= nil then
 
                     local morphRank_0 = addon.func.GetMorphInfo(skillLineId, skillIndex, 0)
                     local morphRank_1 = addon.func.GetMorphInfo(skillLineId, skillIndex, 1)
@@ -218,7 +216,7 @@ function NEAR_SR.func.CreateCharData(skillType)
 
                     -- insert new ABILITY data into saved variable > charId > skillType > skillLine > skillIndex
                     svc[skillType][classId][skillLineIndex][skillIndex] = newabilitydata
-                end
+                -- end
             end
         end
     end
@@ -270,7 +268,7 @@ function NEAR_SR.func.UpdateCharData(updatedRankType, skillType, skillLineIndex,
 
         elseif updatedRankType == 'morph' then
             local skillLineId = addon.skilldata[skillType][skillLineIndex].id
-            local skillLine = addon.skilldata[skillType][skillLineIndex]
+            local ability = addon.skilldata[skillType][skillLineIndex][skillIndex]
 
             local morphRank_0 = addon.func.GetMorphInfo(skillLineId, skillIndex, 0)
             local morphRank_1 = addon.func.GetMorphInfo(skillLineId, skillIndex, 1)
@@ -278,9 +276,9 @@ function NEAR_SR.func.UpdateCharData(updatedRankType, skillType, skillLineIndex,
 
             --[[ Debug ]]
             if sv.debug then
-                local morphName_0 = skillLine[0].name
-                local morphName_1 = skillLine[1].name
-                local morphName_2 = skillLine[2].name
+                local morphName_0 = ability[0].name
+                local morphName_1 = ability[1].name
+                local morphName_2 = ability[2].name
                 d(
                     c.grey .. '----------------------------------------' .. "\n          " ..
                     c.lightGrey .. "morphName_0: |r" .. morphName_0 ..
@@ -336,7 +334,7 @@ function NEAR_SR.func.UpdateCharData(updatedRankType, skillType, skillLineIndex,
 
         elseif updatedRankType == 'morph' then
             local skillLineId = addon.skilldata[skillType][classId][skillLineIndex].id
-            local skillLine = addon.skilldata[skillType][classId][skillLineIndex]
+            local ability = addon.skilldata[skillType][classId][skillLineIndex][skillIndex]
 
             local morphRank_0 = addon.func.GetMorphInfo(skillLineId, skillIndex, 0)
             local morphRank_1 = addon.func.GetMorphInfo(skillLineId, skillIndex, 1)
@@ -344,9 +342,9 @@ function NEAR_SR.func.UpdateCharData(updatedRankType, skillType, skillLineIndex,
 
             --[[ Debug ]]
             if sv.debug then
-                local morphName_0 = skillLine[0].name
-                local morphName_1 = skillLine[1].name
-                local morphName_2 = skillLine[2].name
+                local morphName_0 = ability[0].name
+                local morphName_1 = ability[1].name
+                local morphName_2 = ability[2].name
                 d(
                     c.grey .. '----------------------------------------' .. "\n          " ..
                     c.lightGrey .. "morphName_0: |r" .. morphName_0 ..
