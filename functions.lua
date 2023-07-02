@@ -223,7 +223,7 @@ function NEAR_SR.func.CreateCharData(skillType)
     --[[ Debug ]] if sv.debug then d(dbg.grey .. 'end of ' .. funcName) d(dbg.close) end
 end
 
----------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 function NEAR_SR.func.UpdateCharData(updatedRankType, skillType, skillLineIndex, skillIndex)
     local funcName = 'UpdateCharData'
@@ -234,6 +234,8 @@ function NEAR_SR.func.UpdateCharData(updatedRankType, skillType, skillLineIndex,
     --[[ Debug ]] if sv.debug then d(dbg.open) d(dbg.lightGrey .. 'start of ' .. funcName) end
 
     local charId = GetCurrentCharacterId()
+    local classId = GetUnitClassId("player")
+
     -- warn if trying to update but the tables are empty and exit early, otherwise continue
     if addon.ASV.char[charId] == nil then d('Something went wrong trying to update character skill data, character table is empty') return end
 
@@ -243,13 +245,12 @@ function NEAR_SR.func.UpdateCharData(updatedRankType, skillType, skillLineIndex,
         if updatedRankType == 'skillLine' then
             local skillLineRank, advised, active, skillLineDiscovered = GetSkillLineDynamicInfo(skillType, skillLineIndex)
 
-            local skillLine = addon.skilldata[skillType][skillLineIndex]
             --[[ Debug ]]
             if sv.debug then
                 d(
                     c.white .. '----------------------------------------' .. "\n          " ..
-                    c.lightGrey .. "skillLineName: |r" .. skillLine.name ..
-                    c.lightGrey .. " skillLineId: |r" .. skillLine.id .. "\n          " ..
+                    c.lightGrey .. "skillLineName: |r" .. addon.skilldata[skillType][skillLineIndex].name ..
+                    c.lightGrey .. " skillLineId: |r" .. addon.skilldata[skillType][skillLineIndex].id .. "\n          " ..
                     c.lightGrey .. "skillLineRank: |r" .. skillLineRank ..
                     c.lightGrey .. " skillLineDiscovered: |r" .. tostring(skillLineDiscovered) .. "\n          " ..
                     c.white .. '----------------------------------------'
@@ -268,7 +269,6 @@ function NEAR_SR.func.UpdateCharData(updatedRankType, skillType, skillLineIndex,
 
         elseif updatedRankType == 'morph' then
             local skillLineId = addon.skilldata[skillType][skillLineIndex].id
-            local ability = addon.skilldata[skillType][skillLineIndex][skillIndex]
 
             local morphRank_0 = addon.func.GetMorphInfo(skillLineId, skillIndex, 0)
             local morphRank_1 = addon.func.GetMorphInfo(skillLineId, skillIndex, 1)
@@ -276,9 +276,9 @@ function NEAR_SR.func.UpdateCharData(updatedRankType, skillType, skillLineIndex,
 
             --[[ Debug ]]
             if sv.debug then
-                local morphName_0 = ability[0].name
-                local morphName_1 = ability[1].name
-                local morphName_2 = ability[2].name
+                local morphName_0 = addon.skilldata[skillType][skillLineIndex][skillIndex][0].name
+                local morphName_1 = addon.skilldata[skillType][skillLineIndex][skillIndex][1].name
+                local morphName_2 = addon.skilldata[skillType][skillLineIndex][skillIndex][2].name
                 d(
                     c.grey .. '----------------------------------------' .. "\n          " ..
                     c.lightGrey .. "morphName_0: |r" .. morphName_0 ..
@@ -297,25 +297,24 @@ function NEAR_SR.func.UpdateCharData(updatedRankType, skillType, skillLineIndex,
             }
 
             -- overwrite ABILITY data on saved variable > skillType > skillLine > skillIndex
-            svc[skillType][skillLineIndex][skillIndex] = newabilitydata
+            if type(skillIndex) == "number" then
+                svc[skillType][skillLineIndex][skillIndex] = newabilitydata
+            end
 
         else d('Something went wrong trying to define what to update, updatedRankType is undefined or not "skillLine" nor "morph"')
         end
 
     else -- skillType == SKILL_TYPE_CLASS so we need to get the class id from the character
 
-        local classId = GetUnitClassId("player")
-
         if updatedRankType == 'skillLine' then
             local skillLineRank, advised, active, skillLineDiscovered = GetSkillLineDynamicInfo(skillType, skillLineIndex)
 
-            local skillLine = addon.skilldata[skillType][classId][skillLineIndex]
             --[[ Debug ]]
             if sv.debug then
                 d(
                     c.white .. '----------------------------------------' .. "\n          " ..
-                    c.lightGrey .. "skillLineName: |r" .. skillLine.name ..
-                    c.lightGrey .. " skillLineId: |r" .. skillLine.id .. "\n          " ..
+                    c.lightGrey .. "skillLineName: |r" .. addon.skilldata[skillType][classId][skillLineIndex].name ..
+                    c.lightGrey .. " skillLineId: |r" .. addon.skilldata[skillType][classId][skillLineIndex].id .. "\n          " ..
                     c.lightGrey .. "skillLineRank: |r" .. skillLineRank ..
                     c.lightGrey .. " skillLineDiscovered: |r" .. tostring(skillLineDiscovered) .. "\n          " ..
                     c.white .. '----------------------------------------'
@@ -327,14 +326,13 @@ function NEAR_SR.func.UpdateCharData(updatedRankType, skillType, skillLineIndex,
                 discovered = skillLineDiscovered,
             }
 
-            -- overwrite SKILL data on saved variable > skillType > skillLine
+            -- overwrite SKILL data on saved variable > skillType > classId > skillLine
             if type(skillLineIndex) == "number" then
                 svc[skillType][classId][skillLineIndex] = newskilldata
             end
 
         elseif updatedRankType == 'morph' then
             local skillLineId = addon.skilldata[skillType][classId][skillLineIndex].id
-            local ability = addon.skilldata[skillType][classId][skillLineIndex][skillIndex]
 
             local morphRank_0 = addon.func.GetMorphInfo(skillLineId, skillIndex, 0)
             local morphRank_1 = addon.func.GetMorphInfo(skillLineId, skillIndex, 1)
@@ -342,9 +340,9 @@ function NEAR_SR.func.UpdateCharData(updatedRankType, skillType, skillLineIndex,
 
             --[[ Debug ]]
             if sv.debug then
-                local morphName_0 = ability[0].name
-                local morphName_1 = ability[1].name
-                local morphName_2 = ability[2].name
+                local morphName_0 = addon.skilldata[skillType][classId][skillLineIndex][skillIndex][0].name
+                local morphName_1 = addon.skilldata[skillType][classId][skillLineIndex][skillIndex][1].name
+                local morphName_2 = addon.skilldata[skillType][classId][skillLineIndex][skillIndex][2].name
                 d(
                     c.grey .. '----------------------------------------' .. "\n          " ..
                     c.lightGrey .. "morphName_0: |r" .. morphName_0 ..
@@ -362,8 +360,10 @@ function NEAR_SR.func.UpdateCharData(updatedRankType, skillType, skillLineIndex,
                 [2] = morphRank_2,
             }
 
-            -- overwrite ABILITY data on saved variable > skillType > skillLine > skillIndex
-            svc[skillType][classId][skillLineIndex][skillIndex] = newabilitydata
+            -- overwrite ABILITY data on saved variable > skillType > classId > skillLine > skillIndex
+            if type(skillIndex) == "number" then
+                svc[skillType][classId][skillLineIndex][skillIndex] = newabilitydata
+            end
 
         else d('Something went wrong trying to define what to update, updatedRankType is undefined or not "skillLine" nor "morph"')
         end

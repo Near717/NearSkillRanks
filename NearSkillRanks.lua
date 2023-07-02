@@ -1,27 +1,19 @@
 --[[
 TODO:
 
-DONE // make it so if discoreved == false skill line will be grayed out and show no info
-
-THESE ARE DONE BUT STILL NEED TESTING:
-Create UpdateCharData(skilltype, skillline, ability, morph) where it'll check what rank was updated and overwrite only that on sv
-
-EVENT_ABILITY_PROGRESSION_RANK_UPDATE (eventCode, progressionIndex, rank, maxRank, morph) 
---- @param progressionIndex luaindex
---- @return skillType [SkillType|#SkillType], skillLineIndex luaindex, skillIndex luaindex
-function GetSkillAbilityIndicesFromProgressionIndex(progressionIndex) end
-
-EVENT_SKILL_RANK_UPDATE (eventCode, skillType, skillLineIndex, skillLineRank)
-
-EVENT_SKILL_LINE_ADDED (eventCode, skillType, skillLineIndex, advised) 
-this can be used with GetSkillLineDynamicInfo(skillType, skillLineIndex) to update "discovered" state, then update lam
+	remove UpdateLam_skillLine()
+	CreateLam_skillLine():
+	add the unknown check
+	add purge of previous data before the loop
+	add param "update"
+		if update then NEARSR_lam_dropdown_SkillLine:UpdateChoices(skillLine_dropdown.choices, skillLine_dropdown.choicesValues) end
 ]]
 
 NEAR_SR = {
 	name 		= "NearSkillRanks",
 	title 		= "Near's Skill Ranks",
 	shortTitle 	= "Skill Ranks",
-	version 	= "0.1.7",
+	version 	= "0.1.8",
 	author 		= "|cCC99FFnotnear|r",
 }
 local addon = NEAR_SR
@@ -48,6 +40,7 @@ local function OnAddonLoaded(event, name)
 	addon.func.Init()
 	addon.gui.Init()
 	addon.SetupSettings()
+	addon.RegisterSlashCommands()
 
 	-- Events
     EVENT_MANAGER:RegisterForEvent(addon.name, EVENT_ABILITY_PROGRESSION_RANK_UPDATE,   NEAR_SR.func.OnMorphRankUpdate)
