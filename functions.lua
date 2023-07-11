@@ -237,7 +237,7 @@ function NEAR_SR.func.UpdateCharData(updatedRankType, skillType, skillLineIndex,
     local classId = GetUnitClassId("player")
 
     -- warn if trying to update but the tables are empty and exit early, otherwise continue
-    if addon.ASV.char[charId] == nil then d('Something went wrong trying to update character skill data, character table is empty') return end
+    if addon.ASV.char[charId] == nil then d(dbg.lightGrey .. 'Something went wrong trying to update character skill data, character table is empty') return end
 
     local svc = addon.ASV.char[charId]
 
@@ -257,14 +257,10 @@ function NEAR_SR.func.UpdateCharData(updatedRankType, skillType, skillLineIndex,
                 )
             end
 
-            local newskilldata = {
-                rank = skillLineRank,
-                discovered = skillLineDiscovered,
-            }
-
             -- overwrite SKILL data on saved variable > skillType > skillLine
             if type(skillLineIndex) == "number" then
-                svc[skillType][skillLineIndex] = newskilldata
+                svc[skillType][skillLineIndex].rank = skillLineRank
+                svc[skillType][skillLineIndex].discovered = skillLineDiscovered
             end
 
         elseif updatedRankType == 'morph' then
@@ -301,7 +297,7 @@ function NEAR_SR.func.UpdateCharData(updatedRankType, skillType, skillLineIndex,
                 svc[skillType][skillLineIndex][skillIndex] = newabilitydata
             end
 
-        else d('Something went wrong trying to define what to update, updatedRankType is undefined or not "skillLine" nor "morph"')
+        else d(dbg.lightGrey .. 'Something went wrong trying to define what to update, updatedRankType is undefined or not "skillLine" nor "morph"')
         end
 
     else -- skillType == SKILL_TYPE_CLASS so we need to get the class id from the character
@@ -321,14 +317,10 @@ function NEAR_SR.func.UpdateCharData(updatedRankType, skillType, skillLineIndex,
                 )
             end
 
-            local newskilldata = {
-                rank = skillLineRank,
-                discovered = skillLineDiscovered,
-            }
-
             -- overwrite SKILL data on saved variable > skillType > classId > skillLine
             if type(skillLineIndex) == "number" then
-                svc[skillType][classId][skillLineIndex] = newskilldata
+                svc[skillType][classId][skillLineIndex].rank = skillLineRank
+                svc[skillType][classId][skillLineIndex].discovered = skillLineDiscovered
             end
 
         elseif updatedRankType == 'morph' then
@@ -365,7 +357,7 @@ function NEAR_SR.func.UpdateCharData(updatedRankType, skillType, skillLineIndex,
                 svc[skillType][classId][skillLineIndex][skillIndex] = newabilitydata
             end
 
-        else d('Something went wrong trying to define what to update, updatedRankType is undefined or not "skillLine" nor "morph"')
+        else d(dbg.lightGrey .. 'Something went wrong trying to define what to update, updatedRankType is undefined or not "skillLine" nor "morph"')
         end
 
     end
