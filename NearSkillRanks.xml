@@ -2,7 +2,7 @@
     <Controls>
         <TopLevelControl name="NSR_GUI" mouseEnabled="true" movable="true" clampedToScreen="true" resizeHandleSize="8" hidden="true">
             <Dimensions x="800" y="800" />
-            <DimensionConstraints minX="800" minY="600" />
+            <DimensionConstraints minX="800" minY="700" />
             <Anchor point="CENTER" />
 
             <OnShow>

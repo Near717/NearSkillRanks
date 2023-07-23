@@ -346,27 +346,27 @@ function NEAR_SR.gui.CreateList_abilities()
 		if sv_skillLine.discovered == true then
 			selectedSkillLine_abilities_name =
 			sd_skillLine.name .. '\n' ..
-			-- '\n' ..
+			'\n' ..
 			'Name: ' .. sd_skillLine[1][0].name .. '\n' .. tab ..
 			'Name: ' .. sd_skillLine[1][1].name .. '\n' .. tab ..
 			'Name: ' .. sd_skillLine[1][2].name .. '\n' ..
-			-- '\n' ..
+			'\n' ..
 			'Name: ' .. sd_skillLine[2][0].name .. '\n' .. tab ..
 			'Name: ' .. sd_skillLine[2][1].name .. '\n' .. tab ..
 			'Name: ' .. sd_skillLine[2][2].name .. '\n' ..
-			-- '\n' ..
+			'\n' ..
 			'Name: ' .. sd_skillLine[3][0].name .. '\n' .. tab ..
 			'Name: ' .. sd_skillLine[3][1].name .. '\n' .. tab ..
 			'Name: ' .. sd_skillLine[3][2].name .. '\n' ..
-			-- '\n' ..
+			'\n' ..
 			'Name: ' .. sd_skillLine[4][0].name .. '\n' .. tab ..
 			'Name: ' .. sd_skillLine[4][1].name .. '\n' .. tab ..
 			'Name: ' .. sd_skillLine[4][2].name .. '\n' ..
-			-- '\n' ..
+			'\n' ..
 			'Name: ' .. sd_skillLine[5][0].name .. '\n' .. tab ..
 			'Name: ' .. sd_skillLine[5][1].name .. '\n' .. tab ..
 			'Name: ' .. sd_skillLine[5][2].name .. '\n' ..
-			-- '\n' ..
+			'\n' ..
 			'Name: ' .. sd_skillLine[6][0].name .. '\n' .. tab ..
 			'Name: ' .. sd_skillLine[6][1].name .. '\n' .. tab ..
 			'Name: ' .. sd_skillLine[6][2].name
@@ -375,27 +375,27 @@ function NEAR_SR.gui.CreateList_abilities()
 
 			selectedSkillLine_abilities_rank =
 			'Lv: ' .. sv_skillLine.rank .. '\n' ..
-			-- '\n' ..
+			'\n' ..
 			'Rank: ' .. sv_skillLine[1][0] .. '\n' ..
 			'Rank: ' .. sv_skillLine[1][1] .. '\n' ..
 			'Rank: ' .. sv_skillLine[1][2] .. '\n' ..
-			-- '\n' ..
+			'\n' ..
 			'Rank: ' .. sv_skillLine[2][0] .. '\n' ..
 			'Rank: ' .. sv_skillLine[2][1] .. '\n' ..
 			'Rank: ' .. sv_skillLine[2][2] .. '\n' ..
-			-- '\n' ..
+			'\n' ..
 			'Rank: ' .. sv_skillLine[3][0] .. '\n' ..
 			'Rank: ' .. sv_skillLine[3][1] .. '\n' ..
 			'Rank: ' .. sv_skillLine[3][2] .. '\n' ..
-			-- '\n' ..
+			'\n' ..
 			'Rank: ' .. sv_skillLine[4][0] .. '\n' ..
 			'Rank: ' .. sv_skillLine[4][1] .. '\n' ..
 			'Rank: ' .. sv_skillLine[4][2] .. '\n' ..
-			-- '\n' ..
+			'\n' ..
 			'Rank: ' .. sv_skillLine[5][0] .. '\n' ..
 			'Rank: ' .. sv_skillLine[5][1] .. '\n' ..
 			'Rank: ' .. sv_skillLine[5][2] .. '\n' ..
-			-- '\n' ..
+			'\n' ..
 			'Rank: ' .. sv_skillLine[6][0] .. '\n' ..
 			'Rank: ' .. sv_skillLine[6][1] .. '\n' ..
 			'Rank: ' .. sv_skillLine[6][2]
@@ -437,7 +437,7 @@ function NEAR_SR.gui.CreateList_abilities()
 			if sv_skillLine.discovered == true then
 				selectedSkillLine_abilities_name =
 				sd_skillLine.name.. '\n' ..
-				-- '\n' ..
+				'\n' ..
 				'Name: ' .. sd_skillLine[1][0].name .. '\n' .. tab ..
 				'Name: ' .. sd_skillLine[1][1].name .. '\n' .. tab ..
 				'Name: ' .. sd_skillLine[1][2].name
@@ -446,7 +446,7 @@ function NEAR_SR.gui.CreateList_abilities()
 
 				selectedSkillLine_abilities_rank =
 				'Lv: ' .. sv_skillLine.rank .. '\n' ..
-				-- '\n' ..
+				'\n' ..
 				'Rank: ' .. sv_skillLine[1][0].. '\n' ..
 				'Rank: ' .. sv_skillLine[1][1].. '\n' ..
 				'Rank: ' .. sv_skillLine[1][2]
@@ -463,11 +463,11 @@ function NEAR_SR.gui.CreateList_abilities()
 			if sv_skillLine.discovered == true then
 				selectedSkillLine_abilities_name =
 				sd_skillLine.name .. '\n' ..
-				-- '\n' ..
+				'\n' ..
 				'Name: ' .. sd_skillLine[1][0].name .. '\n' .. tab ..
 				'Name: ' .. sd_skillLine[1][1].name .. '\n' .. tab ..
 				'Name: ' .. sd_skillLine[1][2].name .. '\n' ..
-				-- '\n' ..
+				'\n' ..
 				'Name: ' .. sd_skillLine[2][0].name .. '\n' .. tab ..
 				'Name: ' .. sd_skillLine[2][1].name .. '\n' .. tab ..
 				'Name: ' .. sd_skillLine[2][2].name
@@ -476,11 +476,11 @@ function NEAR_SR.gui.CreateList_abilities()
 
 				selectedSkillLine_abilities_rank =
 				'Lv: ' .. sv_skillLine.rank .. '\n' ..
-				-- '\n' ..
+				'\n' ..
 				'Rank: ' .. sv_skillLine[1][0].. '\n' ..
 				'Rank: ' .. sv_skillLine[1][1].. '\n' ..
 				'Rank: ' .. sv_skillLine[1][2].. '\n' ..
-				-- '\n' ..
+				'\n' ..
 				'Rank: ' .. sv_skillLine[2][0].. '\n' ..
 				'Rank: ' .. sv_skillLine[2][1].. '\n' ..
 				'Rank: ' .. sv_skillLine[2][2]
@@ -498,23 +498,23 @@ function NEAR_SR.gui.CreateList_abilities()
 			if sv_skillLine.discovered == true then
 				selectedSkillLine_abilities_name =
 				sd_skillLine.name .. '\n' ..
-				-- '\n' ..
+				'\n' ..
 				'Name: ' .. sd_skillLine[1][0].name .. '\n' .. tab ..
 				'Name: ' .. sd_skillLine[1][1].name .. '\n' .. tab ..
 				'Name: ' .. sd_skillLine[1][2].name .. '\n' ..
-				-- '\n' ..
+				'\n' ..
 				'Name: ' .. sd_skillLine[2][0].name .. '\n' .. tab ..
 				'Name: ' .. sd_skillLine[2][1].name .. '\n' .. tab ..
 				'Name: ' .. sd_skillLine[2][2].name .. '\n' ..
-				-- '\n' ..
+				'\n' ..
 				'Name: ' .. sd_skillLine[3][0].name .. '\n' .. tab ..
 				'Name: ' .. sd_skillLine[3][1].name .. '\n' .. tab ..
 				'Name: ' .. sd_skillLine[3][2].name .. '\n' ..
-				-- '\n' ..
+				'\n' ..
 				'Name: ' .. sd_skillLine[4][0].name .. '\n' .. tab ..
 				'Name: ' .. sd_skillLine[4][1].name .. '\n' .. tab ..
 				'Name: ' .. sd_skillLine[4][2].name .. '\n' ..
-				-- '\n' ..
+				'\n' ..
 				'Name: ' .. sd_skillLine[5][0].name .. '\n' .. tab ..
 				'Name: ' .. sd_skillLine[5][1].name .. '\n' .. tab ..
 				'Name: ' .. sd_skillLine[5][2].name
@@ -523,23 +523,23 @@ function NEAR_SR.gui.CreateList_abilities()
 
 				selectedSkillLine_abilities_rank =
 				'Lv: ' .. sv_skillLine.rank .. '\n' ..
-				-- '\n' ..
+				'\n' ..
 				'Rank: ' .. sv_skillLine[1][0].. '\n' ..
 				'Rank: ' .. sv_skillLine[1][1].. '\n' ..
 				'Rank: ' .. sv_skillLine[1][2].. '\n' ..
-				-- '\n' ..
+				'\n' ..
 				'Rank: ' .. sv_skillLine[2][0].. '\n' ..
 				'Rank: ' .. sv_skillLine[2][1].. '\n' ..
 				'Rank: ' .. sv_skillLine[2][2].. '\n' ..
-				-- '\n' ..
+				'\n' ..
 				'Rank: ' .. sv_skillLine[3][0].. '\n' ..
 				'Rank: ' .. sv_skillLine[3][1].. '\n' ..
 				'Rank: ' .. sv_skillLine[3][2].. '\n' ..
-				-- '\n' ..
+				'\n' ..
 				'Rank: ' .. sv_skillLine[4][0].. '\n' ..
 				'Rank: ' .. sv_skillLine[4][1].. '\n' ..
 				'Rank: ' .. sv_skillLine[4][2].. '\n' ..
-				-- '\n' ..
+				'\n' ..
 				'Rank: ' .. sv_skillLine[5][0].. '\n' ..
 				'Rank: ' .. sv_skillLine[5][1].. '\n' ..
 				'Rank: ' .. sv_skillLine[5][2]
@@ -558,27 +558,27 @@ function NEAR_SR.gui.CreateList_abilities()
 			if sv_skillLine.discovered == true then
 				selectedSkillLine_abilities_name =
 				sd_skillLine.name .. '\n' ..
-				-- '\n' ..
+				'\n' ..
 				'Name: ' .. sd_skillLine[1][0].name .. '\n' .. tab ..
 				'Name: ' .. sd_skillLine[1][1].name .. '\n' .. tab ..
 				'Name: ' .. sd_skillLine[1][2].name .. '\n' ..
-				-- '\n' ..
+				'\n' ..
 				'Name: ' .. sd_skillLine[2][0].name .. '\n' .. tab ..
 				'Name: ' .. sd_skillLine[2][1].name .. '\n' .. tab ..
 				'Name: ' .. sd_skillLine[2][2].name .. '\n' ..
-				-- '\n' ..
+				'\n' ..
 				'Name: ' .. sd_skillLine[3][0].name .. '\n' .. tab ..
 				'Name: ' .. sd_skillLine[3][1].name .. '\n' .. tab ..
 				'Name: ' .. sd_skillLine[3][2].name .. '\n' ..
-				-- '\n' ..
+				'\n' ..
 				'Name: ' .. sd_skillLine[4][0].name .. '\n' .. tab ..
 				'Name: ' .. sd_skillLine[4][1].name .. '\n' .. tab ..
 				'Name: ' .. sd_skillLine[4][2].name .. '\n' ..
-				-- '\n' ..
+				'\n' ..
 				'Name: ' .. sd_skillLine[5][0].name .. '\n' .. tab ..
 				'Name: ' .. sd_skillLine[5][1].name .. '\n' .. tab ..
 				'Name: ' .. sd_skillLine[5][2].name .. '\n' ..
-				-- '\n' ..
+				'\n' ..
 				'Name: ' .. sd_skillLine[6][0].name .. '\n' .. tab ..
 				'Name: ' .. sd_skillLine[6][1].name .. '\n' .. tab ..
 				'Name: ' .. sd_skillLine[6][2].name
@@ -587,27 +587,27 @@ function NEAR_SR.gui.CreateList_abilities()
 
 				selectedSkillLine_abilities_rank =
 				'Lv: ' .. sv_skillLine.rank .. '\n' ..
-				-- '\n' ..
+				'\n' ..
 				'Rank: ' .. sv_skillLine[1][0] .. '\n' ..
 				'Rank: ' .. sv_skillLine[1][1] .. '\n' ..
 				'Rank: ' .. sv_skillLine[1][2] .. '\n' ..
-				-- '\n' ..
+				'\n' ..
 				'Rank: ' .. sv_skillLine[2][0] .. '\n' ..
 				'Rank: ' .. sv_skillLine[2][1] .. '\n' ..
 				'Rank: ' .. sv_skillLine[2][2] .. '\n' ..
-				-- '\n' ..
+				'\n' ..
 				'Rank: ' .. sv_skillLine[3][0] .. '\n' ..
 				'Rank: ' .. sv_skillLine[3][1] .. '\n' ..
 				'Rank: ' .. sv_skillLine[3][2] .. '\n' ..
-				-- '\n' ..
+				'\n' ..
 				'Rank: ' .. sv_skillLine[4][0] .. '\n' ..
 				'Rank: ' .. sv_skillLine[4][1] .. '\n' ..
 				'Rank: ' .. sv_skillLine[4][2] .. '\n' ..
-				-- '\n' ..
+				'\n' ..
 				'Rank: ' .. sv_skillLine[5][0] .. '\n' ..
 				'Rank: ' .. sv_skillLine[5][1] .. '\n' ..
 				'Rank: ' .. sv_skillLine[5][2] .. '\n' ..
-				-- '\n' ..
+				'\n' ..
 				'Rank: ' .. sv_skillLine[6][0] .. '\n' ..
 				'Rank: ' .. sv_skillLine[6][1] .. '\n' ..
 				'Rank: ' .. sv_skillLine[6][2]
