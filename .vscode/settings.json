@@ -24,7 +24,11 @@
         "NSR_GUI_MAIN_skilldata_SkillLine",
         "NSR_GUI_MAIN_Abilities_Name",
         "NSR_GUI_MAIN_Abilities_Rank",
-        "SLASH_COMMANDS"
+        "SLASH_COMMANDS",
+        "NSR_SUM",
+        "NSR_SUM_MAIN",
+        "NSR_SUM_MAIN_ScrollList",
+        "NEARSR_quick"
     ],
     "Lua.diagnostics.disable": [
         "need-check-nil",

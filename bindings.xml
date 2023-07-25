@@ -4,6 +4,9 @@
 			<Action name="NSR_toggle">
 				<Up>NEAR_SR.gui.ToggleWindow()</Up>
 			</Action>
+			<Action name="NSR_toggle2">
+				<Up>NEAR_SR.gui.summary.ToggleWindow()</Up>
+			</Action>
 		</Category>
 	</Layer>
 </Bindings>

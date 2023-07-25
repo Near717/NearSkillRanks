@@ -8,6 +8,13 @@ function NEAR_SR.gui.Init()
 	addon.gui.CreateList_SkillType()
 	addon.gui.CreateList_SkillLine()
 	addon.gui.UpdateList_abilities()
+
+	local control = GetControl("NSR_GUI_MAIN_skilldata_ShowSummary")
+	control:SetText(GetString(NEARSR_quick))
+
+	addon.gui.summary.CreateControls()
+	addon.gui.summary.CreateLines()
+	addon.gui.summary.CreateList(false)
 end
 
 -- Show or hide the window
@@ -43,6 +50,17 @@ local selected_skillLine_name = nil
 ---------------------------------------------------------------------------------
 local selectedSkillLine_abilities_name = nil
 local selectedSkillLine_abilities_rank = nil
+---------------------------------------------------------------------------------
+local t_skillLineMax = {
+	[SKILL_TYPE_CLASS]		= 3,
+	[SKILL_TYPE_WEAPON]		= 6,
+	[SKILL_TYPE_ARMOR]		= 3,
+	[SKILL_TYPE_WORLD]		= 6,
+	[SKILL_TYPE_GUILD]		= 6,
+	[SKILL_TYPE_AVA]		= 3,
+	-- [SKILL_TYPE_RACIAL]		= 10,
+	[addon.SKILL_TYPE_TRADESKILL]	= 7,
+}
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 local function SetSelectedChar(charName)
@@ -99,10 +117,6 @@ end
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
---[[ addon.gui.selected_skillType = SKILL_TYPE_CLASS
-local selected_skillType = addon.gui.selected_skillType
-local selected_skillType_name = GetString(SI_SKILLTYPE1) ]]
-
 local function SetSelectedSkillType(stName)
 	for i = 1, #addon.skillType_Data do
 		if stName == addon.skillType_Data[i].name then
@@ -157,11 +171,6 @@ function NEAR_SR.gui.CreateList_SkillType()
 end
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
---[[ addon.gui.selected_skillLine = 1
-local selected_skillLine = addon.gui.selected_skillLine
-addon.gui.selected_skillLine_name = nil
-local selected_skillLine_name = addon.gui.selected_skillLine_name ]]
 
 local function SetSelectedSkillLine(stName)
 	for i = 1, #addon.skillLine_Data do
@@ -218,17 +227,6 @@ function NEAR_SR.gui.CreateList_SkillLine()
 		selected_skillLine_name = addon.skillLine_Data[1].name
 
 	else
-
-		local t_skillLineMax = {
-			[SKILL_TYPE_CLASS]		= 3,
-			[SKILL_TYPE_WEAPON]		= 6,
-			[SKILL_TYPE_ARMOR]		= 3,
-			[SKILL_TYPE_WORLD]		= 6,
-			[SKILL_TYPE_GUILD]		= 6,
-			[SKILL_TYPE_AVA]		= 3,
-			-- [SKILL_TYPE_RACIAL]		= 10,
-			[addon.SKILL_TYPE_TRADESKILL]	= 7,
-		}
 
 		local function color(skillType, skillLine)
 			if skillType ~= SKILL_TYPE_CLASS then
@@ -308,11 +306,6 @@ function NEAR_SR.gui.CreateList_SkillLine()
 end
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
---[[ addon.gui.selectedSkillLine_abilities_name = nil
-addon.gui.selectedSkillLine_abilities_rank = nil
-local selectedSkillLine_abilities_name = addon.gui.selectedSkillLine_abilities_name
-local selectedSkillLine_abilities_rank = addon.gui.selectedSkillLine_abilities_rank ]]
 
 function NEAR_SR.gui.UpdateList_abilities()
 	addon.gui.CreateList_abilities()
@@ -618,4 +611,225 @@ function NEAR_SR.gui.CreateList_abilities()
 		end
 
 	end
+end
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- skill line summary functions
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+NEAR_SR.gui.summary = {}
+local first_time = true
+local selected_page = 1
+---------------------------------------------------------------------------------
+
+-- Show or hide the window
+function NEAR_SR.gui.summary.ToggleWindow()
+	NSR_SUM:ToggleHidden()
+end
+
+-- OnShow update window data
+function NEAR_SR.gui.summary.OnShow()
+
+	if first_time then
+		-- add a margin bellow
+		local control = GetControl("NSR_SUM")
+		local current = control:GetHeight()
+		control:SetHeight(current + 10)
+
+		first_time = false
+	end
+
+	NEAR_SR.gui.summary.UpdateList(selected_page)
+end
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+function NEAR_SR.gui.summary.UpdateList(page)
+	selected_page = page
+
+	-- Determine which control to show based on the selected page
+	local showPage1 = (page == 1)
+
+	-- Show/hide the appropriate controls
+	local controlSkills1 = GetControl("NSR_SUM_HEADER_Skills1")
+	local controlSkills2 = GetControl("NSR_SUM_HEADER_Skills2")
+	controlSkills1:SetHidden(not showPage1)
+	controlSkills2:SetHidden(showPage1)
+
+	-- Update page textures based on the selected page
+	local controlPage1 = GetControl("NSR_SUM_PAGE_Page1")
+	local controlPage2 = GetControl("NSR_SUM_PAGE_Page2")
+	if showPage1 then
+		controlPage1:SetNormalTexture("/esoui/art/guild/tabicon_roster_down.dds")
+		controlPage2:SetNormalTexture("/esoui/art/guild/tabicon_roster_up.dds")
+	else
+		controlPage1:SetNormalTexture("/esoui/art/guild/tabicon_roster_up.dds")
+		controlPage2:SetNormalTexture("/esoui/art/guild/tabicon_roster_down.dds")
+	end
+
+	-- Update controls information based on selected page
+	addon.gui.summary.CreateList(true, page)
+
+end
+
+function NEAR_SR.gui.summary.CreateList(update, page)
+
+	if not update then
+		for i, charData in ipairs(addon.charData) do
+			local name = charData.charName
+
+			local control = GetControl("NSR_SUM_MAIN_List_Row" .. i .. "_Name")
+			control:SetText(name)
+
+		end
+	end
+
+	local function updateRanks(skillTypes)
+		for i, charData in ipairs(addon.charData) do
+			local charId = charData.charId
+			local i2 = 0
+
+			for _, skillType in ipairs(skillTypes) do
+				local charSkillData = addon.ASV.char[charId][skillType]
+				local classId = charData.classId
+
+				for skillLineIndex = 1, t_skillLineMax[skillType] do
+					local rank
+					if skillType == SKILL_TYPE_CLASS then
+						rank = charSkillData[classId][skillLineIndex].discovered and charSkillData[classId][skillLineIndex].rank or "-"
+					else
+						rank = charSkillData[skillLineIndex].discovered and charSkillData[skillLineIndex].rank or "-"
+					end
+
+					local r, g, b, a
+					if type(rank) == "number" then
+						local skillLineMaxRank = addon.func.GetSkillLineMaxRank(skillType, skillLineIndex)
+						local progress = rank / skillLineMaxRank
+
+						r, g, b, a = 1 - progress, progress, 0, 1
+					else
+						r, g, b, a = 0.267, 0.267, 0.267, 1
+					end
+
+					i2 = i2 + 1
+					local control = GetControl("NSR_SUM_MAIN_List_Row" .. i .. "_Skill" .. i2)
+					control:SetText(rank)
+					control:SetColor(r,g,b,a)
+
+					-- Exit the loop early if we've reached the end of the available skills
+					if i2 == 19 then
+						break
+					end
+				end
+			end
+
+			-- Clear remaining skill cells if fewer than 19 skills are present
+			for i2 = i2 + 1, 19 do
+				local control = GetControl("NSR_SUM_MAIN_List_Row" .. i .. "_Skill" .. i2)
+				control:SetText("")
+			end
+		end
+	end
+
+	if page == 1 then
+		local skillTypes = {SKILL_TYPE_CLASS, SKILL_TYPE_WEAPON, SKILL_TYPE_ARMOR, addon.SKILL_TYPE_TRADESKILL}
+		updateRanks(skillTypes)
+	elseif page == 2 then
+		local skillTypes = {SKILL_TYPE_WORLD, SKILL_TYPE_GUILD, SKILL_TYPE_AVA}
+		updateRanks(skillTypes)
+	end
+
+end
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+function NEAR_SR.gui.summary.CreateLines()
+
+	for i = 0, 19 do
+		local parent = "NSR_SUM_HEADER"
+		local control = GetControl(parent)
+		control:CreateControl(parent .. "_line" .. i, CT_LINE)
+
+		control = control:GetNamedChild("_line" .. i)
+		control:SetColor(0.267, 0.267, 0.267, 1.0)
+		control:SetPixelRoundingEnabled(true)
+		control:SetThickness(2)
+
+		local offsetX = i == 0 and 200 or i * 30 + 200
+		control:SetAnchor(TOPLEFT, GetControl("NSR_SUM_HEADER"), TOPLEFT, offsetX, 0)
+		control:SetAnchor(BOTTOMLEFT, GetControl("NSR_SUM_MAIN"), BOTTOMLEFT, offsetX, 0)
+	end
+
+	for i = 0, #addon.charData do
+		local parent = "NSR_SUM_MAIN"
+		local control = GetControl(parent)
+		control:CreateControl(parent .. "_line" .. i, CT_LINE)
+
+		control = control:GetNamedChild("_line" .. i)
+		control:SetColor(0.267, 0.267, 0.267, 1.0)
+		control:SetPixelRoundingEnabled(true)
+		control:SetThickness(2)
+
+		local offsetY = i == 0 and 0 or i * 30
+		control:SetAnchor(TOPLEFT, GetControl("NSR_SUM_MAIN"), TOPLEFT, 10, offsetY)
+		control:SetAnchor(TOPRIGHT, GetControl("NSR_SUM_MAIN"), TOPRIGHT, 0, offsetY)
+	end
+
+end
+
+function NEAR_SR.gui.summary.CreateControls()
+
+	CreateControl("NSR_SUM_MAIN_".."List", GetControl("NSR_SUM_MAIN"), CT_CONTROL)
+	local control = GetControl("NSR_SUM_MAIN_List")
+    control:SetAnchor(TOPLEFT, GetControl("NSR_SUM_MAIN"), TOPLEFT, 0, 0)
+	control:SetResizeToFitDescendents(true)
+
+	local previous_control = control
+
+	for i = 1, #addon.charData do
+		CreateControl("NSR_SUM_MAIN_List_Row" .. i, GetControl("NSR_SUM_MAIN_List"), CT_CONTROL)
+
+    	local targetControl = previous_control
+    	local targetPos = i == 1 and TOPLEFT or BOTTOMLEFT
+		local offsetX = i == 1 and 20 or 0
+    	control = GetControl("NSR_SUM_MAIN_List_Row" .. i)
+    	control:SetAnchor(TOPLEFT, targetControl, targetPos, offsetX, 0)
+		control:SetResizeToFitDescendents(true)
+		control:SetDimensionConstraints(0, 30)
+
+		previous_control = control
+	end
+
+	previous_control = nil
+
+	for i = 1, #addon.charData do
+		CreateControl("NSR_SUM_MAIN_List_Row" .. i .. "_Name", GetControl("NSR_SUM_MAIN_List_Row" .. i), CT_LABEL)
+		local targetControl = i == 1 and GetControl("NSR_SUM_MAIN_List_Row" .. i) or previous_control
+    	local targetPos = i == 1 and TOPLEFT or BOTTOMLEFT
+		control = GetControl("NSR_SUM_MAIN_List_Row" .. i .. "_Name")
+    	control:SetAnchor(TOPLEFT, targetControl, targetPos, 0, 0)
+		control:SetDimensions(180, 30)
+		control:SetHorizontalAlignment(TEXT_ALIGN_LEFT)
+		control:SetVerticalAlignment(TEXT_ALIGN_CENTER)
+		control:SetFont("ZoFontGameMedium")
+
+		previous_control = control
+
+		local previous_control_skill = nil
+
+		for i2 = 1, 19 do
+			CreateControl("NSR_SUM_MAIN_List_Row" .. i .. "_Skill" .. i2, GetControl("NSR_SUM_MAIN_List_Row" .. i), CT_LABEL)
+			targetControl = previous_control_skill or previous_control
+			control = GetControl("NSR_SUM_MAIN_List_Row" .. i .. "_Skill" .. i2)
+			control:SetAnchor(TOPLEFT, targetControl, TOPRIGHT, 0, 0)
+			control:SetDimensions(30, 30)
+			control:SetHorizontalAlignment(TEXT_ALIGN_CENTER)
+			control:SetVerticalAlignment(TEXT_ALIGN_CENTER)
+			control:SetFont("ZoFontGameMedium")
+
+			previous_control_skill = control
+		end
+	end
+
 end
