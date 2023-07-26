@@ -467,21 +467,29 @@
 				</Control>
 
 				<Control name="$(parent)_PAGE" hidden="false" resizeToFitDescendents="true">
-                	<Anchor point="TOPRIGHT" relativeTo="$(parent)_HEADER" relativePoint="BOTTOMRIGHT"/>
+                	<Anchor point="TOPRIGHT" relativeTo="$(parent)_HEADER" relativePoint="BOTTOMRIGHT" offsetY="10"/>
 					<Controls>
-						<Button name="$(parent)_Page1" text="1" font="ZoFontGameMedium" horizontalAlignment="CENTER" verticalAlignment="CENTER">
-							<Dimensions x="50" y="50"/>
-							<Anchor point="TOPRIGHT" relativeTo="$(parent)" relativePoint="TOPRIGHT" offsetX="-15" offsetY="10"/>
+						<Button name="$(parent)_Page1">
+							<Dimensions x="30" y="30"/>
+							<Anchor point="TOPRIGHT" relativeTo="$(parent)" relativePoint="TOPRIGHT" offsetX="-10"/>
 							<Textures normal="/esoui/art/guild/tabicon_roster_down.dds" pressed="/esoui/art/guild/tabicon_roster_down.dds" mouseOver="/esoui/art/guild/tabicon_roster_over.dds"/>
 							<OnClicked>NEAR_SR.gui.summary.UpdateList(1)</OnClicked>
 						</Button>
 
-						<Button name="$(parent)_Page2" text="2" font="ZoFontGameMedium" horizontalAlignment="CENTER" verticalAlignment="CENTER">
-							<Dimensions x="50" y="50"/>
-							<Anchor point="TOPRIGHT" relativeTo="$(parent)_Page1" relativePoint="BOTTOMRIGHT" offsetY="10"/>
+						<!-- <Label name="$(parent)_Page1_label" text="1" font="$(BOLD_FONT)|$(KB_20)|soft-shadow-thick" horizontalAlignment="RIGHT" verticalAlignment="BOTTOM">
+							<Anchor point="BOTTOMLEFT" relativeTo="$(parent)_Page1" relativePoint="BOTTOMRIGHT"/>
+						</Label> -->
+
+						<Button name="$(parent)_Page2">
+							<Dimensions x="30" y="30"/>
+							<Anchor point="TOPRIGHT" relativeTo="$(parent)_Page1" relativePoint="BOTTOMRIGHT"/>
 							<Textures normal="/esoui/art/tutorial/tabicon_roster_up.dds" pressed="/esoui/art/guild/tabicon_roster_down.dds" mouseOver="/esoui/art/guild/tabicon_roster_over.dds"/>
 							<OnClicked>NEAR_SR.gui.summary.UpdateList(2)</OnClicked>
 						</Button>
+
+						<!-- <Label name="$(parent)_Page2_label" text="2" font="$(BOLD_FONT)|$(KB_20)|soft-shadow-thick" horizontalAlignment="RIGHT" verticalAlignment="BOTTOM">
+							<Anchor point="BOTTOMLEFT" relativeTo="$(parent)_Page2" relativePoint="BOTTOMRIGHT"/>
+						</Label> -->
 					</Controls>
 				</Control>
 

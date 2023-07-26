@@ -14,7 +14,7 @@ function NEAR_SR.gui.Init()
 
 	addon.gui.summary.CreateControls()
 	addon.gui.summary.CreateLines()
-	addon.gui.summary.CreateList(false)
+	addon.gui.summary.CreateListChar()
 end
 
 -- Show or hide the window
@@ -645,6 +645,22 @@ end
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+function NEAR_SR.gui.summary.CreateListChar()
+
+	for i, charData in ipairs(addon.charData) do
+		local name = charData.charName
+
+		local control = GetControl("NSR_SUM_MAIN_List_Row" .. i .. "_Name")
+		control:SetText(name)
+
+		if charData.charId == GetCurrentCharacterId() then
+			local r, g, b, a = 0.4, 0.698, 1, 1
+			control:SetColor(r,g,b,a) -- #66b2ff
+		end
+
+	end
+end
+
 function NEAR_SR.gui.summary.UpdateList(page)
 	selected_page = page
 
@@ -669,37 +685,38 @@ function NEAR_SR.gui.summary.UpdateList(page)
 	end
 
 	-- Update controls information based on selected page
-	addon.gui.summary.CreateList(true, page)
+	addon.gui.summary.CreateList(page)
 
 end
 
-function NEAR_SR.gui.summary.CreateList(update, page)
-
-	if not update then
-		for i, charData in ipairs(addon.charData) do
-			local name = charData.charName
-
-			local control = GetControl("NSR_SUM_MAIN_List_Row" .. i .. "_Name")
-			control:SetText(name)
-
-		end
-	end
+function NEAR_SR.gui.summary.CreateList(page)
 
 	local function updateRanks(skillTypes)
 		for i, charData in ipairs(addon.charData) do
 			local charId = charData.charId
+			local classId = charData.classId
 			local i2 = 0
 
 			for _, skillType in ipairs(skillTypes) do
-				local charSkillData = addon.ASV.char[charId][skillType]
-				local classId = charData.classId
+				local charSkillData = addon.ASV.char[charId] and addon.ASV.char[charId][skillType]
+            	if not charSkillData then
+            	    charSkillData = {} -- Define an empty table if the data is not available
+            	end
 
 				for skillLineIndex = 1, t_skillLineMax[skillType] do
 					local rank
 					if skillType == SKILL_TYPE_CLASS then
-						rank = charSkillData[classId][skillLineIndex].discovered and charSkillData[classId][skillLineIndex].rank or "-"
+						if charSkillData[classId] and charSkillData[classId][skillLineIndex] then
+							rank = charSkillData[classId][skillLineIndex].discovered and charSkillData[classId][skillLineIndex].rank or "-"
+						else
+							rank = "NA"
+						end
 					else
-						rank = charSkillData[skillLineIndex].discovered and charSkillData[skillLineIndex].rank or "-"
+						if charSkillData[skillLineIndex] then
+							rank = charSkillData[skillLineIndex].discovered and charSkillData[skillLineIndex].rank or "-"
+						else
+							rank = "NA"
+						end
 					end
 
 					local r, g, b, a

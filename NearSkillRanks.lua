@@ -2,7 +2,7 @@ NEAR_SR = {
 	name 		= "NearSkillRanks",
 	title 		= "Near's Skill Ranks",
 	shortTitle 	= "Skill Ranks",
-	version 	= "0.2.0",
+	version 	= "1.0.0",
 	author 		= "|cCC99FFnotnear|r",
 }
 local addon = NEAR_SR
