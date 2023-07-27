@@ -271,13 +271,15 @@ function NEAR_SR.func.UpdateCharData(updatedRankType, skillType, skillLineIndex,
             if sv.debug then
                 d(
                     c.white .. '----------------------------------------' .. "\n          " ..
-                    c.lightGrey .. "skillLineName: |r" .. addon.skilldata[skillType][skillLineIndex].name ..
-                    c.lightGrey .. " skillLineId: |r" .. addon.skilldata[skillType][skillLineIndex].id .. "\n          " ..
+                    c.lightGrey .. "skillLineName: |r" .. GetSkillLineNameById(GetSkillLineId(skillType, skillLineIndex)) ..
+                    c.lightGrey .. " skillLineId: |r" .. GetSkillLineId(skillType, skillLineIndex) .. "\n          " ..
                     c.lightGrey .. "skillLineRank: |r" .. skillLineRank ..
                     c.lightGrey .. " skillLineDiscovered: |r" .. tostring(skillLineDiscovered) .. "\n          " ..
                     c.white .. '----------------------------------------'
                 )
             end
+
+            if skillType == SKILL_TYPE_TRADESKILL then skillType = addon.SKILL_TYPE_TRADESKILL end
 
             -- overwrite SKILL data on saved variable > skillType > skillLine
             if type(skillLineIndex) == "number" then
@@ -396,12 +398,10 @@ end
 
 function NEAR_SR.func.OnSkillRankUpdate(event, skillType, skillLineIndex, skillLineRank)
     if skillType == SKILL_TYPE_RACIAL then return end -- racial is not being tracked so exit early
-    if skillType == SKILL_TYPE_TRADESKILL then skillType = addon.SKILL_TYPE_TRADESKILL end
     addon.func.UpdateCharData('skillLine', skillType, skillLineIndex)
 end
 
 function NEAR_SR.func.OnSkillLineAdded(event, skillType, skillLineIndex, advised)
     if skillType == SKILL_TYPE_RACIAL then return end -- racial is not being tracked so exit early
-    if skillType == SKILL_TYPE_TRADESKILL then skillType = addon.SKILL_TYPE_TRADESKILL end
     addon.func.UpdateCharData('skillLine', skillType, skillLineIndex)
 end
