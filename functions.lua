@@ -182,7 +182,6 @@ function NEAR_SR.func.CreateCharData(skillType)
             --[[ Debug ]]
             if sv.debug then
                 local skillLineName = skillLine.name
-
                 d(
                     c.white .. '----------------------------------------' .. "\n          " ..
                     c.lightGrey .. "skillLineName: |r" .. skillLineName ..
@@ -258,132 +257,68 @@ function NEAR_SR.func.UpdateCharData(updatedRankType, skillType, skillLineIndex,
     local charId = GetCurrentCharacterId()
     local classId = GetUnitClassId("player")
 
-    -- warn if trying to update but the tables are empty and exit early, otherwise continue
+    -- warn if trying to update but the tables are empty then exit early, otherwise continue
     if addon.ASV.char[charId] == nil then d(dbg.lightGrey .. 'Something went wrong trying to update character skill data, character table is empty') return end
 
-    local svc = addon.ASV.char[charId]
+    local sv_skilldata
 
-    if skillType ~= SKILL_TYPE_CLASS then
-        if updatedRankType == 'skillLine' then
-            local skillLineRank, advised, active, skillLineDiscovered = GetSkillLineDynamicInfo(skillType, skillLineIndex)
+    if skillType == SKILL_TYPE_CLASS then
+        sv_skilldata = addon.ASV.char[charId][skillType][classId][skillLineIndex]
+    else
+        sv_skilldata = addon.ASV.char[charId][(skillType == SKILL_TYPE_TRADESKILL) and addon.SKILL_TYPE_TRADESKILL or skillType][skillLineIndex]
+    end
 
-            --[[ Debug ]]
-            if sv.debug then
-                d(
-                    c.white .. '----------------------------------------' .. "\n          " ..
-                    c.lightGrey .. "skillLineName: |r" .. GetSkillLineNameById(GetSkillLineId(skillType, skillLineIndex)) ..
-                    c.lightGrey .. " skillLineId: |r" .. GetSkillLineId(skillType, skillLineIndex) .. "\n          " ..
-                    c.lightGrey .. "skillLineRank: |r" .. skillLineRank ..
-                    c.lightGrey .. " skillLineDiscovered: |r" .. tostring(skillLineDiscovered) .. "\n          " ..
-                    c.white .. '----------------------------------------'
-                )
-            end
+    if updatedRankType == 'skillLine' then
+        local skillLineRank, _, _, skillLineDiscovered = GetSkillLineDynamicInfo(skillType, skillLineIndex)
 
-            if skillType == SKILL_TYPE_TRADESKILL then skillType = addon.SKILL_TYPE_TRADESKILL end
-
-            -- overwrite SKILL data on saved variable > skillType > skillLine
-            if type(skillLineIndex) == "number" then
-                svc[skillType][skillLineIndex].rank = skillLineRank
-                svc[skillType][skillLineIndex].discovered = skillLineDiscovered
-            end
-
-        elseif updatedRankType == 'morph' then
-            local skillLineId = addon.skilldata[skillType][skillLineIndex].id
-
-            local morphRank_0 = addon.func.GetMorphInfo(skillLineId, skillIndex, 0)
-            local morphRank_1 = addon.func.GetMorphInfo(skillLineId, skillIndex, 1)
-            local morphRank_2 = addon.func.GetMorphInfo(skillLineId, skillIndex, 2)
-
-            --[[ Debug ]]
-            if sv.debug then
-                local morphName_0 = addon.skilldata[skillType][skillLineIndex][skillIndex][0].name
-                local morphName_1 = addon.skilldata[skillType][skillLineIndex][skillIndex][1].name
-                local morphName_2 = addon.skilldata[skillType][skillLineIndex][skillIndex][2].name
-                d(
-                    c.grey .. '----------------------------------------' .. "\n          " ..
-                    c.lightGrey .. "morphName_0: |r" .. morphName_0 ..
-                    c.lightGrey .. " morphRank_0: |r" .. morphRank_0 .. "\n          " ..
-                    c.lightGrey .. "morphName_1: |r" .. morphName_1 ..
-                    c.lightGrey .. " morphRank_1: |r" .. morphRank_1 .. "\n          " ..
-                    c.lightGrey .. "morphName_2: |r" .. morphName_2 ..
-                    c.lightGrey .. " morphRank_2: |r" .. morphRank_2
-                )
-            end
-
-            local newabilitydata = {
-                [0] = morphRank_0,
-                [1] = morphRank_1,
-                [2] = morphRank_2,
-            }
-
-            -- overwrite ABILITY data on saved variable > skillType > skillLine > skillIndex
-            if type(skillIndex) == "number" then
-                svc[skillType][skillLineIndex][skillIndex] = newabilitydata
-            end
-
-        else d(dbg.lightGrey .. 'Something went wrong trying to define what to update, updatedRankType is undefined or not "skillLine" nor "morph"')
+        --[[ Debug ]]
+        if sv.debug then
+            d(
+                c.white .. '----------------------------------------' .. "\n          " ..
+                c.lightGrey .. "skillLineName: |r" .. GetSkillLineNameById(GetSkillLineId(skillType, skillLineIndex)) ..
+                c.lightGrey .. " skillLineId: |r" .. GetSkillLineId(skillType, skillLineIndex) .. "\n          " ..
+                c.lightGrey .. "skillLineRank: |r" .. skillLineRank ..
+                c.lightGrey .. " skillLineDiscovered: |r" .. tostring(skillLineDiscovered) .. "\n          " ..
+                c.white .. '----------------------------------------'
+            )
         end
 
-    else -- skillType == SKILL_TYPE_CLASS so we need to get the class id from the character
+        -- overwrite SKILL data on saved variable > skillType > [classId] > skillLine
+        sv_skilldata.rank = skillLineRank
+        sv_skilldata.discovered = skillLineDiscovered
 
-        if updatedRankType == 'skillLine' then
-            local skillLineRank, advised, active, skillLineDiscovered = GetSkillLineDynamicInfo(skillType, skillLineIndex)
+    elseif updatedRankType == 'morph' then
+        local skillLineId = GetSkillLineId(skillType, skillLineIndex)
 
-            --[[ Debug ]]
-            if sv.debug then
-                d(
-                    c.white .. '----------------------------------------' .. "\n          " ..
-                    c.lightGrey .. "skillLineName: |r" .. addon.skilldata[skillType][classId][skillLineIndex].name ..
-                    c.lightGrey .. " skillLineId: |r" .. addon.skilldata[skillType][classId][skillLineIndex].id .. "\n          " ..
-                    c.lightGrey .. "skillLineRank: |r" .. skillLineRank ..
-                    c.lightGrey .. " skillLineDiscovered: |r" .. tostring(skillLineDiscovered) .. "\n          " ..
-                    c.white .. '----------------------------------------'
-                )
-            end
+        local morphRank_0 = addon.func.GetMorphInfo(skillLineId, skillIndex, 0)
+        local morphRank_1 = addon.func.GetMorphInfo(skillLineId, skillIndex, 1)
+        local morphRank_2 = addon.func.GetMorphInfo(skillLineId, skillIndex, 2)
 
-            -- overwrite SKILL data on saved variable > skillType > classId > skillLine
-            if type(skillLineIndex) == "number" then
-                svc[skillType][classId][skillLineIndex].rank = skillLineRank
-                svc[skillType][classId][skillLineIndex].discovered = skillLineDiscovered
-            end
-
-        elseif updatedRankType == 'morph' then
-            local skillLineId = addon.skilldata[skillType][classId][skillLineIndex].id
-
-            local morphRank_0 = addon.func.GetMorphInfo(skillLineId, skillIndex, 0)
-            local morphRank_1 = addon.func.GetMorphInfo(skillLineId, skillIndex, 1)
-            local morphRank_2 = addon.func.GetMorphInfo(skillLineId, skillIndex, 2)
-
-            --[[ Debug ]]
-            if sv.debug then
-                local morphName_0 = addon.skilldata[skillType][classId][skillLineIndex][skillIndex][0].name
-                local morphName_1 = addon.skilldata[skillType][classId][skillLineIndex][skillIndex][1].name
-                local morphName_2 = addon.skilldata[skillType][classId][skillLineIndex][skillIndex][2].name
-                d(
-                    c.grey .. '----------------------------------------' .. "\n          " ..
-                    c.lightGrey .. "morphName_0: |r" .. morphName_0 ..
-                    c.lightGrey .. " morphRank_0: |r" .. morphRank_0 .. "\n          " ..
-                    c.lightGrey .. "morphName_1: |r" .. morphName_1 ..
-                    c.lightGrey .. " morphRank_1: |r" .. morphRank_1 .. "\n          " ..
-                    c.lightGrey .. "morphName_2: |r" .. morphName_2 ..
-                    c.lightGrey .. " morphRank_2: |r" .. morphRank_2
-                )
-            end
-
-            local newabilitydata = {
-                [0] = morphRank_0,
-                [1] = morphRank_1,
-                [2] = morphRank_2,
-            }
-
-            -- overwrite ABILITY data on saved variable > skillType > classId > skillLine > skillIndex
-            if type(skillIndex) == "number" then
-                svc[skillType][classId][skillLineIndex][skillIndex] = newabilitydata
-            end
-
-        else d(dbg.lightGrey .. 'Something went wrong trying to define what to update, updatedRankType is undefined or not "skillLine" nor "morph"')
+        --[[ Debug ]]
+        if sv.debug then
+            local ability = skillType == SKILL_TYPE_CLASS and addon.skilldata[skillType][classId][skillLineIndex][skillIndex] or addon.skilldata[skillType][skillLineIndex][skillIndex]
+            d(
+                c.grey .. '----------------------------------------' .. "\n          " ..
+                c.lightGrey .. "morphName_0: |r" .. ability[0].name ..
+                c.lightGrey .. " morphRank_0: |r" .. morphRank_0 .. "\n          " ..
+                c.lightGrey .. "morphName_1: |r" .. ability[1].name ..
+                c.lightGrey .. " morphRank_1: |r" .. morphRank_1 .. "\n          " ..
+                c.lightGrey .. "morphName_2: |r" .. ability[2].name ..
+                c.lightGrey .. " morphRank_2: |r" .. morphRank_2
+            )
         end
 
+        local newabilitydata = {
+            [0] = morphRank_0,
+            [1] = morphRank_1,
+            [2] = morphRank_2,
+        }
+
+        -- overwrite ABILITY data on saved variable > skillType > skillLine > skillIndex
+        sv_skilldata[skillIndex] = newabilitydata
+
+    else
+        d(dbg.lightGrey .. 'Something went wrong trying to define what to update, updatedRankType is undefined or not "skillLine" nor "morph"')
     end
 
     --[[ Debug ]] if sv.debug then d(dbg.grey .. 'end of ' .. funcName) d(dbg.close) end
