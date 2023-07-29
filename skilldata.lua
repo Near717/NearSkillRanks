@@ -1285,14 +1285,14 @@ NEAR_SR.skilldata = {
                 [2] = { id = 40220, name = zo_strformat("<<1>>", GetAbilityName(40220)), }, --
             },
             [2] = {                                                  --
-                [0] = { id = 38566, name = zo_strformat("<<1>>", GetAbilityName(38566)), }, --
-                [1] = { id = 40211, name = zo_strformat("<<1>>", GetAbilityName(40211)), }, --
-                [2] = { id = 40215, name = zo_strformat("<<1>>", GetAbilityName(40215)), }, --
-            },
-            [3] = {                                                  --
                 [0] = { id = 61503, name = zo_strformat("<<1>>", GetAbilityName(61503)), }, --
                 [1] = { id = 61505, name = zo_strformat("<<1>>", GetAbilityName(61505)), }, --
                 [2] = { id = 61507, name = zo_strformat("<<1>>", GetAbilityName(61507)), }, --
+            },
+            [3] = {                                                  --
+                [0] = { id = 38566, name = zo_strformat("<<1>>", GetAbilityName(38566)), }, --
+                [1] = { id = 40211, name = zo_strformat("<<1>>", GetAbilityName(40211)), }, --
+                [2] = { id = 40215, name = zo_strformat("<<1>>", GetAbilityName(40215)), }, --
             },
             [4] = {                                                  --
                 [0] = { id = 33376, name = zo_strformat("<<1>>", GetAbilityName(33376)), }, --

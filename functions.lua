@@ -96,74 +96,7 @@ function NEAR_SR.func.CreateCharData(skillType)
 
     local svc = addon.ASV.char[charId]
 
-    if skillType ~= SKILL_TYPE_CLASS then
-        -- get the skill lines from that skill type
-        for skillLineIndex, skillLine in ipairs(addon.skilldata[skillType]) do
-            -- define skill line data
-            local skillLineId = skillLine.id
-            local skillLineRank, skillLineDiscovered = addon.func.GetSkillLineInfo(skillLineId)
-
-            --[[ Debug ]]
-            if sv.debug then
-                local skillLineName = skillLine.name
-                d(
-                    c.white .. '----------------------------------------' .. "\n          " ..
-                    c.lightGrey .. "skillLineName: |r" .. skillLineName ..
-                    c.lightGrey .. " skillLineId: |r" .. skillLineId .. "\n          " ..
-                    c.lightGrey .. "skillLineRank: |r" .. skillLineRank ..
-                    c.lightGrey .. " skillLineDiscovered: |r" .. tostring(skillLineDiscovered) .. "\n          " ..
-                    c.white .. '----------------------------------------'
-                )
-            end
-
-            local newskilldata = {
-                rank = skillLineRank,
-                discovered = skillLineDiscovered,
-            }
-
-            -- insert new SKILL data into saved variable > skillType > skillLine
-            if type(skillLineIndex) == "number" then
-                svc[skillType][skillLineIndex] = newskilldata
-            end
-
-            ----------------------------------------------------------------------------------------------------
-            -- define ability data
-            for skillIndex = 1, 6, 1 do
-                if skillLine[skillIndex] ~= nil then
-
-                    local morphRank_0 = addon.func.GetMorphInfo(skillLineId, skillIndex, 0)
-                    local morphRank_1 = addon.func.GetMorphInfo(skillLineId, skillIndex, 1)
-                    local morphRank_2 = addon.func.GetMorphInfo(skillLineId, skillIndex, 2)
-
-                    --[[ Debug ]]
-                    if sv.debug then
-                        local morphName_0 = skillLine[skillIndex][0].name
-                        local morphName_1 = skillLine[skillIndex][1].name
-                        local morphName_2 = skillLine[skillIndex][2].name
-                        d(
-                            c.grey .. '----------------------------------------' .. "\n          " ..
-                            c.lightGrey .. "morphName_0: |r" .. morphName_0 ..
-                            c.lightGrey .. " morphRank_0: |r" .. morphRank_0 .. "\n          " ..
-                            c.lightGrey .. "morphName_1: |r" .. morphName_1 ..
-                            c.lightGrey .. " morphRank_1: |r" .. morphRank_1 .. "\n          " ..
-                            c.lightGrey .. "morphName_2: |r" .. morphName_2 ..
-                            c.lightGrey .. " morphRank_2: |r" .. morphRank_2
-                        )
-                    end
-
-                    local newabilitydata = {
-                        [0] = morphRank_0,
-                        [1] = morphRank_1,
-                        [2] = morphRank_2,
-                    }
-
-                    -- insert new ABILITY data into saved variable > skillType > skillLine > skillIndex
-                    svc[skillType][skillLineIndex][skillIndex] = newabilitydata
-                end
-            end
-        end
-    else -- skillType == SKILL_TYPE_CLASS so we need to get the class id from the character
-
+    if skillType == SKILL_TYPE_CLASS then
         -- purge other classes from that character's info
         if svc[skillType] ~= nil then
             for key, _ in pairs(svc[skillType]) do
@@ -172,75 +105,79 @@ function NEAR_SR.func.CreateCharData(skillType)
                 end
             end
         end
+    end
 
-        -- get the skill lines from skill type class and specified class
-        for skillLineIndex, skillLine in ipairs(addon.skilldata[skillType][classId]) do
-            -- define skill line data
-            local skillLineId = skillLine.id
-            local skillLineRank, skillLineDiscovered = addon.func.GetSkillLineInfo(skillLineId)
+    for skillLineIndex, skillLine in ipairs(skillType == SKILL_TYPE_CLASS and addon.skilldata[skillType][classId] or addon.skilldata[skillType]) do
+        -- define skill line data
+        local skillLineId = skillLine.id
+        local skillLineRank, skillLineDiscovered = addon.func.GetSkillLineInfo(skillLineId)
 
-            --[[ Debug ]]
-            if sv.debug then
-                local skillLineName = skillLine.name
-                d(
-                    c.white .. '----------------------------------------' .. "\n          " ..
-                    c.lightGrey .. "skillLineName: |r" .. skillLineName ..
-                    c.lightGrey .. " skillLineId: |r" .. skillLineId .. "\n          " ..
-                    c.lightGrey .. "skillLineRank: |r" .. skillLineRank ..
-                    c.lightGrey .. " skillLineDiscovered: |r" .. tostring(skillLineDiscovered) .. "\n          " ..
-                    c.white .. '----------------------------------------'
-                )
-            end
+        --[[ Debug ]]
+        if sv.debug then
+            local skillLineName = skillLine.name
+            d(
+                c.white .. '----------------------------------------' .. "\n          " ..
+                c.lightGrey .. "skillLineName: |r" .. skillLineName ..
+                c.lightGrey .. " skillLineId: |r" .. skillLineId .. "\n          " ..
+                c.lightGrey .. "skillLineRank: |r" .. skillLineRank ..
+                c.lightGrey .. " skillLineDiscovered: |r" .. tostring(skillLineDiscovered) .. "\n          " ..
+                c.white .. '----------------------------------------'
+            )
+        end
 
-            local newskilldata = {
-                rank = skillLineRank,
-                discovered = skillLineDiscovered,
-            }
+        local newskilldata = {
+            rank = skillLineRank,
+            discovered = skillLineDiscovered,
+        }
 
-            -- insert new SKILL data into saved variable > charId > skillType > skillLine
-            if type(skillLineIndex) == "number" then
-                svc[skillType][classId][skillLineIndex] = newskilldata
-            end
+        -- insert new SKILL data into saved variable > charId > skillType > [classId] > skillLine
+        if skillType == SKILL_TYPE_CLASS then
+            svc[skillType][classId][skillLineIndex] = newskilldata
+        else
+            svc[skillType][skillLineIndex] = newskilldata
+        end
 
-            ----------------------------------------------------------------------------------------------------
-            -- define ability data
-            for i = 1, 6, 1 do
-                local skillIndex = i
-                -- if skillLine[i] ~= nil then
+        ----------------------------------------------------------------------------------------------------
+        -- define ability data
+        for skillIndex = 1, 6, 1 do
+            if skillLine[skillIndex] ~= nil then
 
-                    local morphRank_0 = addon.func.GetMorphInfo(skillLineId, skillIndex, 0)
-                    local morphRank_1 = addon.func.GetMorphInfo(skillLineId, skillIndex, 1)
-                    local morphRank_2 = addon.func.GetMorphInfo(skillLineId, skillIndex, 2)
+                local morphRank_0 = addon.func.GetMorphInfo(skillLineId, skillIndex, 0)
+                local morphRank_1 = addon.func.GetMorphInfo(skillLineId, skillIndex, 1)
+                local morphRank_2 = addon.func.GetMorphInfo(skillLineId, skillIndex, 2)
 
-                    --[[ Debug ]]
-                    if sv.debug then
-                        local morphName_0 = skillLine[i][0].name
-                        local morphName_1 = skillLine[i][1].name
-                        local morphName_2 = skillLine[i][2].name
+                --[[ Debug ]]
+                if sv.debug then
+                    local ability = skillLine[skillIndex]
+                    d(
+                        c.grey .. '----------------------------------------' .. "\n          " ..
+                        c.lightGrey .. "morphName_0: |r" .. ability[0].name ..
+                        c.lightGrey .. " morphRank_0: |r" .. morphRank_0 .. "\n          " ..
+                        c.lightGrey .. "morphName_1: |r" .. ability[1].name ..
+                        c.lightGrey .. " morphRank_1: |r" .. morphRank_1 .. "\n          " ..
+                        c.lightGrey .. "morphName_2: |r" .. ability[2].name ..
+                        c.lightGrey .. " morphRank_2: |r" .. morphRank_2
+                    )
+                end
 
-                        d(
-                            c.grey .. '----------------------------------------' .. "\n          " ..
-                            c.lightGrey .. "morphName_0: |r" .. morphName_0 ..
-                            c.lightGrey .. " morphRank_0: |r" .. morphRank_0 .. "\n          " ..
-                            c.lightGrey .. "morphName_1: |r" .. morphName_1 ..
-                            c.lightGrey .. " morphRank_1: |r" .. morphRank_1 .. "\n          " ..
-                            c.lightGrey .. "morphName_2: |r" .. morphName_2 ..
-                            c.lightGrey .. " morphRank_2: |r" .. morphRank_2
-                        )
-                    end
+                local newabilitydata = {
+                    [0] = morphRank_0,
+                    [1] = morphRank_1,
+                    [2] = morphRank_2,
+                }
 
-                    local newabilitydata = {
-                        [0] = morphRank_0,
-                        [1] = morphRank_1,
-                        [2] = morphRank_2,
-                    }
-
-                    -- insert new ABILITY data into saved variable > charId > skillType > skillLine > skillIndex
+                -- insert new ABILITY data into saved variable >  charId > skillType > [classId] > skillLine > skillIndex
+                if skillType == SKILL_TYPE_CLASS then
                     svc[skillType][classId][skillLineIndex][skillIndex] = newabilitydata
-                -- end
+                else
+                    svc[skillType][skillLineIndex][skillIndex] = newabilitydata
+                end
+
             end
         end
+
     end
+
     --[[ Debug ]] if sv.debug then d(dbg.grey .. 'end of ' .. funcName) d(dbg.close) end
 end
 

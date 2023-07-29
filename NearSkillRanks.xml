@@ -1,7 +1,6 @@
 <GuiXml>
     <Controls>
-        <TopLevelControl name="NSR_GUI" mouseEnabled="true" movable="true" clampedToScreen="true" resizeHandleSize="8" hidden="true">
-            <Dimensions x="800" y="800"/>
+        <TopLevelControl name="NSR_GUI" mouseEnabled="true" movable="true" clampedToScreen="true" hidden="true" tier="MEDIUM">
             <DimensionConstraints minX="800" minY="700"/>
             <Anchor point="CENTER"/>
 
@@ -102,7 +101,7 @@
         </TopLevelControl>
 
 
-        <TopLevelControl name="NSR_SUM" mouseEnabled="true" movable="true" clampedToScreen="true" hidden="true" resizeToFitDescendents="true" tier="MEDIUM">
+        <TopLevelControl name="NSR_SUM" mouseEnabled="true" movable="true" clampedToScreen="true" hidden="true" resizeToFitDescendents="true" tier="MEDIUM" level="1">
             <DimensionConstraints minX="850" minY="100"/>
             <Anchor point="CENTER"/>
 
