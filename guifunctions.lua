@@ -723,8 +723,11 @@ function NEAR_SR.gui.summary.CreateList(page)
 					if type(rank) == "number" then
 						local skillLineMaxRank = addon.func.GetSkillLineMaxRank(skillType, skillLineIndex)
 						local progress = rank / skillLineMaxRank
-
-						r, g, b, a = 1 - progress, progress, 0, 1
+						if progress == 1 then
+							r, g, b, a = 0.75, 0.75, 0.75, 1
+						else
+							r, g, b, a = 1 - progress, 0.7 * progress, 0, 1
+						end
 					else
 						r, g, b, a = 0.267, 0.267, 0.267, 1
 					end

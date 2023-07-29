@@ -44,7 +44,7 @@
 					
                 		<!-- Left Side -->
                 		<Control name="$(parent)_skilldata">
-                		    <Dimensions x="280"/>
+							<DimensionConstraints minX="280"/>
                 		    <Anchor point="TOPLEFT" relativeTo="$(parent)" offsetY="50"/>
 							<Controls>
 
@@ -68,7 +68,7 @@
 
 								<Button name="$(parent)_ShowSummary" font="ZoFontGameMedium">
 									<Dimensions x="280" y="30"/>
-									<Anchor point="TOPLEFT" relativeTo="$(parent)_SkillLine" relativePoint="BOTTOMLEFT" offsetY="50"/>
+									<Anchor point="TOPLEFT" relativeTo="$(parent)_SkillLine" relativePoint="BOTTOMLEFT" offsetY="100"/>
 									<OnClicked>NEAR_SR.gui.summary.ToggleWindow()</OnClicked>
                         		</Button>
 
@@ -81,12 +81,12 @@
 							<Controls>
 
 							<Label name="$(parent)_Name" font="ZoFontGameMedium">
-								<Dimensions x="440"/>
+								<DimensionConstraints minX="440"/>
 								<Anchor point="TOPLEFT"/>
 							</Label>
 
 							<Label name="$(parent)_Rank" font="ZoFontGameMedium">
-								<Dimensions x="60"/>
+								<DimensionConstraints minX="60"/>
 								<Anchor point="TOPRIGHT" relativeTo="$(parent)_Name" offsetX="20"/>
 							</Label>
 
