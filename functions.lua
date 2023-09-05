@@ -34,12 +34,16 @@ function NEAR_SR.func.GetSkillLineMaxRank(skillType, skillLineIndex)
     local skillLineId = GetSkillLineId(skillType, skillLineIndex)
 
     local LEGERDEMAIN      = GetSkillLineId(SKILL_TYPE_WORLD, 2)
+    local SOUL_MAGIC       = GetSkillLineId(SKILL_TYPE_WORLD, 4)
     local DARK_BROTHERHOOD = GetSkillLineId(SKILL_TYPE_GUILD, 1)
     local THIEVES_GUILD    = GetSkillLineId(SKILL_TYPE_GUILD, 5)
 
 	if skillType == SKILL_TYPE_WORLD or skillType == SKILL_TYPE_GUILD or skillType == SKILL_TYPE_AVA then
         if skillLineId == LEGERDEMAIN then
             return 20
+        end
+        if skillLineId == SOUL_MAGIC then
+            return 6
         end
 		if skillLineId == THIEVES_GUILD or skillLineId == DARK_BROTHERHOOD then
 			return 12

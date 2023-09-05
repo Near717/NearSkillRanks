@@ -35,5 +35,6 @@
         "param-type-mismatch",
         "undefined-doc-name",
         "missing-parameter",
+        "undefined-field"
     ]
 }
