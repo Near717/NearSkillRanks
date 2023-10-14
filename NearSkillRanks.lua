@@ -12,7 +12,7 @@ NEAR_SR.SKILL_TYPE_TRADESKILL = 7
 function NEAR_SR.RegisterSlashCommands()
 	-- toggle window
 	SLASH_COMMANDS["/sr"] = NEAR_SR.gui.ToggleWindow
-	SLASH_COMMANDS["/srq"] = NEAR_SR.gui.summary.ToggleWindow
+	SLASH_COMMANDS["/srq"] = NEAR_SR.gui.quick.ToggleWindow
 end
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------

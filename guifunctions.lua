@@ -9,12 +9,12 @@ function NEAR_SR.gui.Init()
 	addon.gui.CreateList_SkillLine()
 	addon.gui.UpdateList_abilities()
 
-	local control = GetControl("NSR_GUI_MAIN_skilldata_ShowSummary")
+	local control = GetControl("NSR_GUI_MAIN_skilldata_ShowQuick")
 	control:SetText(GetString(NEARSR_quick))
 
-	addon.gui.summary.CreateControls()
-	addon.gui.summary.CreateLines()
-	addon.gui.summary.CreateListChar()
+	addon.gui.quick.CreateControls()
+	addon.gui.quick.CreateLines()
+	addon.gui.quick.CreateListChar()
 end
 
 -- Show or hide the window
@@ -615,42 +615,42 @@ end
 
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
--- skill line summary functions
+-- skill line quick view functions
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-NEAR_SR.gui.summary = {}
+NEAR_SR.gui.quick = {}
 local first_time = true
 local selected_page = 1
 ---------------------------------------------------------------------------------
 
 -- Show or hide the window
-function NEAR_SR.gui.summary.ToggleWindow()
-	NSR_SUM:ToggleHidden()
+function NEAR_SR.gui.quick.ToggleWindow()
+	NSR_QUICK:ToggleHidden()
 end
 
 -- OnShow update window data
-function NEAR_SR.gui.summary.OnShow()
+function NEAR_SR.gui.quick.OnShow()
 
 	if first_time then
 		-- add a margin bellow
-		local control = GetControl("NSR_SUM")
+		local control = GetControl("NSR_QUICK")
 		local current = control:GetHeight()
 		control:SetHeight(current + 10)
 
 		first_time = false
 	end
 
-	NEAR_SR.gui.summary.UpdateList(selected_page)
+	NEAR_SR.gui.quick.UpdateList(selected_page)
 end
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-function NEAR_SR.gui.summary.CreateListChar()
+function NEAR_SR.gui.quick.CreateListChar()
 
 	for i, charData in ipairs(addon.charData) do
 		local name = charData.charName
 
-		local control = GetControl("NSR_SUM_MAIN_List_Row" .. i .. "_Name")
+		local control = GetControl("NSR_QUICK_MAIN_List_Row" .. i .. "_Name")
 		control:SetText(name)
 
 		if charData.charId == GetCurrentCharacterId() then
@@ -661,21 +661,21 @@ function NEAR_SR.gui.summary.CreateListChar()
 	end
 end
 
-function NEAR_SR.gui.summary.UpdateList(page)
+function NEAR_SR.gui.quick.UpdateList(page)
 	selected_page = page
 
 	-- Determine which control to show based on the selected page
 	local showPage1 = (page == 1)
 
 	-- Show/hide the appropriate controls
-	local controlSkills1 = GetControl("NSR_SUM_HEADER_Skills1")
-	local controlSkills2 = GetControl("NSR_SUM_HEADER_Skills2")
+	local controlSkills1 = GetControl("NSR_QUICK_HEADER_Skills1")
+	local controlSkills2 = GetControl("NSR_QUICK_HEADER_Skills2")
 	controlSkills1:SetHidden(not showPage1)
 	controlSkills2:SetHidden(showPage1)
 
 	-- Update page textures based on the selected page
-	local controlPage1 = GetControl("NSR_SUM_PAGE_Page1")
-	local controlPage2 = GetControl("NSR_SUM_PAGE_Page2")
+	local controlPage1 = GetControl("NSR_QUICK_PAGE_Page1")
+	local controlPage2 = GetControl("NSR_QUICK_PAGE_Page2")
 	if showPage1 then
 		controlPage1:SetNormalTexture("/esoui/art/guild/tabicon_roster_down.dds")
 		controlPage2:SetNormalTexture("/esoui/art/guild/tabicon_roster_up.dds")
@@ -685,11 +685,11 @@ function NEAR_SR.gui.summary.UpdateList(page)
 	end
 
 	-- Update controls information based on selected page
-	addon.gui.summary.CreateList(page)
+	addon.gui.quick.CreateList(page)
 
 end
 
-function NEAR_SR.gui.summary.CreateList(page)
+function NEAR_SR.gui.quick.CreateList(page)
 
 	local function updateRanks(skillTypes)
 		for i, charData in ipairs(addon.charData) do
@@ -733,7 +733,7 @@ function NEAR_SR.gui.summary.CreateList(page)
 					end
 
 					i2 = i2 + 1
-					local control = GetControl("NSR_SUM_MAIN_List_Row" .. i .. "_Skill" .. i2)
+					local control = GetControl("NSR_QUICK_MAIN_List_Row" .. i .. "_Skill" .. i2)
 					control:SetText(rank)
 					control:SetColor(r,g,b,a)
 
@@ -746,7 +746,7 @@ function NEAR_SR.gui.summary.CreateList(page)
 
 			-- Clear remaining skill cells if fewer than 19 skills are present
 			for i2 = i2 + 1, 19 do
-				local control = GetControl("NSR_SUM_MAIN_List_Row" .. i .. "_Skill" .. i2)
+				local control = GetControl("NSR_QUICK_MAIN_List_Row" .. i .. "_Skill" .. i2)
 				control:SetText("")
 			end
 		end
@@ -764,10 +764,10 @@ end
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-function NEAR_SR.gui.summary.CreateLines()
+function NEAR_SR.gui.quick.CreateLines()
 
 	for i = 0, 19 do
-		local parent = "NSR_SUM_HEADER"
+		local parent = "NSR_QUICK_HEADER"
 		local control = GetControl(parent)
 		control:CreateControl(parent .. "_line" .. i, CT_LINE)
 
@@ -777,12 +777,12 @@ function NEAR_SR.gui.summary.CreateLines()
 		control:SetThickness(2)
 
 		local offsetX = i == 0 and 200 or i * 30 + 200
-		control:SetAnchor(TOPLEFT, GetControl("NSR_SUM_HEADER"), TOPLEFT, offsetX, 0)
-		control:SetAnchor(BOTTOMLEFT, GetControl("NSR_SUM_MAIN"), BOTTOMLEFT, offsetX, 0)
+		control:SetAnchor(TOPLEFT, GetControl("NSR_QUICK_HEADER"), TOPLEFT, offsetX, 0)
+		control:SetAnchor(BOTTOMLEFT, GetControl("NSR_QUICK_MAIN"), BOTTOMLEFT, offsetX, 0)
 	end
 
 	for i = 0, #addon.charData do
-		local parent = "NSR_SUM_MAIN"
+		local parent = "NSR_QUICK_MAIN"
 		local control = GetControl(parent)
 		control:CreateControl(parent .. "_line" .. i, CT_LINE)
 
@@ -792,28 +792,28 @@ function NEAR_SR.gui.summary.CreateLines()
 		control:SetThickness(2)
 
 		local offsetY = i == 0 and 0 or i * 30
-		control:SetAnchor(TOPLEFT, GetControl("NSR_SUM_MAIN"), TOPLEFT, 10, offsetY)
-		control:SetAnchor(TOPRIGHT, GetControl("NSR_SUM_MAIN"), TOPRIGHT, 0, offsetY)
+		control:SetAnchor(TOPLEFT, GetControl("NSR_QUICK_MAIN"), TOPLEFT, 10, offsetY)
+		control:SetAnchor(TOPRIGHT, GetControl("NSR_QUICK_MAIN"), TOPRIGHT, 0, offsetY)
 	end
 
 end
 
-function NEAR_SR.gui.summary.CreateControls()
+function NEAR_SR.gui.quick.CreateControls()
 
-	CreateControl("NSR_SUM_MAIN_".."List", GetControl("NSR_SUM_MAIN"), CT_CONTROL)
-	local control = GetControl("NSR_SUM_MAIN_List")
-    control:SetAnchor(TOPLEFT, GetControl("NSR_SUM_MAIN"), TOPLEFT, 0, 0)
+	CreateControl("NSR_QUICK_MAIN_".."List", GetControl("NSR_QUICK_MAIN"), CT_CONTROL)
+	local control = GetControl("NSR_QUICK_MAIN_List")
+    control:SetAnchor(TOPLEFT, GetControl("NSR_QUICK_MAIN"), TOPLEFT, 0, 0)
 	control:SetResizeToFitDescendents(true)
 
 	local previous_control = control
 
 	for i = 1, #addon.charData do
-		CreateControl("NSR_SUM_MAIN_List_Row" .. i, GetControl("NSR_SUM_MAIN_List"), CT_CONTROL)
+		CreateControl("NSR_QUICK_MAIN_List_Row" .. i, GetControl("NSR_QUICK_MAIN_List"), CT_CONTROL)
 
     	local targetControl = previous_control
     	local targetPos = i == 1 and TOPLEFT or BOTTOMLEFT
 		local offsetX = i == 1 and 20 or 0
-    	control = GetControl("NSR_SUM_MAIN_List_Row" .. i)
+    	control = GetControl("NSR_QUICK_MAIN_List_Row" .. i)
     	control:SetAnchor(TOPLEFT, targetControl, targetPos, offsetX, 0)
 		control:SetResizeToFitDescendents(true)
 		control:SetDimensionConstraints(0, 30)
@@ -824,10 +824,10 @@ function NEAR_SR.gui.summary.CreateControls()
 	previous_control = nil
 
 	for i = 1, #addon.charData do
-		CreateControl("NSR_SUM_MAIN_List_Row" .. i .. "_Name", GetControl("NSR_SUM_MAIN_List_Row" .. i), CT_LABEL)
-		local targetControl = i == 1 and GetControl("NSR_SUM_MAIN_List_Row" .. i) or previous_control
+		CreateControl("NSR_QUICK_MAIN_List_Row" .. i .. "_Name", GetControl("NSR_QUICK_MAIN_List_Row" .. i), CT_LABEL)
+		local targetControl = i == 1 and GetControl("NSR_QUICK_MAIN_List_Row" .. i) or previous_control
     	local targetPos = i == 1 and TOPLEFT or BOTTOMLEFT
-		control = GetControl("NSR_SUM_MAIN_List_Row" .. i .. "_Name")
+		control = GetControl("NSR_QUICK_MAIN_List_Row" .. i .. "_Name")
     	control:SetAnchor(TOPLEFT, targetControl, targetPos, 0, 0)
 		control:SetDimensions(180, 30)
 		control:SetHorizontalAlignment(TEXT_ALIGN_LEFT)
@@ -839,9 +839,9 @@ function NEAR_SR.gui.summary.CreateControls()
 		local previous_control_skill = nil
 
 		for i2 = 1, 19 do
-			CreateControl("NSR_SUM_MAIN_List_Row" .. i .. "_Skill" .. i2, GetControl("NSR_SUM_MAIN_List_Row" .. i), CT_LABEL)
+			CreateControl("NSR_QUICK_MAIN_List_Row" .. i .. "_Skill" .. i2, GetControl("NSR_QUICK_MAIN_List_Row" .. i), CT_LABEL)
 			targetControl = previous_control_skill or previous_control
-			control = GetControl("NSR_SUM_MAIN_List_Row" .. i .. "_Skill" .. i2)
+			control = GetControl("NSR_QUICK_MAIN_List_Row" .. i .. "_Skill" .. i2)
 			control:SetAnchor(TOPLEFT, targetControl, TOPRIGHT, 0, 0)
 			control:SetDimensions(30, 30)
 			control:SetHorizontalAlignment(TEXT_ALIGN_CENTER)

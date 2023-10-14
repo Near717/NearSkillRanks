@@ -66,10 +66,10 @@
 									<Anchor point="TOPLEFT" relativeTo="$(parent)_SkillType" relativePoint="BOTTOMLEFT" offsetY="5"/>
                         		</Control>
 
-								<Button name="$(parent)_ShowSummary" font="ZoFontGameMedium">
+								<Button name="$(parent)_ShowQuick" font="ZoFontGameMedium">
 									<Dimensions x="280" y="30"/>
 									<Anchor point="TOPLEFT" relativeTo="$(parent)_SkillLine" relativePoint="BOTTOMLEFT" offsetY="100"/>
-									<OnClicked>NEAR_SR.gui.summary.ToggleWindow()</OnClicked>
+									<OnClicked>NEAR_SR.gui.quick.ToggleWindow()</OnClicked>
                         		</Button>
 
 							</Controls>
@@ -101,12 +101,12 @@
         </TopLevelControl>
 
 
-        <TopLevelControl name="NSR_SUM" mouseEnabled="true" movable="true" clampedToScreen="true" hidden="true" resizeToFitDescendents="true" tier="MEDIUM" level="1">
+        <TopLevelControl name="NSR_QUICK" mouseEnabled="true" movable="true" clampedToScreen="true" hidden="true" resizeToFitDescendents="true" tier="MEDIUM" level="1">
             <DimensionConstraints minX="850" minY="100"/>
             <Anchor point="CENTER"/>
 
 			<OnShow>
-				NEAR_SR.gui.summary.OnShow()
+				NEAR_SR.gui.quick.OnShow()
 			</OnShow>
 
             <Controls>
@@ -125,7 +125,7 @@
 							<Dimensions x="20" y="20"/>
 							<Anchor point="TOPRIGHT" relativeTo="$(parent)" relativePoint="TOPRIGHT" offsetX="-15" offsetY="5"/>
 							<Textures normal="/esoui/art/buttons/decline_up.dds" pressed="/esoui/art/buttons/decline_down.dds" mouseOver="/esoui/art/buttons/decline_over.dds"/>
-							<OnClicked>NSR_SUM:SetHidden(true)</OnClicked>
+							<OnClicked>NSR_QUICK:SetHidden(true)</OnClicked>
 						</Button>
 
 						<Label name="$(parent)_Name" font="ZoFontGameMedium" text="Character name" horizontalAlignment="LEFT" verticalAlignment="CENTER" color="INTERFACE_COLOR_TYPE_TEXT_COLORS:INTERFACE_TEXT_COLOR_NORMAL">
@@ -472,7 +472,7 @@
 							<Dimensions x="30" y="30"/>
 							<Anchor point="TOPRIGHT" relativeTo="$(parent)" relativePoint="TOPRIGHT" offsetX="-10"/>
 							<Textures normal="/esoui/art/guild/tabicon_roster_down.dds" pressed="/esoui/art/guild/tabicon_roster_down.dds" mouseOver="/esoui/art/guild/tabicon_roster_over.dds"/>
-							<OnClicked>NEAR_SR.gui.summary.UpdateList(1)</OnClicked>
+							<OnClicked>NEAR_SR.gui.quick.UpdateList(1)</OnClicked>
 						</Button>
 
 						<!-- <Label name="$(parent)_Page1_label" text="1" font="$(BOLD_FONT)|$(KB_20)|soft-shadow-thick" horizontalAlignment="RIGHT" verticalAlignment="BOTTOM">
@@ -483,7 +483,7 @@
 							<Dimensions x="30" y="30"/>
 							<Anchor point="TOPRIGHT" relativeTo="$(parent)_Page1" relativePoint="BOTTOMRIGHT"/>
 							<Textures normal="/esoui/art/tutorial/tabicon_roster_up.dds" pressed="/esoui/art/guild/tabicon_roster_down.dds" mouseOver="/esoui/art/guild/tabicon_roster_over.dds"/>
-							<OnClicked>NEAR_SR.gui.summary.UpdateList(2)</OnClicked>
+							<OnClicked>NEAR_SR.gui.quick.UpdateList(2)</OnClicked>
 						</Button>
 
 						<!-- <Label name="$(parent)_Page2_label" text="2" font="$(BOLD_FONT)|$(KB_20)|soft-shadow-thick" horizontalAlignment="RIGHT" verticalAlignment="BOTTOM">

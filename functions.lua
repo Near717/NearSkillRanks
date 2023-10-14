@@ -93,8 +93,9 @@ function NEAR_SR.func.CreateCharData(skillType)
     local charId = GetCurrentCharacterId()
     local classId = GetUnitClassId("player")
 
-    -- if addon.ASV.char[charId] ~= nil and type(addon.ASV.char[charId][skillType]) == "table" then return end -- character already has data for this skilltype, exit early and use events to update later
-    -- if type(addon.ASV.char[charId][skillType]) == "table" then return end -- character already has data for this skilltype, exit early and use events to update later
+    -- not in use so that a rank updated without the addon will be updated on start
+    --[[ if addon.ASV.char[charId] ~= nil and type(addon.ASV.char[charId][skillType]) == "table" then return end -- character already has data for this skilltype, exit early and use events to update later
+    if type(addon.ASV.char[charId][skillType]) == "table" then return end -- character already has data for this skilltype, exit early and use events to update later ]]
 
     addon.ASV.char[charId] = addon.defaults_char -- add default table for charId
 
