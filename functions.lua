@@ -54,7 +54,7 @@ function NEAR_SR.func.GetSkillLineMaxRank(skillType, skillLineIndex)
 end
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
-local t_skillType = {
+local skillTypeIndexes = {
     SKILL_TYPE_CLASS,
     SKILL_TYPE_WEAPON,
     SKILL_TYPE_ARMOR,
@@ -67,7 +67,7 @@ local t_skillType = {
 
 function NEAR_SR.func.Init()
     addon.func.UpdateCharList()
-    for _, v in ipairs(t_skillType) do
+    for _, v in ipairs(skillTypeIndexes) do
         addon.func.CreateCharData(v)
     end
 end

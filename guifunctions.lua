@@ -51,7 +51,7 @@ local selected_skillLine_name = nil
 local selectedSkillLine_abilities_name = nil
 local selectedSkillLine_abilities_rank = nil
 ---------------------------------------------------------------------------------
-local t_skillLineMax = {
+local skillLineMaxIndexes = {
 	[SKILL_TYPE_CLASS]		= 3,
 	[SKILL_TYPE_WEAPON]		= 6,
 	[SKILL_TYPE_ARMOR]		= 3,
@@ -242,7 +242,7 @@ function NEAR_SR.gui.CreateList_SkillLine()
 
 		local prefix, mid = "Lv ", ' '
 
-		for skillLineIndex = 1, t_skillLineMax[selected_skillType], 1 do
+		for skillLineIndex = 1, skillLineMaxIndexes[selected_skillType], 1 do
 
 			if selected_skillType ~= SKILL_TYPE_CLASS then
 				local sv_skillLine = sv_char[selected_skillType][skillLineIndex]
@@ -703,7 +703,7 @@ function NEAR_SR.gui.quick.CreateList(page)
             	    charSkillData = {} -- Define an empty table if the data is not available
             	end
 
-				for skillLineIndex = 1, t_skillLineMax[skillType] do
+				for skillLineIndex = 1, skillLineMaxIndexes[skillType] do
 					local rank
 					if skillType == SKILL_TYPE_CLASS then
 						if charSkillData[classId] and charSkillData[classId][skillLineIndex] then
