@@ -2,10 +2,10 @@
 	<Layer name="SI_KEYBINDINGS_LAYER_GENERAL">
 		<Category name="Near's Skill Ranks">
 			<Action name="NSR_toggle">
-				<Up>NEAR_SR.gui.ToggleWindow()</Up>
+				<Down>NEAR_SR.gui.ToggleWindow()</Down>
 			</Action>
 			<Action name="NSR_toggle2">
-				<Up>NEAR_SR.gui.quick.ToggleWindow()</Up>
+				<Down>NEAR_SR.gui.quick.ToggleWindow()</Down>
 			</Action>
 		</Category>
 	</Layer>
