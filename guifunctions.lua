@@ -29,11 +29,11 @@ end
 
 -- OnShow update window data
 function NEAR_SR.gui.OnShow()
-    NEAR_SR.gui.UpdateWindowData()
+	NEAR_SR.gui.UpdateWindowData()
 end
 
 function NEAR_SR.gui.UpdateWindowData()
-    addon.gui.UpdateList_SkillLine()
+	addon.gui.UpdateList_SkillLine()
 	addon.gui.UpdateList_abilities()
 end
 
@@ -74,7 +74,7 @@ local function SetSelectedChar(charName)
 end
 
 function NEAR_SR.gui.CreateList_Char()
-    local sv = addon.ASV.settings
+	local sv = addon.ASV.settings
 
 	NSR_GUI_MAIN_skilldata.comboBox = NSR_GUI_MAIN_skilldata.comboBox or ZO_ComboBox_ObjectFromContainer(NSR_GUI_MAIN_skilldata:GetNamedChild("_CharList"))
 	local NSR_comboBox = NSR_GUI_MAIN_skilldata.comboBox
@@ -92,7 +92,7 @@ function NEAR_SR.gui.CreateList_Char()
 		if GetCurrentCharacterId() == addon.charData[k].charId then
 			selectedChar_name = addon.charData[k].charName
 			addon.gui.selectedChar_charId = addon.charData[k].charId
-            addon.gui.selectedChar_classId = addon.charData[k].classId
+			addon.gui.selectedChar_classId = addon.charData[k].classId
 		end
 	end
 
@@ -699,9 +699,9 @@ function NEAR_SR.gui.quick.CreateList(page)
 
 			for _, skillType in ipairs(skillTypes) do
 				local charSkillData = addon.ASV.char[charId] and addon.ASV.char[charId][skillType]
-            	if not charSkillData then
-            	    charSkillData = {} -- Define an empty table if the data is not available
-            	end
+				if not charSkillData then
+					charSkillData = {} -- Define an empty table if the data is not available
+				end
 
 				for skillLineIndex = 1, skillLineMaxIndexes[skillType] do
 					local rank
@@ -802,7 +802,7 @@ function NEAR_SR.gui.quick.CreateControls()
 
 	CreateControl("NSR_QUICK_MAIN_".."List", GetControl("NSR_QUICK_MAIN"), CT_CONTROL)
 	local control = GetControl("NSR_QUICK_MAIN_List")
-    control:SetAnchor(TOPLEFT, GetControl("NSR_QUICK_MAIN"), TOPLEFT, 0, 0)
+	control:SetAnchor(TOPLEFT, GetControl("NSR_QUICK_MAIN"), TOPLEFT, 0, 0)
 	control:SetResizeToFitDescendents(true)
 
 	local previous_control = control
@@ -810,11 +810,11 @@ function NEAR_SR.gui.quick.CreateControls()
 	for i = 1, #addon.charData do
 		CreateControl("NSR_QUICK_MAIN_List_Row" .. i, GetControl("NSR_QUICK_MAIN_List"), CT_CONTROL)
 
-    	local targetControl = previous_control
-    	local targetPos = i == 1 and TOPLEFT or BOTTOMLEFT
+		local targetControl = previous_control
+		local targetPos = i == 1 and TOPLEFT or BOTTOMLEFT
 		local offsetX = i == 1 and 20 or 0
-    	control = GetControl("NSR_QUICK_MAIN_List_Row" .. i)
-    	control:SetAnchor(TOPLEFT, targetControl, targetPos, offsetX, 0)
+		control = GetControl("NSR_QUICK_MAIN_List_Row" .. i)
+		control:SetAnchor(TOPLEFT, targetControl, targetPos, offsetX, 0)
 		control:SetResizeToFitDescendents(true)
 		control:SetDimensionConstraints(0, 30)
 
@@ -826,9 +826,9 @@ function NEAR_SR.gui.quick.CreateControls()
 	for i = 1, #addon.charData do
 		CreateControl("NSR_QUICK_MAIN_List_Row" .. i .. "_Name", GetControl("NSR_QUICK_MAIN_List_Row" .. i), CT_LABEL)
 		local targetControl = i == 1 and GetControl("NSR_QUICK_MAIN_List_Row" .. i) or previous_control
-    	local targetPos = i == 1 and TOPLEFT or BOTTOMLEFT
+		local targetPos = i == 1 and TOPLEFT or BOTTOMLEFT
 		control = GetControl("NSR_QUICK_MAIN_List_Row" .. i .. "_Name")
-    	control:SetAnchor(TOPLEFT, targetControl, targetPos, 0, 0)
+		control:SetAnchor(TOPLEFT, targetControl, targetPos, 0, 0)
 		control:SetDimensions(180, 30)
 		control:SetHorizontalAlignment(TEXT_ALIGN_LEFT)
 		control:SetVerticalAlignment(TEXT_ALIGN_CENTER)

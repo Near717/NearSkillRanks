@@ -31,9 +31,9 @@ local function OnAddonLoaded(event, name)
 	addon.RegisterSlashCommands()
 
 	-- Events
-    EVENT_MANAGER:RegisterForEvent(addon.name, EVENT_ABILITY_PROGRESSION_RANK_UPDATE,   NEAR_SR.func.OnMorphRankUpdate)
-    EVENT_MANAGER:RegisterForEvent(addon.name, EVENT_SKILL_RANK_UPDATE,                 NEAR_SR.func.OnSkillRankUpdate)
-    EVENT_MANAGER:RegisterForEvent(addon.name, EVENT_SKILL_LINE_ADDED,                  NEAR_SR.func.OnSkillLineAdded)
+	EVENT_MANAGER:RegisterForEvent(addon.name, EVENT_ABILITY_PROGRESSION_RANK_UPDATE,   NEAR_SR.func.OnMorphRankUpdate)
+	EVENT_MANAGER:RegisterForEvent(addon.name, EVENT_SKILL_RANK_UPDATE,                 NEAR_SR.func.OnSkillRankUpdate)
+	EVENT_MANAGER:RegisterForEvent(addon.name, EVENT_SKILL_LINE_ADDED,                  NEAR_SR.func.OnSkillLineAdded)
 
 end
 
