@@ -822,27 +822,27 @@ NEAR_SR.skilldata = {
                 [1] = { id = 83229, name = zo_strformat("<<C:1>>", GetAbilityName(83229)), }, --
                 [2] = { id = 83238, name = zo_strformat("<<C:1>>", GetAbilityName(83238)), }, --
             },
-            [2] = { --
+            [3] = { --
                 [0] = { id = 28279, name = zo_strformat("<<C:1>>", GetAbilityName(28279)), }, --
                 [1] = { id = 38814, name = zo_strformat("<<C:1>>", GetAbilityName(38814)), }, --
                 [2] = { id = 38807, name = zo_strformat("<<C:1>>", GetAbilityName(38807)), }, --
             },
-            [3] = { --
+            [4] = { --
                 [0] = { id = 28448, name = zo_strformat("<<C:1>>", GetAbilityName(28448)), }, --
                 [1] = { id = 38788, name = zo_strformat("<<C:1>>", GetAbilityName(38788)), }, --
                 [2] = { id = 38778, name = zo_strformat("<<C:1>>", GetAbilityName(38778)), }, --
             },
-            [4] = { --
+            [5] = { --
                 [0] = { id = 20919, name = zo_strformat("<<C:1>>", GetAbilityName(20919)), }, --
                 [1] = { id = 38745, name = zo_strformat("<<C:1>>", GetAbilityName(38745)), }, --
                 [2] = { id = 38754, name = zo_strformat("<<C:1>>", GetAbilityName(38754)), }, --
             },
-            [5] = { --
+            [6] = { --
                 [0] = { id = 28302, name = zo_strformat("<<C:1>>", GetAbilityName(28302)), }, --
                 [1] = { id = 38823, name = zo_strformat("<<C:1>>", GetAbilityName(38823)), }, --
                 [2] = { id = 38819, name = zo_strformat("<<C:1>>", GetAbilityName(38819)), }, --
             },
-            [6] = { --
+            [7] = { --
                 [0] = { id = 28297, name = zo_strformat("<<C:1>>", GetAbilityName(28297)), }, --
                 [1] = { id = 38794, name = zo_strformat("<<C:1>>", GetAbilityName(38794)), }, --
                 [2] = { id = 38802, name = zo_strformat("<<C:1>>", GetAbilityName(38802)), }, --
@@ -856,27 +856,27 @@ NEAR_SR.skilldata = {
                 [1] = { id = 83292, name = zo_strformat("<<C:1>>", GetAbilityName(83292)), }, --
                 [2] = { id = 83310, name = zo_strformat("<<C:1>>", GetAbilityName(83310)), }, --
             },
-            [2] = { --
+            [3] = { --
                 [0] = { id = 28306, name = zo_strformat("<<C:1>>", GetAbilityName(28306)), }, --
                 [1] = { id = 38256, name = zo_strformat("<<C:1>>", GetAbilityName(38256)), }, --
                 [2] = { id = 38250, name = zo_strformat("<<C:1>>", GetAbilityName(38250)), }, --
             },
-            [3] = { --
+            [4] = { --
                 [0] = { id = 28304, name = zo_strformat("<<C:1>>", GetAbilityName(28304)), }, --
                 [1] = { id = 38268, name = zo_strformat("<<C:1>>", GetAbilityName(38268)), }, --
                 [2] = { id = 38264, name = zo_strformat("<<C:1>>", GetAbilityName(38264)), }, --
             },
-            [4] = { --
+            [5] = { --
                 [0] = { id = 28727, name = zo_strformat("<<C:1>>", GetAbilityName(28727)), }, --
                 [1] = { id = 38312, name = zo_strformat("<<C:1>>", GetAbilityName(38312)), }, --
                 [2] = { id = 38317, name = zo_strformat("<<C:1>>", GetAbilityName(38317)), }, --
             },
-            [5] = { --
+            [6] = { --
                 [0] = { id = 28719, name = zo_strformat("<<C:1>>", GetAbilityName(28719)), }, --
                 [1] = { id = 38401, name = zo_strformat("<<C:1>>", GetAbilityName(38401)), }, --
                 [2] = { id = 38405, name = zo_strformat("<<C:1>>", GetAbilityName(38405)), }, --
             },
-            [6] = { --
+            [7] = { --
                 [0] = { id = 28365, name = zo_strformat("<<C:1>>", GetAbilityName(28365)), }, --
                 [1] = { id = 38455, name = zo_strformat("<<C:1>>", GetAbilityName(38455)), }, --
                 [2] = { id = 38452, name = zo_strformat("<<C:1>>", GetAbilityName(38452)), }, --
@@ -890,27 +890,27 @@ NEAR_SR.skilldata = {
                 [1] = { id = 85187, name = zo_strformat("<<C:1>>", GetAbilityName(85187)), }, --
                 [2] = { id = 85179, name = zo_strformat("<<C:1>>", GetAbilityName(85179)), }, --
             },
-            [2] = { --
+            [3] = { --
                 [0] = { id = 28607, name = zo_strformat("<<C:1>>", GetAbilityName(28607)), }, --
                 [1] = { id = 38857, name = zo_strformat("<<C:1>>", GetAbilityName(38857)), }, --
                 [2] = { id = 38846, name = zo_strformat("<<C:1>>", GetAbilityName(38846)), }, --
             },
-            [3] = { --
+            [4] = { --
                 [0] = { id = 28379, name = zo_strformat("<<C:1>>", GetAbilityName(28379)), }, --
                 [1] = { id = 38839, name = zo_strformat("<<C:1>>", GetAbilityName(38839)), }, --
                 [2] = { id = 38845, name = zo_strformat("<<C:1>>", GetAbilityName(38845)), }, --
             },
-            [4] = { --
+            [5] = { --
                 [0] = { id = 28591, name = zo_strformat("<<C:1>>", GetAbilityName(28591)), }, --
                 [1] = { id = 38891, name = zo_strformat("<<C:1>>", GetAbilityName(38891)), }, --
                 [2] = { id = 38861, name = zo_strformat("<<C:1>>", GetAbilityName(38861)), }, --
             },
-            [5] = { --
+            [6] = { --
                 [0] = { id = 28613, name = zo_strformat("<<C:1>>", GetAbilityName(28613)), }, --
                 [1] = { id = 38901, name = zo_strformat("<<C:1>>", GetAbilityName(38901)), }, --
                 [2] = { id = 38906, name = zo_strformat("<<C:1>>", GetAbilityName(38906)), }, --
             },
-            [6] = { --
+            [7] = { --
                 [0] = { id = 21157, name = zo_strformat("<<C:1>>", GetAbilityName(21157)), }, --
                 [1] = { id = 38914, name = zo_strformat("<<C:1>>", GetAbilityName(38914)), }, --
                 [2] = { id = 38910, name = zo_strformat("<<C:1>>", GetAbilityName(38910)), }, --
@@ -924,27 +924,27 @@ NEAR_SR.skilldata = {
                 [1] = { id = 85257, name = zo_strformat("<<C:1>>", GetAbilityName(85257)), }, --
                 [2] = { id = 85451, name = zo_strformat("<<C:1>>", GetAbilityName(85451)), }, --
             },
-            [2] = { --
+            [3] = { --
                 [0] = { id = 28882, name = zo_strformat("<<C:1>>", GetAbilityName(28882)), }, --
                 [1] = { id = 38685, name = zo_strformat("<<C:1>>", GetAbilityName(38685)), }, --
                 [2] = { id = 38687, name = zo_strformat("<<C:1>>", GetAbilityName(38687)), }, --
             },
-            [3] = { --
+            [4] = { --
                 [0] = { id = 28876, name = zo_strformat("<<C:1>>", GetAbilityName(28876)), }, --
                 [1] = { id = 38689, name = zo_strformat("<<C:1>>", GetAbilityName(38689)), }, --
                 [2] = { id = 38695, name = zo_strformat("<<C:1>>", GetAbilityName(38695)), }, --
             },
-            [4] = { --
+            [5] = { --
                 [0] = { id = 28879, name = zo_strformat("<<C:1>>", GetAbilityName(28879)), }, --
                 [1] = { id = 38672, name = zo_strformat("<<C:1>>", GetAbilityName(38672)), }, --
                 [2] = { id = 38669, name = zo_strformat("<<C:1>>", GetAbilityName(38669)), }, --
             },
-            [5] = { --
+            [6] = { --
                 [0] = { id = 31271, name = zo_strformat("<<C:1>>", GetAbilityName(31271)), }, --
                 [1] = { id = 38705, name = zo_strformat("<<C:1>>", GetAbilityName(38705)), }, --
                 [2] = { id = 38701, name = zo_strformat("<<C:1>>", GetAbilityName(38701)), }, --
             },
-            [6] = { --
+            [7] = { --
                 [0] = { id = 28869, name = zo_strformat("<<C:1>>", GetAbilityName(28869)), }, --
                 [1] = { id = 38645, name = zo_strformat("<<C:1>>", GetAbilityName(38645)), }, --
                 [2] = { id = 38660, name = zo_strformat("<<C:1>>", GetAbilityName(38660)), }, --
@@ -958,27 +958,27 @@ NEAR_SR.skilldata = {
                 [1] = { id = 84434, name = zo_strformat("<<C:1>>", GetAbilityName(84434)), id1 = 85126, id2 = 85128, id3 = 85130, }, -- Elemental Rage - 85126 (flame) 85128 (frost) 85130 (shock)
                 [2] = { id = 83642, name = zo_strformat("<<C:1>>", GetAbilityName(83642)), id1 = 83682, id2 = 83684, id3 = 83686, }, -- Eye of the Storm - 83682 (flame) 83684 (frost) 83686 (shock)
             },
-            [2] = { -- Force Shock
+            [3] = { -- Force Shock
                 [0] = { id = 46340, name = zo_strformat("<<C:1>>", GetAbilityName(46340)), }, -- Force Shock
                 [1] = { id = 46348, name = zo_strformat("<<C:1>>", GetAbilityName(46348)), }, -- Crushing Shock
                 [2] = { id = 46356, name = zo_strformat("<<C:1>>", GetAbilityName(46356)), }, -- Force Pulse
             },
-            [3] = { -- Wall of Elements
+            [4] = { -- Wall of Elements
                 [0] = { id = 28858, name = zo_strformat("<<C:1>>", GetAbilityName(28858)), id1 = 28807, id2 = 28849, id3 = 28854, }, -- Wall of Elements - 28807 (flame) 28849 (frost) 28854 (shock)
                 [1] = { id = 39052, name = zo_strformat("<<C:1>>", GetAbilityName(39052)), id1 = 39053, id2 = 39067, id3 = 39073, }, -- Unstable Wall of Elements - 39053 (flame) 39067 (frost) 39073 (storm)
                 [2] = { id = 39011, name = zo_strformat("<<C:1>>", GetAbilityName(39011)), id1 = 39012, id2 = 39028, id3 = 39018, }, -- Elemental Blockade - 39012 (flame) 39028 (frost) 39018 (shock)
             },
-            [4] = { -- Destructive Touch
+            [5] = { -- Destructive Touch
                 [0] = { id = 29091, name = zo_strformat("<<C:1>>", GetAbilityName(29091)), id1 = 29073, id2 = 29078, id3 = 29089, }, -- Destructive Touch - 29073 (flame) 29078 (frost) 29089 (shock)
                 [1] = { id = 38984, name = zo_strformat("<<C:1>>", GetAbilityName(38984)), id1 = 38985, id2 = 38989, id3 = 38993, }, -- Destructive Clench - 38985 (flame) 38989 (frost) 38993 (shock)
                 [2] = { id = 38937, name = zo_strformat("<<C:1>>", GetAbilityName(38937)), id1 = 38944, id2 = 38970, id3 = 38978, }, -- Destructive Reach - 38944 (flame) 38970 (frost) 38978 (shock)
             },
-            [5] = { -- Weakness to Elements
+            [6] = { -- Weakness to Elements
                 [0] = { id = 29173, name = zo_strformat("<<C:1>>", GetAbilityName(29173)), }, -- Weakness to Elements
                 [1] = { id = 39089, name = zo_strformat("<<C:1>>", GetAbilityName(39089)), }, -- Elemental Susceptibility
                 [2] = { id = 39095, name = zo_strformat("<<C:1>>", GetAbilityName(39095)), }, -- Elemental Drain
             },
-            [6] = { -- Impulse
+            [7] = { -- Impulse
                 [0] = { id = 28800, name = zo_strformat("<<C:1>>", GetAbilityName(28800)), id1 = 28794, id2 = 28798, id3 = 28799, }, -- Impulse - 28794 (flame) 28798 (frost) 28799 (shock)
                 [1] = { id = 39143, name = zo_strformat("<<C:1>>", GetAbilityName(39143)), id1 = 39145, id2 = 39146, id3 = 39147, }, -- Elemental Ring - 39145 (flame) 39146 (frost) 39147 (shock)
                 [2] = { id = 39161, name = zo_strformat("<<C:1>>", GetAbilityName(39161)), id1 = 39162, id2 = 39163, id3 = 39167, }, -- Pulsar - 39162 (flame) 39163 (frost) 39167 (shock)
@@ -992,27 +992,27 @@ NEAR_SR.skilldata = {
                 [1] = { id = 83850, name = zo_strformat("<<C:1>>", GetAbilityName(83850)), }, --
                 [2] = { id = 85132, name = zo_strformat("<<C:1>>", GetAbilityName(85132)), }, --
             },
-            [2] = { --
+            [3] = { --
                 [0] = { id = 28385, name = zo_strformat("<<C:1>>", GetAbilityName(28385)), }, --
                 [1] = { id = 40058, name = zo_strformat("<<C:1>>", GetAbilityName(40058)), }, --
                 [2] = { id = 40060, name = zo_strformat("<<C:1>>", GetAbilityName(40060)), }, --
             },
-            [3] = { --
+            [4] = { --
                 [0] = { id = 28536, name = zo_strformat("<<C:1>>", GetAbilityName(28536)), }, --
                 [1] = { id = 40076, name = zo_strformat("<<C:1>>", GetAbilityName(40076)), }, --
                 [2] = { id = 40079, name = zo_strformat("<<C:1>>", GetAbilityName(40079)), }, --
             },
-            [4] = { --
+            [5] = { --
                 [0] = { id = 37243, name = zo_strformat("<<C:1>>", GetAbilityName(37243)), }, --
                 [1] = { id = 40103, name = zo_strformat("<<C:1>>", GetAbilityName(40103)), }, --
                 [2] = { id = 40094, name = zo_strformat("<<C:1>>", GetAbilityName(40094)), }, --
             },
-            [5] = { --
+            [6] = { --
                 [0] = { id = 37232, name = zo_strformat("<<C:1>>", GetAbilityName(37232)), }, --
                 [1] = { id = 40130, name = zo_strformat("<<C:1>>", GetAbilityName(40130)), }, --
                 [2] = { id = 40126, name = zo_strformat("<<C:1>>", GetAbilityName(40126)), }, --
             },
-            [6] = { --
+            [7] = { --
                 [0] = { id = 31531, name = zo_strformat("<<C:1>>", GetAbilityName(31531)), }, --
                 [1] = { id = 40109, name = zo_strformat("<<C:1>>", GetAbilityName(40109)), }, --
                 [2] = { id = 40116, name = zo_strformat("<<C:1>>", GetAbilityName(40116)), }, --
@@ -1069,7 +1069,7 @@ NEAR_SR.skilldata = {
                 [1] = { id = 40420, name = zo_strformat("<<C:1>>", GetAbilityName(40420)), }, --
                 [2] = { id = 40414, name = zo_strformat("<<C:1>>", GetAbilityName(40414)), }, --
             },
-            [2] = { --
+            [4] = { --
                 [0] = { id = 26768, name = zo_strformat("<<C:1>>", GetAbilityName(26768)), }, --
                 [1] = { id = 40328, name = zo_strformat("<<C:1>>", GetAbilityName(40328)), }, --
                 [2] = { id = 40317, name = zo_strformat("<<C:1>>", GetAbilityName(40317)), }, --
@@ -1157,22 +1157,22 @@ NEAR_SR.skilldata = {
                 [1] = { id = 40161, name = zo_strformat("<<C:1>>", GetAbilityName(40161)), }, -- Flawless Dawnbreaker
                 [2] = { id = 40158, name = zo_strformat("<<C:1>>", GetAbilityName(40158)), }, -- Dawnbreaker of Smiting
             },
-            [2] = { --
+            [3] = { --
                 [0] = { id = 35721, name = zo_strformat("<<C:1>>", GetAbilityName(35721)), }, --
                 [1] = { id = 40300, name = zo_strformat("<<C:1>>", GetAbilityName(40300)), }, --
                 [2] = { id = 40336, name = zo_strformat("<<C:1>>", GetAbilityName(40336)), }, --
             },
-            [3] = { --
+            [4] = { --
                 [0] = { id = 35737, name = zo_strformat("<<C:1>>", GetAbilityName(35737)), }, --
                 [1] = { id = 40181, name = zo_strformat("<<C:1>>", GetAbilityName(40181)), }, --
                 [2] = { id = 40169, name = zo_strformat("<<C:1>>", GetAbilityName(40169)), }, --
             },
-            [4] = { -- Expert Hunter
+            [5] = { -- Expert Hunter
                 [0] = { id = 35762, name = zo_strformat("<<C:1>>", GetAbilityName(35762)), }, -- Expert Hunter
                 [1] = { id = 40194, name = zo_strformat("<<C:1>>", GetAbilityName(40194)), }, -- Evil Hunter
                 [2] = { id = 40195, name = zo_strformat("<<C:1>>", GetAbilityName(40195)), }, -- Camouflaged Hunter
             },
-            [5] = { --
+            [6] = { --
                 [0] = { id = 35750, name = zo_strformat("<<C:1>>", GetAbilityName(35750)), }, --
                 [1] = { id = 40382, name = zo_strformat("<<C:1>>", GetAbilityName(40382)), }, --
                 [2] = { id = 40372, name = zo_strformat("<<C:1>>", GetAbilityName(40372)), }, --
@@ -1186,22 +1186,22 @@ NEAR_SR.skilldata = {
                 [1] = { id = 40489, name = zo_strformat("<<C:1>>", GetAbilityName(40489)), }, --
                 [2] = { id = 40493, name = zo_strformat("<<C:1>>", GetAbilityName(40493)), }, --
             },
-            [2] = { -- Magelight
+            [3] = { -- Magelight
                 [0] = { id = 30920, name = zo_strformat("<<C:1>>", GetAbilityName(30920)), }, -- Magelight
                 [1] = { id = 40478, name = zo_strformat("<<C:1>>", GetAbilityName(40478)), }, -- Inner Light
                 [2] = { id = 40483, name = zo_strformat("<<C:1>>", GetAbilityName(40483)), }, -- Radiant Magelight
             },
-            [3] = { --
+            [4] = { --
                 [0] = { id = 28567, name = zo_strformat("<<C:1>>", GetAbilityName(28567)), }, --
                 [1] = { id = 40457, name = zo_strformat("<<C:1>>", GetAbilityName(40457)), }, --
                 [2] = { id = 40452, name = zo_strformat("<<C:1>>", GetAbilityName(40452)), }, --
             },
-            [4] = { --
+            [5] = { --
                 [0] = { id = 31632, name = zo_strformat("<<C:1>>", GetAbilityName(31632)), }, --
                 [1] = { id = 40470, name = zo_strformat("<<C:1>>", GetAbilityName(40470)), }, --
                 [2] = { id = 40465, name = zo_strformat("<<C:1>>", GetAbilityName(40465)), }, --
             },
-            [5] = { --
+            [6] = { --
                 [0] = { id = 31642, name = zo_strformat("<<C:1>>", GetAbilityName(31642)), }, --
                 [1] = { id = 40445, name = zo_strformat("<<C:1>>", GetAbilityName(40445)), }, --
                 [2] = { id = 40441, name = zo_strformat("<<C:1>>", GetAbilityName(40441)), }, --
@@ -1284,22 +1284,22 @@ NEAR_SR.skilldata = {
                 [1] = { id = 40223, name = zo_strformat("<<C:1>>", GetAbilityName(40223)), }, --
                 [2] = { id = 40220, name = zo_strformat("<<C:1>>", GetAbilityName(40220)), }, --
             },
-            [2] = { --
+            [3] = { --
                 [0] = { id = 61503, name = zo_strformat("<<C:1>>", GetAbilityName(61503)), }, --
                 [1] = { id = 61505, name = zo_strformat("<<C:1>>", GetAbilityName(61505)), }, --
                 [2] = { id = 61507, name = zo_strformat("<<C:1>>", GetAbilityName(61507)), }, --
             },
-            [3] = { --
+            [4] = { --
                 [0] = { id = 38566, name = zo_strformat("<<C:1>>", GetAbilityName(38566)), }, --
                 [1] = { id = 40211, name = zo_strformat("<<C:1>>", GetAbilityName(40211)), }, --
                 [2] = { id = 40215, name = zo_strformat("<<C:1>>", GetAbilityName(40215)), }, --
             },
-            [4] = { --
+            [5] = { --
                 [0] = { id = 33376, name = zo_strformat("<<C:1>>", GetAbilityName(33376)), }, --
                 [1] = { id = 40255, name = zo_strformat("<<C:1>>", GetAbilityName(40255)), }, --
                 [2] = { id = 40242, name = zo_strformat("<<C:1>>", GetAbilityName(40242)), }, --
             },
-            [5] = { --
+            [6] = { --
                 [0] = { id = 61487, name = zo_strformat("<<C:1>>", GetAbilityName(61487)), }, --
                 [1] = { id = 61491, name = zo_strformat("<<C:1>>", GetAbilityName(61491)), }, --
                 [2] = { id = 61500, name = zo_strformat("<<C:1>>", GetAbilityName(61500)), }, --

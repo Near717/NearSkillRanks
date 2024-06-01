@@ -314,6 +314,40 @@ function NEAR_SR.gui.UpdateList_abilities()
 	NSR_GUI_MAIN_Abilities_Rank:SetText(selectedSkillLine_abilities_rank)
 end
 
+local function buildData(numSkills, sd_skillLine, sv_skillLine)
+	local indent = '     '
+
+	selectedSkillLine_abilities_name = sd_skillLine.name .. '\n\n'
+	for i = 1, numSkills do
+		if sd_skillLine[i] ~= nil then
+			selectedSkillLine_abilities_name = selectedSkillLine_abilities_name .. 'Name: ' .. sd_skillLine[i][0].name .. '\n'
+			if sd_skillLine[i][1] ~= nil then
+				selectedSkillLine_abilities_name = selectedSkillLine_abilities_name .. indent .. 'Name: ' .. sd_skillLine[i][1].name .. '\n'
+			end
+			if sd_skillLine[i][2] ~= nil then
+				selectedSkillLine_abilities_name = selectedSkillLine_abilities_name .. indent .. 'Name: ' .. sd_skillLine[i][2].name .. '\n'
+			end
+			selectedSkillLine_abilities_name = selectedSkillLine_abilities_name .. '\n'
+		end
+	end
+
+	--------------------------------------------------
+
+	selectedSkillLine_abilities_rank = 'Lv: ' .. sv_skillLine.rank .. '\n\n'
+	for i = 1, numSkills do
+		if sv_skillLine[i] ~= nil then
+			selectedSkillLine_abilities_rank = selectedSkillLine_abilities_rank .. 'Rank: ' .. sv_skillLine[i][0] .. '\n'
+			if sv_skillLine[i][1] ~= nil then
+				selectedSkillLine_abilities_rank = selectedSkillLine_abilities_rank .. 'Rank: ' .. sv_skillLine[i][1] .. '\n'
+			end
+			if sv_skillLine[i][2] ~= nil then
+				selectedSkillLine_abilities_rank = selectedSkillLine_abilities_rank .. 'Rank: ' .. sv_skillLine[i][2] .. '\n'
+			end
+			selectedSkillLine_abilities_rank = selectedSkillLine_abilities_rank .. '\n'
+		end
+	end
+end
+
 function NEAR_SR.gui.CreateList_abilities()
 	local selectedChar_charId = addon.gui.selectedChar_charId
 	local selectedChar_classId = addon.gui.selectedChar_classId
@@ -330,68 +364,13 @@ function NEAR_SR.gui.CreateList_abilities()
 	end
 
 	local notDiscovered = GetString(NEARSR_notdiscovered) .. "|r"
-	local tab = '     '
 
 	if selected_skillType == SKILL_TYPE_CLASS then
 		local sv_skillLine = addon.ASV.char[selectedChar_charId][selected_skillType][selectedChar_classId][selected_skillLine]
 		local sd_skillLine = addon.skilldata[selected_skillType][selectedChar_classId][selected_skillLine]
 
 		if sv_skillLine.discovered == true then
-			selectedSkillLine_abilities_name =
-			sd_skillLine.name .. '\n' ..
-			'\n' ..
-			'Name: ' .. sd_skillLine[1][0].name .. '\n' .. tab ..
-			'Name: ' .. sd_skillLine[1][1].name .. '\n' .. tab ..
-			'Name: ' .. sd_skillLine[1][2].name .. '\n' ..
-			'\n' ..
-			'Name: ' .. sd_skillLine[2][0].name .. '\n' .. tab ..
-			'Name: ' .. sd_skillLine[2][1].name .. '\n' .. tab ..
-			'Name: ' .. sd_skillLine[2][2].name .. '\n' ..
-			'\n' ..
-			'Name: ' .. sd_skillLine[3][0].name .. '\n' .. tab ..
-			'Name: ' .. sd_skillLine[3][1].name .. '\n' .. tab ..
-			'Name: ' .. sd_skillLine[3][2].name .. '\n' ..
-			'\n' ..
-			'Name: ' .. sd_skillLine[4][0].name .. '\n' .. tab ..
-			'Name: ' .. sd_skillLine[4][1].name .. '\n' .. tab ..
-			'Name: ' .. sd_skillLine[4][2].name .. '\n' ..
-			'\n' ..
-			'Name: ' .. sd_skillLine[5][0].name .. '\n' .. tab ..
-			'Name: ' .. sd_skillLine[5][1].name .. '\n' .. tab ..
-			'Name: ' .. sd_skillLine[5][2].name .. '\n' ..
-			'\n' ..
-			'Name: ' .. sd_skillLine[6][0].name .. '\n' .. tab ..
-			'Name: ' .. sd_skillLine[6][1].name .. '\n' .. tab ..
-			'Name: ' .. sd_skillLine[6][2].name
-
-			--------------------------------------------------
-
-			selectedSkillLine_abilities_rank =
-			'Lv: ' .. sv_skillLine.rank .. '\n' ..
-			'\n' ..
-			'Rank: ' .. sv_skillLine[1][0] .. '\n' ..
-			'Rank: ' .. sv_skillLine[1][1] .. '\n' ..
-			'Rank: ' .. sv_skillLine[1][2] .. '\n' ..
-			'\n' ..
-			'Rank: ' .. sv_skillLine[2][0] .. '\n' ..
-			'Rank: ' .. sv_skillLine[2][1] .. '\n' ..
-			'Rank: ' .. sv_skillLine[2][2] .. '\n' ..
-			'\n' ..
-			'Rank: ' .. sv_skillLine[3][0] .. '\n' ..
-			'Rank: ' .. sv_skillLine[3][1] .. '\n' ..
-			'Rank: ' .. sv_skillLine[3][2] .. '\n' ..
-			'\n' ..
-			'Rank: ' .. sv_skillLine[4][0] .. '\n' ..
-			'Rank: ' .. sv_skillLine[4][1] .. '\n' ..
-			'Rank: ' .. sv_skillLine[4][2] .. '\n' ..
-			'\n' ..
-			'Rank: ' .. sv_skillLine[5][0] .. '\n' ..
-			'Rank: ' .. sv_skillLine[5][1] .. '\n' ..
-			'Rank: ' .. sv_skillLine[5][2] .. '\n' ..
-			'\n' ..
-			'Rank: ' .. sv_skillLine[6][0] .. '\n' ..
-			'Rank: ' .. sv_skillLine[6][1] .. '\n' ..
-			'Rank: ' .. sv_skillLine[6][2]
+			buildData(6, sd_skillLine, sv_skillLine)
 		else
 			selectedSkillLine_abilities_name = notDiscovered
 			selectedSkillLine_abilities_rank = ''
@@ -410,13 +389,8 @@ function NEAR_SR.gui.CreateList_abilities()
 			(selected_skillType == SKILL_TYPE_AVA and selected_skillLine == 2) then
 
 			if sv_skillLine.discovered == true then
-				selectedSkillLine_abilities_name =
-				sd_skillLine.name
-
-				--------------------------------------------------
-
-				selectedSkillLine_abilities_rank =
-				'Lv: ' .. sv_skillLine.rank
+				selectedSkillLine_abilities_name = sd_skillLine.name
+				selectedSkillLine_abilities_rank = 'Lv: ' .. sv_skillLine.rank
 			else
 				selectedSkillLine_abilities_name = notDiscovered
 				selectedSkillLine_abilities_rank = ''
@@ -428,55 +402,19 @@ function NEAR_SR.gui.CreateList_abilities()
 		elseif selected_skillType == SKILL_TYPE_ARMOR then
 
 			if sv_skillLine.discovered == true then
-				selectedSkillLine_abilities_name =
-				sd_skillLine.name.. '\n' ..
-				'\n' ..
-				'Name: ' .. sd_skillLine[1][0].name .. '\n' .. tab ..
-				'Name: ' .. sd_skillLine[1][1].name .. '\n' .. tab ..
-				'Name: ' .. sd_skillLine[1][2].name
-
-				--------------------------------------------------
-
-				selectedSkillLine_abilities_rank =
-				'Lv: ' .. sv_skillLine.rank .. '\n' ..
-				'\n' ..
-				'Rank: ' .. sv_skillLine[1][0].. '\n' ..
-				'Rank: ' .. sv_skillLine[1][1].. '\n' ..
-				'Rank: ' .. sv_skillLine[1][2]
+				buildData(1, sd_skillLine, sv_skillLine)
 			else
 				selectedSkillLine_abilities_name = notDiscovered
 				selectedSkillLine_abilities_rank = ''
 			end
 
 		--------------------------------------------------------------------------------
-		-- 2 skills
+		-- 4 skills
 		--------------------------------------------------------------------------------
 		elseif selected_skillType == SKILL_TYPE_WORLD and selected_skillLine == 4 then
 
 			if sv_skillLine.discovered == true then
-				selectedSkillLine_abilities_name =
-				sd_skillLine.name .. '\n' ..
-				'\n' ..
-				'Name: ' .. sd_skillLine[1][0].name .. '\n' .. tab ..
-				'Name: ' .. sd_skillLine[1][1].name .. '\n' .. tab ..
-				'Name: ' .. sd_skillLine[1][2].name .. '\n' ..
-				'\n' ..
-				'Name: ' .. sd_skillLine[2][0].name .. '\n' .. tab ..
-				'Name: ' .. sd_skillLine[2][1].name .. '\n' .. tab ..
-				'Name: ' .. sd_skillLine[2][2].name
-
-				--------------------------------------------------
-
-				selectedSkillLine_abilities_rank =
-				'Lv: ' .. sv_skillLine.rank .. '\n' ..
-				'\n' ..
-				'Rank: ' .. sv_skillLine[1][0].. '\n' ..
-				'Rank: ' .. sv_skillLine[1][1].. '\n' ..
-				'Rank: ' .. sv_skillLine[1][2].. '\n' ..
-				'\n' ..
-				'Rank: ' .. sv_skillLine[2][0].. '\n' ..
-				'Rank: ' .. sv_skillLine[2][1].. '\n' ..
-				'Rank: ' .. sv_skillLine[2][2]
+				buildData(4, sd_skillLine, sv_skillLine)
 			else
 				selectedSkillLine_abilities_name = notDiscovered
 				selectedSkillLine_abilities_rank = ''
@@ -485,57 +423,11 @@ function NEAR_SR.gui.CreateList_abilities()
 		--------------------------------------------------------------------------------
 		-- 5 skills
 		--------------------------------------------------------------------------------
-		elseif (selected_skillType == SKILL_TYPE_GUILD and (selected_skillLine == 2 or selected_skillLine == 3 or selected_skillLine == 6)) or
-			(selected_skillType == SKILL_TYPE_AVA and (selected_skillLine == 1 or selected_skillLine == 3)) then
+		elseif (selected_skillType == SKILL_TYPE_GUILD and selected_skillLine == 6) or
+			(selected_skillType == SKILL_TYPE_AVA and selected_skillLine == 3) then
 
 			if sv_skillLine.discovered == true then
-				selectedSkillLine_abilities_name =
-				sd_skillLine.name .. '\n' ..
-				'\n' ..
-				'Name: ' .. sd_skillLine[1][0].name .. '\n' .. tab ..
-				'Name: ' .. sd_skillLine[1][1].name .. '\n' .. tab ..
-				'Name: ' .. sd_skillLine[1][2].name .. '\n' ..
-				'\n' ..
-				'Name: ' .. sd_skillLine[2][0].name .. '\n' .. tab ..
-				'Name: ' .. sd_skillLine[2][1].name .. '\n' .. tab ..
-				'Name: ' .. sd_skillLine[2][2].name .. '\n' ..
-				'\n' ..
-				'Name: ' .. sd_skillLine[3][0].name .. '\n' .. tab ..
-				'Name: ' .. sd_skillLine[3][1].name .. '\n' .. tab ..
-				'Name: ' .. sd_skillLine[3][2].name .. '\n' ..
-				'\n' ..
-				'Name: ' .. sd_skillLine[4][0].name .. '\n' .. tab ..
-				'Name: ' .. sd_skillLine[4][1].name .. '\n' .. tab ..
-				'Name: ' .. sd_skillLine[4][2].name .. '\n' ..
-				'\n' ..
-				'Name: ' .. sd_skillLine[5][0].name .. '\n' .. tab ..
-				'Name: ' .. sd_skillLine[5][1].name .. '\n' .. tab ..
-				'Name: ' .. sd_skillLine[5][2].name
-
-				--------------------------------------------------
-
-				selectedSkillLine_abilities_rank =
-				'Lv: ' .. sv_skillLine.rank .. '\n' ..
-				'\n' ..
-				'Rank: ' .. sv_skillLine[1][0].. '\n' ..
-				'Rank: ' .. sv_skillLine[1][1].. '\n' ..
-				'Rank: ' .. sv_skillLine[1][2].. '\n' ..
-				'\n' ..
-				'Rank: ' .. sv_skillLine[2][0].. '\n' ..
-				'Rank: ' .. sv_skillLine[2][1].. '\n' ..
-				'Rank: ' .. sv_skillLine[2][2].. '\n' ..
-				'\n' ..
-				'Rank: ' .. sv_skillLine[3][0].. '\n' ..
-				'Rank: ' .. sv_skillLine[3][1].. '\n' ..
-				'Rank: ' .. sv_skillLine[3][2].. '\n' ..
-				'\n' ..
-				'Rank: ' .. sv_skillLine[4][0].. '\n' ..
-				'Rank: ' .. sv_skillLine[4][1].. '\n' ..
-				'Rank: ' .. sv_skillLine[4][2].. '\n' ..
-				'\n' ..
-				'Rank: ' .. sv_skillLine[5][0].. '\n' ..
-				'Rank: ' .. sv_skillLine[5][1].. '\n' ..
-				'Rank: ' .. sv_skillLine[5][2]
+				buildData(5, sd_skillLine, sv_skillLine)
 			else
 				selectedSkillLine_abilities_name = notDiscovered
 				selectedSkillLine_abilities_rank = ''
@@ -544,66 +436,24 @@ function NEAR_SR.gui.CreateList_abilities()
 		--------------------------------------------------------------------------------
 		-- 6 skills
 		--------------------------------------------------------------------------------
-		elseif selected_skillType == SKILL_TYPE_WEAPON or
-			(selected_skillType == SKILL_TYPE_WORLD and (selected_skillLine == 5 or selected_skillLine == 6)) or
-			(selected_skillType == SKILL_TYPE_GUILD and selected_skillLine == 4) then
+		elseif (selected_skillType == SKILL_TYPE_WORLD and (selected_skillLine == 5 or selected_skillLine == 6)) or
+			(selected_skillType == SKILL_TYPE_GUILD and (selected_skillLine == 2 or selected_skillLine == 3 or selected_skillLine == 4)) or
+			(selected_skillType == SKILL_TYPE_AVA and selected_skillLine == 1) then
 
 			if sv_skillLine.discovered == true then
-				selectedSkillLine_abilities_name =
-				sd_skillLine.name .. '\n' ..
-				'\n' ..
-				'Name: ' .. sd_skillLine[1][0].name .. '\n' .. tab ..
-				'Name: ' .. sd_skillLine[1][1].name .. '\n' .. tab ..
-				'Name: ' .. sd_skillLine[1][2].name .. '\n' ..
-				'\n' ..
-				'Name: ' .. sd_skillLine[2][0].name .. '\n' .. tab ..
-				'Name: ' .. sd_skillLine[2][1].name .. '\n' .. tab ..
-				'Name: ' .. sd_skillLine[2][2].name .. '\n' ..
-				'\n' ..
-				'Name: ' .. sd_skillLine[3][0].name .. '\n' .. tab ..
-				'Name: ' .. sd_skillLine[3][1].name .. '\n' .. tab ..
-				'Name: ' .. sd_skillLine[3][2].name .. '\n' ..
-				'\n' ..
-				'Name: ' .. sd_skillLine[4][0].name .. '\n' .. tab ..
-				'Name: ' .. sd_skillLine[4][1].name .. '\n' .. tab ..
-				'Name: ' .. sd_skillLine[4][2].name .. '\n' ..
-				'\n' ..
-				'Name: ' .. sd_skillLine[5][0].name .. '\n' .. tab ..
-				'Name: ' .. sd_skillLine[5][1].name .. '\n' .. tab ..
-				'Name: ' .. sd_skillLine[5][2].name .. '\n' ..
-				'\n' ..
-				'Name: ' .. sd_skillLine[6][0].name .. '\n' .. tab ..
-				'Name: ' .. sd_skillLine[6][1].name .. '\n' .. tab ..
-				'Name: ' .. sd_skillLine[6][2].name
+				buildData(6, sd_skillLine, sv_skillLine)
+			else
+				selectedSkillLine_abilities_name = notDiscovered
+				selectedSkillLine_abilities_rank = ''
+			end
 
-				--------------------------------------------------
+		--------------------------------------------------------------------------------
+		-- 7 skills
+		--------------------------------------------------------------------------------
+		elseif selected_skillType == SKILL_TYPE_WEAPON then
 
-				selectedSkillLine_abilities_rank =
-				'Lv: ' .. sv_skillLine.rank .. '\n' ..
-				'\n' ..
-				'Rank: ' .. sv_skillLine[1][0] .. '\n' ..
-				'Rank: ' .. sv_skillLine[1][1] .. '\n' ..
-				'Rank: ' .. sv_skillLine[1][2] .. '\n' ..
-				'\n' ..
-				'Rank: ' .. sv_skillLine[2][0] .. '\n' ..
-				'Rank: ' .. sv_skillLine[2][1] .. '\n' ..
-				'Rank: ' .. sv_skillLine[2][2] .. '\n' ..
-				'\n' ..
-				'Rank: ' .. sv_skillLine[3][0] .. '\n' ..
-				'Rank: ' .. sv_skillLine[3][1] .. '\n' ..
-				'Rank: ' .. sv_skillLine[3][2] .. '\n' ..
-				'\n' ..
-				'Rank: ' .. sv_skillLine[4][0] .. '\n' ..
-				'Rank: ' .. sv_skillLine[4][1] .. '\n' ..
-				'Rank: ' .. sv_skillLine[4][2] .. '\n' ..
-				'\n' ..
-				'Rank: ' .. sv_skillLine[5][0] .. '\n' ..
-				'Rank: ' .. sv_skillLine[5][1] .. '\n' ..
-				'Rank: ' .. sv_skillLine[5][2] .. '\n' ..
-				'\n' ..
-				'Rank: ' .. sv_skillLine[6][0] .. '\n' ..
-				'Rank: ' .. sv_skillLine[6][1] .. '\n' ..
-				'Rank: ' .. sv_skillLine[6][2]
+			if sv_skillLine.discovered == true then
+				buildData(7, sd_skillLine, sv_skillLine)
 			else
 				selectedSkillLine_abilities_name = notDiscovered
 				selectedSkillLine_abilities_rank = ''

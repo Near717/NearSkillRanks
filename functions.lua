@@ -144,8 +144,8 @@ function NEAR_SR.func.CreateCharData(skillType)
 
 		----------------------------------------------------------------------------------------------------
 		-- define ability data
-		for skillIndex = 1, 6, 1 do
-			if skillLine[skillIndex] ~= nil then
+		for skillIndex = 1, 7, 1 do
+			if skillLine[skillIndex] ~= nil and not IsCraftedAbilitySkill(skillType, skillLineIndex, skillIndex) then
 
 				local morphRank_0 = addon.func.GetMorphInfo(skillLineId, skillIndex, 0)
 				local morphRank_1 = addon.func.GetMorphInfo(skillLineId, skillIndex, 1)
