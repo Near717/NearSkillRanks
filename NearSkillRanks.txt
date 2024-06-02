@@ -1,7 +1,7 @@
 ## Title: Near's Skill Ranks
-## APIVersion: 101041
-## Version: 1.0.1
-## AddOnVersion: 101
+## APIVersion: 101042
+## Version: 1.1.0
+## AddOnVersion: 110
 ## SavedVariables: NearSkillRanks_Data
 ## Author: |cCC99FFnotnear|r
 
