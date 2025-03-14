@@ -35,6 +35,10 @@ local function OnAddonLoaded(event, name)
 	EVENT_MANAGER:RegisterForEvent(addon.name, EVENT_SKILL_RANK_UPDATE,                 NEAR_SR.func.OnSkillRankUpdate)
 	EVENT_MANAGER:RegisterForEvent(addon.name, EVENT_SKILL_LINE_ADDED,                  NEAR_SR.func.OnSkillLineAdded)
 
+	if AddonCategory then
+		AddonCategory.AssignAddonToCategory(addon.name, AddonCategory.baseCategories.Util)
+	end
+
 end
 
 EVENT_MANAGER:RegisterForEvent(addon.name, EVENT_ADD_ON_LOADED, OnAddonLoaded)
