@@ -12,6 +12,7 @@ function NEAR_SR.RegisterSlashCommands()
 	-- toggle window
 	SLASH_COMMANDS["/sr"] = NEAR_SR.gui.ToggleWindow
 	SLASH_COMMANDS["/srq"] = NEAR_SR.gui.quick.ToggleWindow
+	SLASH_COMMANDS["/sru"] = NEAR_SR.gui.unranked.ToggleWindow
 end
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------

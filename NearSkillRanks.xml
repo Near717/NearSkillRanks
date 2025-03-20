@@ -501,5 +501,58 @@
 
         </TopLevelControl>
 
+
+		<TopLevelControl name="NSR_UNRANKED" mouseEnabled="true" movable="true" clampedToScreen="true" hidden="true" tier="MEDIUM">
+            <DimensionConstraints minX="800" minY="700"/>
+            <Anchor point="CENTER"/>
+
+            <OnShow>
+				NEAR_SR.gui.unranked.OnShow()
+			</OnShow>
+
+            <Controls>
+                <Backdrop name="$(parent)_BG" inherits="ZO_DefaultBackdrop"/>
+
+				<!-- Add a header -->
+                <Control name="$(parent)_HEADER" hidden="false" resizeToFitDescendents="true">
+					<Dimensions y="30"/>
+					<Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT"/>
+					<Anchor point="TOPRIGHT" relativeTo="$(parent)" relativePoint="TOPRIGHT"/>
+					<Controls>
+
+						<!-- Button to close the window on the right side -->
+						<Button name="$(parent)_CloseButton">
+							<Dimensions x="25" y="25" />
+							<Anchor point="TOPRIGHT" relativeTo="$(parent)" relativePoint="TOPRIGHT" offsetX="-3" offsetY="3"/>
+							<Textures normal="/esoui/art/buttons/decline_up.dds" pressed="/esoui/art/buttons/decline_down.dds" mouseOver="/esoui/art/buttons/decline_over.dds"/>
+							<OnClicked>NSR_UNRANKED:SetHidden(true)</OnClicked>
+						</Button>
+
+						<!-- Add title on the center -->
+						<Label name="$(parent)_Title" font="ZoFontWindowTitle" text="Near's Skill Ranks - Unranked" horizontalAlignment="CENTER" verticalAlignment="CENTER" color="INTERFACE_COLOR_TYPE_TEXT_COLORS:INTERFACE_TEXT_COLOR_NORMAL">
+							<Dimensions y="30"/>
+							<Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT"/>
+							<Anchor point="TOPRIGHT" relativeTo="$(parent)" relativePoint="TOPRIGHT"/>
+						</Label>
+
+						<!-- Add character list dropdown -->
+						<Control name="$(parent)_CharList" inherits="ZO_ComboBox">
+							<Dimensions x="150" y="30"/>
+							<Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetY="5"/>
+						</Control>
+
+					</Controls>
+				</Control>
+
+				<!-- Add main control -->
+				<Control name="$(parent)_MAIN" inherits="ZO_ScrollContainer">
+                	<Anchor point="TOPLEFT" relativeTo="$(parent)_HEADER" relativePoint="BOTTOMLEFT" offsetX="25" offsetY="10"/>
+                	<Anchor point="BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT" offsetX="-10" offsetY="-10"/>
+				</Control>
+
+            </Controls>
+
+        </TopLevelControl>
+
     </Controls>
 </GuiXml>

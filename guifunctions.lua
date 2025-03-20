@@ -4,7 +4,7 @@ local addon = NEAR_SR
 NEAR_SR.gui = {}
 
 function NEAR_SR.gui.Init()
-	addon.gui.CreateList_Char()
+	addon.gui.CreateList_Char(NSR_GUI_MAIN_skilldata)
 	addon.gui.CreateList_SkillType()
 	addon.gui.CreateList_SkillLine()
 	addon.gui.UpdateList_abilities()
@@ -15,6 +15,8 @@ function NEAR_SR.gui.Init()
 	addon.gui.quick.CreateControls()
 	addon.gui.quick.CreateLines()
 	addon.gui.quick.CreateListChar()
+
+	addon.gui.unranked.Init()
 end
 
 -- Show or hide the window
@@ -73,11 +75,11 @@ local function SetSelectedChar(charName)
 	end
 end
 
-function NEAR_SR.gui.CreateList_Char()
+function NEAR_SR.gui.CreateList_Char(control)
 	local sv = addon.ASV.settings
 
-	NSR_GUI_MAIN_skilldata.comboBox = NSR_GUI_MAIN_skilldata.comboBox or ZO_ComboBox_ObjectFromContainer(NSR_GUI_MAIN_skilldata:GetNamedChild("_CharList"))
-	local NSR_comboBox = NSR_GUI_MAIN_skilldata.comboBox
+	control.comboBox = control.comboBox or ZO_ComboBox_ObjectFromContainer(control:GetNamedChild("_CharList"))
+	local NSR_comboBox = control.comboBox
 
 	addon.charNames = {}
 	addon.charData = {}
@@ -99,8 +101,22 @@ function NEAR_SR.gui.CreateList_Char()
 	local function OnItemSelect(_, choiceText, choice)
 		SetSelectedChar(choiceText)
 
-		addon.gui.UpdateList_SkillLine()
-		addon.gui.UpdateList_abilities()
+		if not NSR_GUI:IsHidden() then
+			addon.gui.UpdateList_SkillLine()
+			addon.gui.UpdateList_abilities()
+			if GetControl(NSR_comboBox) ~= NSR_GUI_MAIN_skilldata_CharList then
+				local ctrl = GetControl("NSR_GUI_MAIN_skilldata_CharListSelectedItemText")
+				ctrl:SetText(choiceText)
+			end
+		end
+
+		if not NSR_UNRANKED:IsHidden() then
+			addon.gui.unranked.UpdateList_abilities()
+			if GetControl(NSR_comboBox) ~= NSR_UNRANKED_HEADER_CharList then
+				local ctrl = GetControl("NSR_UNRANKED_HEADER_CharListSelectedItemText")
+				ctrl:SetText(choiceText)
+			end
+		end
 
 		-- PlaySound(SOUNDS.POSITIVE_CLICK)
 	end
@@ -126,20 +142,20 @@ local function SetSelectedSkillType(stName)
 	end
 end
 
+local t_skillType = {
+	[SKILL_TYPE_CLASS]		= GetString(SI_SKILLTYPE1),
+	[SKILL_TYPE_WEAPON]		= GetString(SI_SKILLTYPE2),
+	[SKILL_TYPE_ARMOR]		= GetString(SI_SKILLTYPE3),
+	[SKILL_TYPE_WORLD]		= GetString(SI_SKILLTYPE4),
+	[SKILL_TYPE_GUILD]		= GetString(SI_SKILLTYPE5),
+	[SKILL_TYPE_AVA]		= GetString(SI_SKILLTYPE6),
+	-- [SKILL_TYPE_RACIAL]		= GetString(SI_SKILLTYPE7),
+	[addon.SKILL_TYPE_TRADESKILL]	= GetString(SI_SKILLTYPE8),
+}
+
 function NEAR_SR.gui.CreateList_SkillType()
 	NSR_GUI_MAIN_skilldata_SkillType.comboBox = NSR_GUI_MAIN_skilldata_SkillType.comboBox or ZO_ComboBox_ObjectFromContainer(NSR_GUI_MAIN_skilldata:GetNamedChild("_SkillType"))
 	local NSR_comboBox = NSR_GUI_MAIN_skilldata_SkillType.comboBox
-
-	local t_skillType = {
-		[SKILL_TYPE_CLASS]		= GetString(SI_SKILLTYPE1),
-		[SKILL_TYPE_WEAPON]		= GetString(SI_SKILLTYPE2),
-		[SKILL_TYPE_ARMOR]		= GetString(SI_SKILLTYPE3),
-		[SKILL_TYPE_WORLD]		= GetString(SI_SKILLTYPE4),
-		[SKILL_TYPE_GUILD]		= GetString(SI_SKILLTYPE5),
-		[SKILL_TYPE_AVA]		= GetString(SI_SKILLTYPE6),
-		-- [SKILL_TYPE_RACIAL]		= GetString(SI_SKILLTYPE7),
-		[addon.SKILL_TYPE_TRADESKILL]	= GetString(SI_SKILLTYPE8),
-	}
 
 	addon.skillType_Names = {}
 	addon.skillType_Data = {}
@@ -702,4 +718,137 @@ function NEAR_SR.gui.quick.CreateControls()
 		end
 	end
 
+end
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- unranked view functions
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+NEAR_SR.gui.unranked = {}
+local unranked_abilities_name = ''
+local unranked_abilities_rank = ''
+---------------------------------------------------------------------------------
+
+function NEAR_SR.gui.unranked.Init()
+	local scrollContainer = NSR_UNRANKED_MAIN:GetNamedChild("ScrollChild")
+	local abilities = CreateControl(scrollContainer:GetName() .. "_Abilities", scrollContainer, CT_CONTROL)
+	abilities:SetResizeToFitDescendents(true)
+	abilities:SetAnchor(TOPLEFT, scrollContainer)
+	local name = CreateControl(abilities:GetName() .. "_Name", abilities, CT_LABEL)
+	name:SetAnchor(TOPLEFT, abilities)
+	name:SetFont("ZoFontGameMedium")
+	local rank = CreateControl(abilities:GetName() .. "_Rank", abilities, CT_LABEL)
+	rank:SetAnchor(TOPLEFT, name, TOPRIGHT, 50)
+	rank:SetFont("ZoFontGameMedium")
+
+	addon.gui.CreateList_Char(NSR_UNRANKED_HEADER)
+	addon.gui.unranked.UpdateList_abilities()
+end
+
+-- Show or hide the window
+function NEAR_SR.gui.unranked.ToggleWindow()
+	NSR_UNRANKED:ToggleHidden()
+end
+
+-- OnShow update window data
+function NEAR_SR.gui.unranked.OnShow()
+	NEAR_SR.gui.unranked.UpdateList_abilities()
+end
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+function NEAR_SR.gui.unranked.UpdateList_abilities()
+	addon.gui.unranked.CreateList_abilities()
+
+	local control = NSR_UNRANKED_MAIN:GetNamedChild("ScrollChild")
+	control = control:GetNamedChild("_Abilities")
+
+	control:GetNamedChild("_Name"):SetText(unranked_abilities_name)
+	control:GetNamedChild("_Rank"):SetText(unranked_abilities_rank)
+end
+
+local function buildDataUnranked(sv_character)
+	unranked_abilities_name = ''
+	unranked_abilities_rank = ''
+	local indent = '     '
+
+	for skillTypeIndex, skillType in ipairs(sv_character) do
+		if skillTypeIndex == NEAR_SR.SKILL_TYPE_TRADESKILL then break end
+
+		local skillTypeHeaderAdded = false
+
+		if skillTypeIndex == SKILL_TYPE_CLASS then
+			for classId, classData in pairs(skillType) do
+				local skillLineHeaderAdded = false
+
+				for skillLineIndex, skillLine in ipairs(classData) do
+					for abilityIndex, ability in ipairs(skillLine) do
+						for morphIndex, _ in ipairs(ability) do
+							local morphRank = sv_character[skillTypeIndex][classId][skillLineIndex][abilityIndex][morphIndex]
+							if morphRank < 4 then
+								if not skillTypeHeaderAdded then
+									unranked_abilities_name = unranked_abilities_name .. '\nSkill Type: ' .. t_skillType[skillTypeIndex]
+									unranked_abilities_rank = unranked_abilities_rank .. '\n'
+									skillTypeHeaderAdded = true
+								end
+
+								if not skillLineHeaderAdded then
+									unranked_abilities_name = unranked_abilities_name .. '\n' .. indent .. 'Skill Line: ' .. addon.skilldata[skillTypeIndex][classId][skillLineIndex].name .. '\n'
+									unranked_abilities_rank = unranked_abilities_rank .. '\n\n'
+									skillLineHeaderAdded = true
+								end
+
+								unranked_abilities_name = unranked_abilities_name .. indent .. indent .. addon.skilldata[skillTypeIndex][classId][skillLineIndex][abilityIndex][morphIndex].name .. '\n'
+								unranked_abilities_rank = unranked_abilities_rank .. 'Rank: ' .. morphRank .. '\n'
+							end
+						end
+					end
+				end
+			end
+		else
+			for skillLineIndex, skillLine in ipairs(skillType) do
+				local skillLineHeaderAdded = false
+
+				for abilityIndex, ability in ipairs(skillLine) do
+					for morphIndex, _ in ipairs(ability) do
+						local morphRank = sv_character[skillTypeIndex][skillLineIndex][abilityIndex][morphIndex]
+						if morphRank < 4 then
+							if not skillTypeHeaderAdded then
+								unranked_abilities_name = unranked_abilities_name .. '\nSkill Type: ' .. t_skillType[skillTypeIndex]
+								unranked_abilities_rank = unranked_abilities_rank .. '\n'
+								skillTypeHeaderAdded = true
+							end
+
+							if not skillLineHeaderAdded then
+								unranked_abilities_name = unranked_abilities_name .. '\n' .. indent .. 'Skill Line: ' .. addon.skilldata[skillTypeIndex][skillLineIndex].name .. '\n'
+								unranked_abilities_rank = unranked_abilities_rank .. '\n\n'
+								skillLineHeaderAdded = true
+							end
+
+							unranked_abilities_name = unranked_abilities_name .. indent .. indent .. addon.skilldata[skillTypeIndex][skillLineIndex][abilityIndex][morphIndex].name .. '\n'
+							unranked_abilities_rank = unranked_abilities_rank .. 'Rank: ' .. morphRank .. '\n'
+						end
+					end
+				end
+			end
+		end
+	end
+end
+
+function NEAR_SR.gui.unranked.CreateList_abilities()
+	local selectedChar_charId = addon.gui.selectedChar_charId
+
+	local utils = addon.utils
+
+	-- check if there is data for that character, if not, clear shown data and send warning message
+	if addon.ASV.char[selectedChar_charId] == nil then
+		d(utils.dbg.default .. GetString(NEARSR_nodata))
+
+		unranked_abilities_name = utils.color.red .. GetString(NEARSR_nodata) .. "|r"
+		unranked_abilities_rank = ''
+		return
+	end
+
+	buildDataUnranked(addon.ASV.char[selectedChar_charId])
 end
