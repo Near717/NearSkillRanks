@@ -789,21 +789,17 @@ local function gui_CreateList_Char(control)
 	local function OnItemSelect(_, choiceText, choice)
 		SetSelectedChar(choiceText)
 
-		if not NSR_GUI:IsHidden() then
-			gui_UpdateList_SkillLine()
-			gui_UpdateList_abilities()
-			if GetControl(NSR_comboBox) ~= NSR_GUI_MAIN_skilldata_CharList then
-				local ctrl = GetControl("NSR_GUI_MAIN_skilldata_CharListSelectedItemText")
-				ctrl:SetText(choiceText)
-			end
+		gui_UpdateList_SkillLine()
+		gui_UpdateList_abilities()
+		if GetControl(NSR_comboBox) ~= NSR_GUI_MAIN_skilldata_CharList then
+			local ctrl = GetControl("NSR_GUI_MAIN_skilldata_CharListSelectedItemText")
+			ctrl:SetText(choiceText)
 		end
 
-		if not NSR_UNRANKED:IsHidden() then
-			unranked_UpdateList_abilities()
-			if GetControl(NSR_comboBox) ~= NSR_UNRANKED_HEADER_CharList then
-				local ctrl = GetControl("NSR_UNRANKED_HEADER_CharListSelectedItemText")
-				ctrl:SetText(choiceText)
-			end
+		unranked_UpdateList_abilities()
+		if GetControl(NSR_comboBox) ~= NSR_UNRANKED_HEADER_CharList then
+			local ctrl = GetControl("NSR_UNRANKED_HEADER_CharListSelectedItemText")
+			ctrl:SetText(choiceText)
 		end
 
 		-- PlaySound(SOUNDS.POSITIVE_CLICK)
