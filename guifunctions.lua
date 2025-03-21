@@ -768,10 +768,33 @@ function NEAR_SR.gui.unranked.UpdateList_abilities()
 	control:GetNamedChild("_Rank"):SetText(unranked_abilities_rank)
 end
 
+local function getEquippedAbilities()
+	local abilities = {}
+
+	for hotbarCategory = 0, 1 do
+		for slotIndex = 3, 8 do
+			local hotbarData = ACTION_BAR_ASSIGNMENT_MANAGER:GetHotbar(hotbarCategory)
+			local slotData = hotbarData:GetSlotData(slotIndex)
+			local abilityId = 0
+
+			if not slotData:IsEmpty() then
+				abilityId = slotData:GetEffectiveAbilityId()
+			end
+
+			abilities[abilityId] = true
+		end
+	end
+
+	return abilities
+end
+
 local function buildDataUnranked(sv_character)
 	unranked_abilities_name = ''
 	unranked_abilities_rank = ''
 	local indent = '     '
+	local equippedAbilities = getEquippedAbilities()
+	d(equippedAbilities)
+	local color = addon.utils.color.darkGreen
 
 	for skillTypeIndex, skillType in ipairs(sv_character) do
 		if skillTypeIndex == NEAR_SR.SKILL_TYPE_TRADESKILL then break end
@@ -783,24 +806,31 @@ local function buildDataUnranked(sv_character)
 				local skillLineHeaderAdded = false
 
 				for skillLineIndex, skillLine in ipairs(classData) do
-					for abilityIndex, ability in ipairs(skillLine) do
-						for morphIndex, _ in ipairs(ability) do
-							local morphRank = sv_character[skillTypeIndex][classId][skillLineIndex][abilityIndex][morphIndex]
-							if morphRank < 4 then
-								if not skillTypeHeaderAdded then
-									unranked_abilities_name = unranked_abilities_name .. '\nSkill Type: ' .. t_skillType[skillTypeIndex]
-									unranked_abilities_rank = unranked_abilities_rank .. '\n'
-									skillTypeHeaderAdded = true
-								end
+					for abilityIndex = 1, 7 do
+						if skillLine[abilityIndex] ~= nil then
+							for morphIndex = 0, 2 do
+								local morphRank = sv_character[skillTypeIndex][classId][skillLineIndex][abilityIndex][morphIndex]
+								if morphRank < 4 then
+									if not skillTypeHeaderAdded then
+										unranked_abilities_name = unranked_abilities_name .. '\nSkill Type: ' .. t_skillType[skillTypeIndex]
+										unranked_abilities_rank = unranked_abilities_rank .. '\n'
+										skillTypeHeaderAdded = true
+									end
 
-								if not skillLineHeaderAdded then
-									unranked_abilities_name = unranked_abilities_name .. '\n' .. indent .. 'Skill Line: ' .. addon.skilldata[skillTypeIndex][classId][skillLineIndex].name .. '\n'
-									unranked_abilities_rank = unranked_abilities_rank .. '\n\n'
-									skillLineHeaderAdded = true
-								end
+									if not skillLineHeaderAdded then
+										unranked_abilities_name = unranked_abilities_name .. '\n' .. indent .. 'Skill Line: ' .. addon.skilldata[skillTypeIndex][classId][skillLineIndex].name .. '\n'
+										unranked_abilities_rank = unranked_abilities_rank .. '\n\n'
+										skillLineHeaderAdded = true
+									end
 
-								unranked_abilities_name = unranked_abilities_name .. indent .. indent .. addon.skilldata[skillTypeIndex][classId][skillLineIndex][abilityIndex][morphIndex].name .. '\n'
-								unranked_abilities_rank = unranked_abilities_rank .. 'Rank: ' .. morphRank .. '\n'
+									if equippedAbilities[addon.skilldata[skillTypeIndex][classId][skillLineIndex][abilityIndex][morphIndex].id] then
+										unranked_abilities_name = unranked_abilities_name .. indent .. indent .. color .. addon.skilldata[skillTypeIndex][classId][skillLineIndex][abilityIndex][morphIndex].name .. '|r\n'
+									else
+										unranked_abilities_name = unranked_abilities_name .. indent .. indent .. addon.skilldata[skillTypeIndex][classId][skillLineIndex][abilityIndex][morphIndex].name .. '\n'
+									end
+
+									unranked_abilities_rank = unranked_abilities_rank .. 'Rank: ' .. morphRank .. '\n'
+								end
 							end
 						end
 					end
@@ -810,24 +840,31 @@ local function buildDataUnranked(sv_character)
 			for skillLineIndex, skillLine in ipairs(skillType) do
 				local skillLineHeaderAdded = false
 
-				for abilityIndex, ability in ipairs(skillLine) do
-					for morphIndex, _ in ipairs(ability) do
-						local morphRank = sv_character[skillTypeIndex][skillLineIndex][abilityIndex][morphIndex]
-						if morphRank < 4 then
-							if not skillTypeHeaderAdded then
-								unranked_abilities_name = unranked_abilities_name .. '\nSkill Type: ' .. t_skillType[skillTypeIndex]
-								unranked_abilities_rank = unranked_abilities_rank .. '\n'
-								skillTypeHeaderAdded = true
-							end
+				for abilityIndex = 1, 7 do
+					if skillLine[abilityIndex] ~= nil then
+						for morphIndex = 0, 2 do
+							local morphRank = sv_character[skillTypeIndex][skillLineIndex][abilityIndex][morphIndex]
+							if morphRank < 4 then
+								if not skillTypeHeaderAdded then
+									unranked_abilities_name = unranked_abilities_name .. '\nSkill Type: ' .. t_skillType[skillTypeIndex]
+									unranked_abilities_rank = unranked_abilities_rank .. '\n'
+									skillTypeHeaderAdded = true
+								end
 
-							if not skillLineHeaderAdded then
-								unranked_abilities_name = unranked_abilities_name .. '\n' .. indent .. 'Skill Line: ' .. addon.skilldata[skillTypeIndex][skillLineIndex].name .. '\n'
-								unranked_abilities_rank = unranked_abilities_rank .. '\n\n'
-								skillLineHeaderAdded = true
-							end
+								if not skillLineHeaderAdded then
+									unranked_abilities_name = unranked_abilities_name .. '\n' .. indent .. 'Skill Line: ' .. addon.skilldata[skillTypeIndex][skillLineIndex].name .. '\n'
+									unranked_abilities_rank = unranked_abilities_rank .. '\n\n'
+									skillLineHeaderAdded = true
+								end
 
-							unranked_abilities_name = unranked_abilities_name .. indent .. indent .. addon.skilldata[skillTypeIndex][skillLineIndex][abilityIndex][morphIndex].name .. '\n'
-							unranked_abilities_rank = unranked_abilities_rank .. 'Rank: ' .. morphRank .. '\n'
+								if equippedAbilities[addon.skilldata[skillTypeIndex][skillLineIndex][abilityIndex][morphIndex].id] then
+									unranked_abilities_name = unranked_abilities_name .. indent .. indent .. color .. addon.skilldata[skillTypeIndex][skillLineIndex][abilityIndex][morphIndex].name .. '|r\n'
+								else
+									unranked_abilities_name = unranked_abilities_name .. indent .. indent .. addon.skilldata[skillTypeIndex][skillLineIndex][abilityIndex][morphIndex].name .. '\n'
+								end
+
+								unranked_abilities_rank = unranked_abilities_rank .. 'Rank: ' .. morphRank .. '\n'
+							end
 						end
 					end
 				end

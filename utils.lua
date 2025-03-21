@@ -16,6 +16,7 @@ NEAR_SR.utils.color = {
 	darkOrange      = "|cFFA500",
 	brightOrange    = "|cE68A00",
 	magenta         = "|cFF00FF",
+	darkGreen       = "|c7f9c4f",
 }
 
 local lightPink = addon.utils.color.lightPink
