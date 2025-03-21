@@ -15,25 +15,25 @@ local selectedSkillLine_abilities_name = nil
 local selectedSkillLine_abilities_rank = nil
 ---------------------------------------------------------------------------------
 local skillTypesTable = {
-	[SKILL_TYPE_CLASS]		= GetString(SI_SKILLTYPE1),
-	[SKILL_TYPE_WEAPON]		= GetString(SI_SKILLTYPE2),
-	[SKILL_TYPE_ARMOR]		= GetString(SI_SKILLTYPE3),
-	[SKILL_TYPE_WORLD]		= GetString(SI_SKILLTYPE4),
-	[SKILL_TYPE_GUILD]		= GetString(SI_SKILLTYPE5),
-	[SKILL_TYPE_AVA]		= GetString(SI_SKILLTYPE6),
-	-- [SKILL_TYPE_RACIAL]		= GetString(SI_SKILLTYPE7),
-	[addon.SKILL_TYPE_TRADESKILL]	= GetString(SI_SKILLTYPE8),
+	[SKILL_TYPE_CLASS] = GetString(SI_SKILLTYPE1),
+	[SKILL_TYPE_WEAPON] = GetString(SI_SKILLTYPE2),
+	[SKILL_TYPE_ARMOR] = GetString(SI_SKILLTYPE3),
+	[SKILL_TYPE_WORLD] = GetString(SI_SKILLTYPE4),
+	[SKILL_TYPE_GUILD] = GetString(SI_SKILLTYPE5),
+	[SKILL_TYPE_AVA] = GetString(SI_SKILLTYPE6),
+	-- [SKILL_TYPE_RACIAL] = GetString(SI_SKILLTYPE7),
+	[addon.SKILL_TYPE_TRADESKILL] = GetString(SI_SKILLTYPE8),
 }
 ---------------------------------------------------------------------------------
 local skillLineMaxIndexes = {
-	[SKILL_TYPE_CLASS]		= 3,
-	[SKILL_TYPE_WEAPON]		= 6,
-	[SKILL_TYPE_ARMOR]		= 3,
-	[SKILL_TYPE_WORLD]		= 6,
-	[SKILL_TYPE_GUILD]		= 6,
-	[SKILL_TYPE_AVA]		= 3,
-	-- [SKILL_TYPE_RACIAL]		= 10,
-	[addon.SKILL_TYPE_TRADESKILL]	= 7,
+	[SKILL_TYPE_CLASS] = 3,
+	[SKILL_TYPE_WEAPON] = 6,
+	[SKILL_TYPE_ARMOR] = 3,
+	[SKILL_TYPE_WORLD] = 6,
+	[SKILL_TYPE_GUILD] = 6,
+	[SKILL_TYPE_AVA] = 3,
+	-- [SKILL_TYPE_RACIAL] = 10,
+	[addon.SKILL_TYPE_TRADESKILL] = 7,
 }
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -98,7 +98,6 @@ local function gui_CreateList_abilities()
 			selectedSkillLine_abilities_name = notDiscovered
 			selectedSkillLine_abilities_rank = ''
 		end
-
 	else
 		local sv_skillLine = addon.ASV.char[selectedChar_charId][selected_skillType][selected_skillLine]
 		local sd_skillLine = addon.skilldata[selected_skillType][selected_skillLine]
@@ -110,7 +109,6 @@ local function gui_CreateList_abilities()
 			(selected_skillType == SKILL_TYPE_WORLD and (selected_skillLine == 1 or selected_skillLine == 2 or selected_skillLine == 3)) or
 			(selected_skillType == SKILL_TYPE_GUILD and (selected_skillLine == 1 or selected_skillLine == 5)) or
 			(selected_skillType == SKILL_TYPE_AVA and selected_skillLine == 2) then
-
 			if sv_skillLine.discovered == true then
 				selectedSkillLine_abilities_name = sd_skillLine.name
 				selectedSkillLine_abilities_rank = 'Lv: ' .. sv_skillLine.rank
@@ -123,7 +121,6 @@ local function gui_CreateList_abilities()
 		-- 1 skills
 		--------------------------------------------------------------------------------
 		elseif selected_skillType == SKILL_TYPE_ARMOR then
-
 			if sv_skillLine.discovered == true then
 				buildData(1, sd_skillLine, sv_skillLine)
 			else
@@ -135,7 +132,6 @@ local function gui_CreateList_abilities()
 		-- 4 skills
 		--------------------------------------------------------------------------------
 		elseif selected_skillType == SKILL_TYPE_WORLD and selected_skillLine == 4 then
-
 			if sv_skillLine.discovered == true then
 				buildData(4, sd_skillLine, sv_skillLine)
 			else
@@ -147,7 +143,6 @@ local function gui_CreateList_abilities()
 		-- 5 skills
 		--------------------------------------------------------------------------------
 		elseif (selected_skillType == SKILL_TYPE_GUILD and selected_skillLine == 6) then
-
 			if sv_skillLine.discovered == true then
 				buildData(5, sd_skillLine, sv_skillLine)
 			else
@@ -161,7 +156,6 @@ local function gui_CreateList_abilities()
 		elseif (selected_skillType == SKILL_TYPE_WORLD and (selected_skillLine == 5 or selected_skillLine == 6)) or
 			(selected_skillType == SKILL_TYPE_GUILD and (selected_skillLine == 2 or selected_skillLine == 3 or selected_skillLine == 4)) or
 			(selected_skillType == SKILL_TYPE_AVA and (selected_skillLine == 1 or selected_skillLine == 3)) then
-
 			if sv_skillLine.discovered == true then
 				buildData(6, sd_skillLine, sv_skillLine)
 			else
@@ -173,7 +167,6 @@ local function gui_CreateList_abilities()
 		-- 7 skills
 		--------------------------------------------------------------------------------
 		elseif selected_skillType == SKILL_TYPE_WEAPON then
-
 			if sv_skillLine.discovered == true then
 				buildData(7, sd_skillLine, sv_skillLine)
 			else
@@ -181,7 +174,6 @@ local function gui_CreateList_abilities()
 				selectedSkillLine_abilities_rank = ''
 			end
 		end
-
 	end
 end
 
@@ -217,7 +209,6 @@ local function gui_CreateList_SkillLine()
 	addon.skillLine_Data = {}
 	-- check if there's data for that character
 	if sv_char == nil then
-
 		local unknown = 'No data'
 
 		addon.skillLine_Names[1] = unknown
@@ -228,32 +219,35 @@ local function gui_CreateList_SkillLine()
 
 		selected_skillLine = addon.skillLine_Data[1].index
 		selected_skillLine_name = addon.skillLine_Data[1].name
-
 	else
-
 		local function color(skillType, skillLine)
 			if skillType ~= SKILL_TYPE_CLASS then
 				local discovered = sv_char[skillType][skillLine].discovered
-				if discovered == false then return NEAR_SR.utils.color.grey
-				else return '' end
+				if discovered == false then
+					return NEAR_SR.utils.color.grey
+				else
+					return ''
+				end
 			else
 				local discovered = sv_char[skillType][selectedChar_classId][skillLine].discovered
-				if discovered == false then return NEAR_SR.utils.color.grey
-				else return '' end
+				if discovered == false then
+					return NEAR_SR.utils.color.grey
+				else
+					return ''
+				end
 			end
 		end
 
 		local prefix, mid = "Lv ", ' '
 
 		for skillLineIndex = 1, skillLineMaxIndexes[selected_skillType], 1 do
-
 			if selected_skillType ~= SKILL_TYPE_CLASS then
 				local sv_skillLine = sv_char[selected_skillType][skillLineIndex]
 
 				local skillLineName = addon.skilldata[selected_skillType][skillLineIndex].name
 				local skillLineRank = sv_skillLine.rank
 
-				local skillLineData = color(selected_skillType, skillLineIndex) ..prefix.. skillLineRank ..mid.. skillLineName
+				local skillLineData = color(selected_skillType, skillLineIndex) .. prefix .. skillLineRank .. mid .. skillLineName
 
 				addon.skillLine_Names[skillLineIndex] = skillLineData
 				addon.skillLine_Data[skillLineIndex] = {
@@ -264,14 +258,13 @@ local function gui_CreateList_SkillLine()
 				if selected_skillLine == addon.skillLine_Data[skillLineIndex].index then
 					selected_skillLine_name = addon.skillLine_Data[skillLineIndex].name
 				end
-
 			elseif selected_skillType == SKILL_TYPE_CLASS then
 				local sv_skillLine = sv_char[selected_skillType][selectedChar_classId][skillLineIndex]
 
 				local skillLineName = addon.skilldata[selected_skillType][selectedChar_classId][skillLineIndex].name
 				local skillLineRank = sv_skillLine.rank
 
-				local skillLineData = color(selected_skillType, skillLineIndex) ..prefix.. skillLineRank ..mid.. skillLineName
+				local skillLineData = color(selected_skillType, skillLineIndex) .. prefix .. skillLineRank .. mid .. skillLineName
 
 				addon.skillLine_Names[skillLineIndex] = skillLineData
 				addon.skillLine_Data[skillLineIndex] = {
@@ -282,11 +275,9 @@ local function gui_CreateList_SkillLine()
 				if selected_skillLine == addon.skillLine_Data[skillLineIndex].index then
 					selected_skillLine_name = addon.skillLine_Data[skillLineIndex].name
 				end
-
 			else
 				--[[ Debug ]] if sv.debug then d('error at CreateList_SkillLine()') end
 			end
-
 		end
 	end
 
@@ -299,13 +290,12 @@ local function gui_CreateList_SkillLine()
 
 	NSR_comboBox:SetSortsItems(false)
 
-	for k,_ in ipairs(addon.skillLine_Names) do
+	for k, _ in ipairs(addon.skillLine_Names) do
 		NSR_comboBox:AddItem(NSR_comboBox:CreateItemEntry(addon.skillLine_Names[k], OnItemSelect))
 		if addon.skillLine_Names[k] == selected_skillLine_name then
 			NSR_comboBox:SetSelectedItem(addon.skillLine_Names[k])
 		end
 	end
-
 end
 
 local function gui_UpdateList_SkillLine(setIndex)
@@ -324,7 +314,6 @@ local function gui_UpdateList_SkillLine(setIndex)
 	gui_CreateList_SkillLine()
 
 	NSR_comboBox:UpdateItems()
-
 end
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -362,13 +351,12 @@ local function gui_CreateList_SkillType()
 
 	NSR_comboBox:SetSortsItems(false)
 
-	for k,_ in ipairs(addon.skillType_Names) do
+	for k, _ in ipairs(addon.skillType_Names) do
 		NSR_comboBox:AddItem(NSR_comboBox:CreateItemEntry(addon.skillType_Names[k], OnItemSelect))
 		if addon.skillType_Names[k] == selected_skillType_name then
 			NSR_comboBox:SetSelectedItem(addon.skillType_Names[k])
 		end
 	end
-
 end
 
 
@@ -382,7 +370,6 @@ local selected_page = 1
 ---------------------------------------------------------------------------------
 
 local function quick_CreateListChar()
-
 	for i, charData in ipairs(addon.charData) do
 		local name = charData.charName
 
@@ -391,14 +378,12 @@ local function quick_CreateListChar()
 
 		if charData.charId == GetCurrentCharacterId() then
 			local r, g, b, a = 0.4, 0.698, 1, 1
-			control:SetColor(r,g,b,a) -- #66b2ff
+			control:SetColor(r, g, b, a) -- #66b2ff
 		end
-
 	end
 end
 
 local function quick_CreateList(page)
-
 	local function updateRanks(skillTypes)
 		for i, charData in ipairs(addon.charData) do
 			local charId = charData.charId
@@ -443,7 +428,7 @@ local function quick_CreateList(page)
 					i2 = i2 + 1
 					local control = GetControl("NSR_QUICK_MAIN_List_Row" .. i .. "_Skill" .. i2)
 					control:SetText(rank)
-					control:SetColor(r,g,b,a)
+					control:SetColor(r, g, b, a)
 
 					-- Exit the loop early if we've reached the end of the available skills
 					if i2 == 19 then
@@ -467,7 +452,6 @@ local function quick_CreateList(page)
 		local skillTypes = {SKILL_TYPE_WORLD, SKILL_TYPE_GUILD, SKILL_TYPE_AVA}
 		updateRanks(skillTypes)
 	end
-
 end
 
 local function quick_UpdateList(page)
@@ -495,13 +479,11 @@ local function quick_UpdateList(page)
 
 	-- Update controls information based on selected page
 	quick_CreateList(page)
-
 end
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 local function quick_CreateLines()
-
 	for i = 0, 19 do
 		local parent = "NSR_QUICK_HEADER"
 		local control = GetControl(parent)
@@ -531,12 +513,10 @@ local function quick_CreateLines()
 		control:SetAnchor(TOPLEFT, GetControl("NSR_QUICK_MAIN"), TOPLEFT, 10, offsetY)
 		control:SetAnchor(TOPRIGHT, GetControl("NSR_QUICK_MAIN"), TOPRIGHT, 0, offsetY)
 	end
-
 end
 
 local function quick_CreateControls()
-
-	CreateControl("NSR_QUICK_MAIN_".."List", GetControl("NSR_QUICK_MAIN"), CT_CONTROL)
+	CreateControl("NSR_QUICK_MAIN_" .. "List", GetControl("NSR_QUICK_MAIN"), CT_CONTROL)
 	local control = GetControl("NSR_QUICK_MAIN_List")
 	control:SetAnchor(TOPLEFT, GetControl("NSR_QUICK_MAIN"), TOPLEFT, 0, 0)
 	control:SetResizeToFitDescendents(true)
@@ -587,7 +567,6 @@ local function quick_CreateControls()
 			previous_control_skill = control
 		end
 	end
-
 end
 
 
@@ -773,7 +752,7 @@ local function gui_CreateList_Char(control)
 
 	addon.charNames = {}
 	addon.charData = {}
-	for k,_ in ipairs(sv.charInfo) do
+	for k, _ in ipairs(sv.charInfo) do
 		addon.charNames[k] = sv.charInfo[k].charName
 		addon.charData[k] = {
 			charId = sv.charInfo[k].charId,
@@ -809,7 +788,7 @@ local function gui_CreateList_Char(control)
 
 	NSR_comboBox:SetSortsItems(false)
 
-	for k,_ in ipairs(addon.charNames) do
+	for k, _ in ipairs(addon.charNames) do
 		NSR_comboBox:AddItem(NSR_comboBox:CreateItemEntry(addon.charNames[k], OnItemSelect))
 		if addon.charNames[k] == selectedChar_name then
 			NSR_comboBox:SetSelectedItem(addon.charNames[k])
@@ -858,7 +837,6 @@ end
 
 -- OnShow update window data
 function NEAR_SR.gui.quick.OnShow()
-
 	if first_time then
 		-- add a margin bellow
 		local control = GetControl("NSR_QUICK")

@@ -121,7 +121,6 @@ local function CreateCharData(skillType)
 		-- define ability data
 		for skillIndex = 1, 7, 1 do
 			if skillLine[skillIndex] ~= nil and not IsCraftedAbilitySkill(skillType, skillLineIndex, skillIndex) then
-
 				local morphRank_0 = GetMorphInfo(skillLineId, skillIndex, 0)
 				local morphRank_1 = GetMorphInfo(skillLineId, skillIndex, 1)
 				local morphRank_2 = GetMorphInfo(skillLineId, skillIndex, 2)
@@ -152,10 +151,8 @@ local function CreateCharData(skillType)
 				else
 					svc[skillType][skillLineIndex][skillIndex] = newabilitydata
 				end
-
 			end
 		end
-
 	end
 
 	--[[ Debug ]] if sv.debug then d(dbg.grey .. 'end of ' .. funcName) d(dbg.close) end
@@ -175,7 +172,10 @@ local function UpdateCharData(updatedRankType, skillType, skillLineIndex, skillI
 	local classId = GetUnitClassId("player")
 
 	-- warn if trying to update but the tables are empty then exit early, otherwise continue
-	if addon.ASV.char[charId] == nil then d(dbg.lightGrey .. 'Something went wrong trying to update character skill data, character table is empty') return end
+	if addon.ASV.char[charId] == nil then
+		d(dbg.lightGrey .. 'Something went wrong trying to update character skill data, character table is empty')
+		return
+	end
 
 	local sv_skilldata
 
@@ -203,7 +203,6 @@ local function UpdateCharData(updatedRankType, skillType, skillLineIndex, skillI
 		-- overwrite SKILL data on saved variable > skillType > [classId] > skillLine
 		sv_skilldata.rank = skillLineRank
 		sv_skilldata.discovered = skillLineDiscovered
-
 	elseif updatedRankType == 'morph' then
 		local skillLineId = GetSkillLineId(skillType, skillLineIndex)
 
@@ -233,7 +232,6 @@ local function UpdateCharData(updatedRankType, skillType, skillLineIndex, skillI
 
 		-- overwrite ABILITY data on saved variable > skillType > skillLine > skillIndex
 		sv_skilldata[skillIndex] = newabilitydata
-
 	else
 		d(dbg.lightGrey .. 'Something went wrong trying to define what to update, updatedRankType is undefined or not "skillLine" nor "morph"')
 	end
