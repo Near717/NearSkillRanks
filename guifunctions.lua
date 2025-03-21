@@ -1,44 +1,5 @@
-local addon = NEAR_SR
--------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 NEAR_SR.gui = {}
-
-function NEAR_SR.gui.Init()
-	addon.gui.CreateList_Char(NSR_GUI_MAIN_skilldata)
-	addon.gui.CreateList_SkillType()
-	addon.gui.CreateList_SkillLine()
-	addon.gui.UpdateList_abilities()
-
-	local control = GetControl("NSR_GUI_MAIN_skilldata_ShowQuick")
-	control:SetText(GetString(NEARSR_quick))
-
-	addon.gui.quick.CreateControls()
-	addon.gui.quick.CreateLines()
-	addon.gui.quick.CreateListChar()
-
-	addon.gui.unranked.Init()
-end
-
--- Show or hide the window
-function NEAR_SR.gui.ToggleWindow()
-	NSR_GUI:ToggleHidden()
-end
-
--- Hide the window
-function NEAR_SR.gui.CloseWindow()
-	NSR_GUI:SetHidden(true)
-end
-
--- OnShow update window data
-function NEAR_SR.gui.OnShow()
-	NEAR_SR.gui.UpdateWindowData()
-end
-
-function NEAR_SR.gui.UpdateWindowData()
-	addon.gui.UpdateList_SkillLine()
-	addon.gui.UpdateList_abilities()
-end
-
+local addon = NEAR_SR
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 addon.gui.selectedChar_charId = GetCurrentCharacterId()
 addon.gui.selectedChar_classId = GetUnitClassId('player')
@@ -53,6 +14,17 @@ local selected_skillLine_name = nil
 local selectedSkillLine_abilities_name = nil
 local selectedSkillLine_abilities_rank = nil
 ---------------------------------------------------------------------------------
+local skillTypesTable = {
+	[SKILL_TYPE_CLASS]		= GetString(SI_SKILLTYPE1),
+	[SKILL_TYPE_WEAPON]		= GetString(SI_SKILLTYPE2),
+	[SKILL_TYPE_ARMOR]		= GetString(SI_SKILLTYPE3),
+	[SKILL_TYPE_WORLD]		= GetString(SI_SKILLTYPE4),
+	[SKILL_TYPE_GUILD]		= GetString(SI_SKILLTYPE5),
+	[SKILL_TYPE_AVA]		= GetString(SI_SKILLTYPE6),
+	-- [SKILL_TYPE_RACIAL]		= GetString(SI_SKILLTYPE7),
+	[addon.SKILL_TYPE_TRADESKILL]	= GetString(SI_SKILLTYPE8),
+}
+---------------------------------------------------------------------------------
 local skillLineMaxIndexes = {
 	[SKILL_TYPE_CLASS]		= 3,
 	[SKILL_TYPE_WEAPON]		= 6,
@@ -64,271 +36,6 @@ local skillLineMaxIndexes = {
 	[addon.SKILL_TYPE_TRADESKILL]	= 7,
 }
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-local function SetSelectedChar(charName)
-	for i = 1, #addon.charData do
-		if charName == addon.charData[i].charName then
-			addon.gui.selectedChar_charId = addon.charData[i].charId
-			addon.gui.selectedChar_classId = addon.charData[i].classId
-			break
-		end
-	end
-end
-
-function NEAR_SR.gui.CreateList_Char(control)
-	local sv = addon.ASV.settings
-
-	control.comboBox = control.comboBox or ZO_ComboBox_ObjectFromContainer(control:GetNamedChild("_CharList"))
-	local NSR_comboBox = control.comboBox
-
-	addon.charNames = {}
-	addon.charData = {}
-	for k,_ in ipairs(sv.charInfo) do
-		addon.charNames[k] = sv.charInfo[k].charName
-		addon.charData[k] = {
-			charId = sv.charInfo[k].charId,
-			charName = sv.charInfo[k].charName,
-			classId = sv.charInfo[k].classId,
-		}
-
-		if GetCurrentCharacterId() == addon.charData[k].charId then
-			selectedChar_name = addon.charData[k].charName
-			addon.gui.selectedChar_charId = addon.charData[k].charId
-			addon.gui.selectedChar_classId = addon.charData[k].classId
-		end
-	end
-
-	local function OnItemSelect(_, choiceText, choice)
-		SetSelectedChar(choiceText)
-
-		if not NSR_GUI:IsHidden() then
-			addon.gui.UpdateList_SkillLine()
-			addon.gui.UpdateList_abilities()
-			if GetControl(NSR_comboBox) ~= NSR_GUI_MAIN_skilldata_CharList then
-				local ctrl = GetControl("NSR_GUI_MAIN_skilldata_CharListSelectedItemText")
-				ctrl:SetText(choiceText)
-			end
-		end
-
-		if not NSR_UNRANKED:IsHidden() then
-			addon.gui.unranked.UpdateList_abilities()
-			if GetControl(NSR_comboBox) ~= NSR_UNRANKED_HEADER_CharList then
-				local ctrl = GetControl("NSR_UNRANKED_HEADER_CharListSelectedItemText")
-				ctrl:SetText(choiceText)
-			end
-		end
-
-		-- PlaySound(SOUNDS.POSITIVE_CLICK)
-	end
-
-	NSR_comboBox:SetSortsItems(false)
-
-	for k,_ in ipairs(addon.charNames) do
-		NSR_comboBox:AddItem(NSR_comboBox:CreateItemEntry(addon.charNames[k], OnItemSelect))
-		if addon.charNames[k] == selectedChar_name then
-			NSR_comboBox:SetSelectedItem(addon.charNames[k])
-		end
-	end
-end
-
--------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-local function SetSelectedSkillType(stName)
-	for i = 1, #addon.skillType_Data do
-		if stName == addon.skillType_Data[i].name then
-			selected_skillType = addon.skillType_Data[i].index
-			break
-		end
-	end
-end
-
-local t_skillType = {
-	[SKILL_TYPE_CLASS]		= GetString(SI_SKILLTYPE1),
-	[SKILL_TYPE_WEAPON]		= GetString(SI_SKILLTYPE2),
-	[SKILL_TYPE_ARMOR]		= GetString(SI_SKILLTYPE3),
-	[SKILL_TYPE_WORLD]		= GetString(SI_SKILLTYPE4),
-	[SKILL_TYPE_GUILD]		= GetString(SI_SKILLTYPE5),
-	[SKILL_TYPE_AVA]		= GetString(SI_SKILLTYPE6),
-	-- [SKILL_TYPE_RACIAL]		= GetString(SI_SKILLTYPE7),
-	[addon.SKILL_TYPE_TRADESKILL]	= GetString(SI_SKILLTYPE8),
-}
-
-function NEAR_SR.gui.CreateList_SkillType()
-	NSR_GUI_MAIN_skilldata_SkillType.comboBox = NSR_GUI_MAIN_skilldata_SkillType.comboBox or ZO_ComboBox_ObjectFromContainer(NSR_GUI_MAIN_skilldata:GetNamedChild("_SkillType"))
-	local NSR_comboBox = NSR_GUI_MAIN_skilldata_SkillType.comboBox
-
-	addon.skillType_Names = {}
-	addon.skillType_Data = {}
-	for key, value in ipairs(t_skillType) do
-		addon.skillType_Names[key] = value
-		addon.skillType_Data[key] = {
-			name = value,
-			index = key,
-		}
-	end
-
-	local function OnItemSelect(_, choiceText, choice)
-		SetSelectedSkillType(choiceText)
-
-		addon.gui.UpdateList_SkillLine(true)
-		addon.gui.UpdateList_abilities()
-		-- PlaySound(SOUNDS.POSITIVE_CLICK)
-	end
-
-	NSR_comboBox:SetSortsItems(false)
-
-	for k,_ in ipairs(addon.skillType_Names) do
-		NSR_comboBox:AddItem(NSR_comboBox:CreateItemEntry(addon.skillType_Names[k], OnItemSelect))
-		if addon.skillType_Names[k] == selected_skillType_name then
-			NSR_comboBox:SetSelectedItem(addon.skillType_Names[k])
-		end
-	end
-
-end
-
--------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-local function SetSelectedSkillLine(stName)
-	for i = 1, #addon.skillLine_Data do
-		if stName == addon.skillLine_Data[i].name then
-			selected_skillLine = addon.skillLine_Data[i].index
-			break
-		end
-	end
-end
-
-function NEAR_SR.gui.UpdateList_SkillLine(setIndex)
-	local NSR_comboBox = NSR_GUI_MAIN_skilldata_SkillLine.comboBox
-
-	if setIndex then
-		selected_skillLine = 1
-		NSR_comboBox:SetSelectedItem(selected_skillLine_name)
-	end
-
-	-- purge previous data
-	addon.skillLine_Names = nil
-	addon.skillLine_Data = nil
-	NSR_comboBox:ClearItems()
-
-	addon.gui.CreateList_SkillLine()
-
-	NSR_comboBox:UpdateItems()
-
-end
-
-function NEAR_SR.gui.CreateList_SkillLine()
-	local selectedChar_charId = addon.gui.selectedChar_charId
-	local selectedChar_classId = addon.gui.selectedChar_classId
-
-	local sv = addon.ASV.settings
-	local sv_char = addon.ASV.char[selectedChar_charId]
-
-	NSR_GUI_MAIN_skilldata_SkillLine.comboBox = NSR_GUI_MAIN_skilldata_SkillLine.comboBox or ZO_ComboBox_ObjectFromContainer(NSR_GUI_MAIN_skilldata:GetNamedChild("_SkillLine"))
-	local NSR_comboBox = NSR_GUI_MAIN_skilldata_SkillLine.comboBox
-
-	addon.skillLine_Names = {}
-	addon.skillLine_Data = {}
-	-- check if there's data for that character
-	if sv_char == nil then
-
-		local unknown = 'No data'
-
-		addon.skillLine_Names[1] = unknown
-		addon.skillLine_Data[1] = {
-			name = unknown,
-			index = 1,
-		}
-
-		selected_skillLine = addon.skillLine_Data[1].index
-		selected_skillLine_name = addon.skillLine_Data[1].name
-
-	else
-
-		local function color(skillType, skillLine)
-			if skillType ~= SKILL_TYPE_CLASS then
-				local discovered = sv_char[skillType][skillLine].discovered
-				if discovered == false then return NEAR_SR.utils.color.grey
-				else return '' end
-			else
-				local discovered = sv_char[skillType][selectedChar_classId][skillLine].discovered
-				if discovered == false then return NEAR_SR.utils.color.grey
-				else return '' end
-			end
-		end
-
-		local prefix, mid = "Lv ", ' '
-
-		for skillLineIndex = 1, skillLineMaxIndexes[selected_skillType], 1 do
-
-			if selected_skillType ~= SKILL_TYPE_CLASS then
-				local sv_skillLine = sv_char[selected_skillType][skillLineIndex]
-
-				local skillLineName = addon.skilldata[selected_skillType][skillLineIndex].name
-				local skillLineRank = sv_skillLine.rank
-
-				local skillLineData = color(selected_skillType, skillLineIndex) ..prefix.. skillLineRank ..mid.. skillLineName
-
-				addon.skillLine_Names[skillLineIndex] = skillLineData
-				addon.skillLine_Data[skillLineIndex] = {
-					name = skillLineData,
-					index = skillLineIndex,
-				}
-
-				if selected_skillLine == addon.skillLine_Data[skillLineIndex].index then
-					selected_skillLine_name = addon.skillLine_Data[skillLineIndex].name
-				end
-
-			elseif selected_skillType == SKILL_TYPE_CLASS then
-				local sv_skillLine = sv_char[selected_skillType][selectedChar_classId][skillLineIndex]
-
-				local skillLineName = addon.skilldata[selected_skillType][selectedChar_classId][skillLineIndex].name
-				local skillLineRank = sv_skillLine.rank
-
-				local skillLineData = color(selected_skillType, skillLineIndex) ..prefix.. skillLineRank ..mid.. skillLineName
-
-				addon.skillLine_Names[skillLineIndex] = skillLineData
-				addon.skillLine_Data[skillLineIndex] = {
-					name = skillLineData,
-					index = skillLineIndex,
-				}
-
-				if selected_skillLine == addon.skillLine_Data[skillLineIndex].index then
-					selected_skillLine_name = addon.skillLine_Data[skillLineIndex].name
-				end
-
-			else
-				--[[ Debug ]] if sv.debug then d('error at CreateList_SkillLine()') end
-			end
-
-		end
-	end
-
-	local function OnItemSelect(_, choiceText, choice)
-		SetSelectedSkillLine(choiceText)
-
-		addon.gui.UpdateList_abilities()
-		-- PlaySound(SOUNDS.POSITIVE_CLICK)
-	end
-
-	NSR_comboBox:SetSortsItems(false)
-
-	for k,_ in ipairs(addon.skillLine_Names) do
-		NSR_comboBox:AddItem(NSR_comboBox:CreateItemEntry(addon.skillLine_Names[k], OnItemSelect))
-		if addon.skillLine_Names[k] == selected_skillLine_name then
-			NSR_comboBox:SetSelectedItem(addon.skillLine_Names[k])
-		end
-	end
-
-end
-
--------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-function NEAR_SR.gui.UpdateList_abilities()
-	addon.gui.CreateList_abilities()
-
-	NSR_GUI_MAIN_Abilities_Name:SetText(selectedSkillLine_abilities_name)
-	NSR_GUI_MAIN_Abilities_Rank:SetText(selectedSkillLine_abilities_rank)
-end
 
 local function buildData(numSkills, sd_skillLine, sv_skillLine)
 	local indent = '     '
@@ -364,7 +71,7 @@ local function buildData(numSkills, sd_skillLine, sv_skillLine)
 	end
 end
 
-function NEAR_SR.gui.CreateList_abilities()
+local function gui_CreateList_abilities()
 	local selectedChar_charId = addon.gui.selectedChar_charId
 	local selectedChar_classId = addon.gui.selectedChar_classId
 
@@ -478,6 +185,192 @@ function NEAR_SR.gui.CreateList_abilities()
 	end
 end
 
+local function gui_UpdateList_abilities()
+	gui_CreateList_abilities()
+
+	NSR_GUI_MAIN_Abilities_Name:SetText(selectedSkillLine_abilities_name)
+	NSR_GUI_MAIN_Abilities_Rank:SetText(selectedSkillLine_abilities_rank)
+end
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+local function SetSelectedSkillLine(stName)
+	for i = 1, #addon.skillLine_Data do
+		if stName == addon.skillLine_Data[i].name then
+			selected_skillLine = addon.skillLine_Data[i].index
+			break
+		end
+	end
+end
+
+local function gui_CreateList_SkillLine()
+	local selectedChar_charId = addon.gui.selectedChar_charId
+	local selectedChar_classId = addon.gui.selectedChar_classId
+
+	local sv = addon.ASV.settings
+	local sv_char = addon.ASV.char[selectedChar_charId]
+
+	NSR_GUI_MAIN_skilldata_SkillLine.comboBox = NSR_GUI_MAIN_skilldata_SkillLine.comboBox or ZO_ComboBox_ObjectFromContainer(NSR_GUI_MAIN_skilldata:GetNamedChild("_SkillLine"))
+	local NSR_comboBox = NSR_GUI_MAIN_skilldata_SkillLine.comboBox
+
+	addon.skillLine_Names = {}
+	addon.skillLine_Data = {}
+	-- check if there's data for that character
+	if sv_char == nil then
+
+		local unknown = 'No data'
+
+		addon.skillLine_Names[1] = unknown
+		addon.skillLine_Data[1] = {
+			name = unknown,
+			index = 1,
+		}
+
+		selected_skillLine = addon.skillLine_Data[1].index
+		selected_skillLine_name = addon.skillLine_Data[1].name
+
+	else
+
+		local function color(skillType, skillLine)
+			if skillType ~= SKILL_TYPE_CLASS then
+				local discovered = sv_char[skillType][skillLine].discovered
+				if discovered == false then return NEAR_SR.utils.color.grey
+				else return '' end
+			else
+				local discovered = sv_char[skillType][selectedChar_classId][skillLine].discovered
+				if discovered == false then return NEAR_SR.utils.color.grey
+				else return '' end
+			end
+		end
+
+		local prefix, mid = "Lv ", ' '
+
+		for skillLineIndex = 1, skillLineMaxIndexes[selected_skillType], 1 do
+
+			if selected_skillType ~= SKILL_TYPE_CLASS then
+				local sv_skillLine = sv_char[selected_skillType][skillLineIndex]
+
+				local skillLineName = addon.skilldata[selected_skillType][skillLineIndex].name
+				local skillLineRank = sv_skillLine.rank
+
+				local skillLineData = color(selected_skillType, skillLineIndex) ..prefix.. skillLineRank ..mid.. skillLineName
+
+				addon.skillLine_Names[skillLineIndex] = skillLineData
+				addon.skillLine_Data[skillLineIndex] = {
+					name = skillLineData,
+					index = skillLineIndex,
+				}
+
+				if selected_skillLine == addon.skillLine_Data[skillLineIndex].index then
+					selected_skillLine_name = addon.skillLine_Data[skillLineIndex].name
+				end
+
+			elseif selected_skillType == SKILL_TYPE_CLASS then
+				local sv_skillLine = sv_char[selected_skillType][selectedChar_classId][skillLineIndex]
+
+				local skillLineName = addon.skilldata[selected_skillType][selectedChar_classId][skillLineIndex].name
+				local skillLineRank = sv_skillLine.rank
+
+				local skillLineData = color(selected_skillType, skillLineIndex) ..prefix.. skillLineRank ..mid.. skillLineName
+
+				addon.skillLine_Names[skillLineIndex] = skillLineData
+				addon.skillLine_Data[skillLineIndex] = {
+					name = skillLineData,
+					index = skillLineIndex,
+				}
+
+				if selected_skillLine == addon.skillLine_Data[skillLineIndex].index then
+					selected_skillLine_name = addon.skillLine_Data[skillLineIndex].name
+				end
+
+			else
+				--[[ Debug ]] if sv.debug then d('error at CreateList_SkillLine()') end
+			end
+
+		end
+	end
+
+	local function OnItemSelect(_, choiceText, choice)
+		SetSelectedSkillLine(choiceText)
+
+		gui_UpdateList_abilities()
+		-- PlaySound(SOUNDS.POSITIVE_CLICK)
+	end
+
+	NSR_comboBox:SetSortsItems(false)
+
+	for k,_ in ipairs(addon.skillLine_Names) do
+		NSR_comboBox:AddItem(NSR_comboBox:CreateItemEntry(addon.skillLine_Names[k], OnItemSelect))
+		if addon.skillLine_Names[k] == selected_skillLine_name then
+			NSR_comboBox:SetSelectedItem(addon.skillLine_Names[k])
+		end
+	end
+
+end
+
+local function gui_UpdateList_SkillLine(setIndex)
+	local NSR_comboBox = NSR_GUI_MAIN_skilldata_SkillLine.comboBox
+
+	if setIndex then
+		selected_skillLine = 1
+		NSR_comboBox:SetSelectedItem(selected_skillLine_name)
+	end
+
+	-- purge previous data
+	addon.skillLine_Names = nil
+	addon.skillLine_Data = nil
+	NSR_comboBox:ClearItems()
+
+	gui_CreateList_SkillLine()
+
+	NSR_comboBox:UpdateItems()
+
+end
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+local function SetSelectedSkillType(stName)
+	for i = 1, #addon.skillType_Data do
+		if stName == addon.skillType_Data[i].name then
+			selected_skillType = addon.skillType_Data[i].index
+			break
+		end
+	end
+end
+
+local function gui_CreateList_SkillType()
+	NSR_GUI_MAIN_skilldata_SkillType.comboBox = NSR_GUI_MAIN_skilldata_SkillType.comboBox or ZO_ComboBox_ObjectFromContainer(NSR_GUI_MAIN_skilldata:GetNamedChild("_SkillType"))
+	local NSR_comboBox = NSR_GUI_MAIN_skilldata_SkillType.comboBox
+
+	addon.skillType_Names = {}
+	addon.skillType_Data = {}
+	for key, value in ipairs(skillTypesTable) do
+		addon.skillType_Names[key] = value
+		addon.skillType_Data[key] = {
+			name = value,
+			index = key,
+		}
+	end
+
+	local function OnItemSelect(_, choiceText, choice)
+		SetSelectedSkillType(choiceText)
+
+		gui_UpdateList_SkillLine(true)
+		gui_UpdateList_abilities()
+		-- PlaySound(SOUNDS.POSITIVE_CLICK)
+	end
+
+	NSR_comboBox:SetSortsItems(false)
+
+	for k,_ in ipairs(addon.skillType_Names) do
+		NSR_comboBox:AddItem(NSR_comboBox:CreateItemEntry(addon.skillType_Names[k], OnItemSelect))
+		if addon.skillType_Names[k] == selected_skillType_name then
+			NSR_comboBox:SetSelectedItem(addon.skillType_Names[k])
+		end
+	end
+
+end
+
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- skill line quick view functions
@@ -488,29 +381,7 @@ local first_time = true
 local selected_page = 1
 ---------------------------------------------------------------------------------
 
--- Show or hide the window
-function NEAR_SR.gui.quick.ToggleWindow()
-	NSR_QUICK:ToggleHidden()
-end
-
--- OnShow update window data
-function NEAR_SR.gui.quick.OnShow()
-
-	if first_time then
-		-- add a margin bellow
-		local control = GetControl("NSR_QUICK")
-		local current = control:GetHeight()
-		control:SetHeight(current + 10)
-
-		first_time = false
-	end
-
-	NEAR_SR.gui.quick.UpdateList(selected_page)
-end
-
--------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-function NEAR_SR.gui.quick.CreateListChar()
+local function quick_CreateListChar()
 
 	for i, charData in ipairs(addon.charData) do
 		local name = charData.charName
@@ -526,35 +397,7 @@ function NEAR_SR.gui.quick.CreateListChar()
 	end
 end
 
-function NEAR_SR.gui.quick.UpdateList(page)
-	selected_page = page
-
-	-- Determine which control to show based on the selected page
-	local showPage1 = (page == 1)
-
-	-- Show/hide the appropriate controls
-	local controlSkills1 = GetControl("NSR_QUICK_HEADER_Skills1")
-	local controlSkills2 = GetControl("NSR_QUICK_HEADER_Skills2")
-	controlSkills1:SetHidden(not showPage1)
-	controlSkills2:SetHidden(showPage1)
-
-	-- Update page textures based on the selected page
-	local controlPage1 = GetControl("NSR_QUICK_PAGE_Page1")
-	local controlPage2 = GetControl("NSR_QUICK_PAGE_Page2")
-	if showPage1 then
-		controlPage1:SetNormalTexture("/esoui/art/guild/tabicon_roster_down.dds")
-		controlPage2:SetNormalTexture("/esoui/art/guild/tabicon_roster_up.dds")
-	else
-		controlPage1:SetNormalTexture("/esoui/art/guild/tabicon_roster_up.dds")
-		controlPage2:SetNormalTexture("/esoui/art/guild/tabicon_roster_down.dds")
-	end
-
-	-- Update controls information based on selected page
-	addon.gui.quick.CreateList(page)
-
-end
-
-function NEAR_SR.gui.quick.CreateList(page)
+local function quick_CreateList(page)
 
 	local function updateRanks(skillTypes)
 		for i, charData in ipairs(addon.charData) do
@@ -627,9 +470,37 @@ function NEAR_SR.gui.quick.CreateList(page)
 
 end
 
+local function quick_UpdateList(page)
+	selected_page = page
+
+	-- Determine which control to show based on the selected page
+	local showPage1 = (page == 1)
+
+	-- Show/hide the appropriate controls
+	local controlSkills1 = GetControl("NSR_QUICK_HEADER_Skills1")
+	local controlSkills2 = GetControl("NSR_QUICK_HEADER_Skills2")
+	controlSkills1:SetHidden(not showPage1)
+	controlSkills2:SetHidden(showPage1)
+
+	-- Update page textures based on the selected page
+	local controlPage1 = GetControl("NSR_QUICK_PAGE_Page1")
+	local controlPage2 = GetControl("NSR_QUICK_PAGE_Page2")
+	if showPage1 then
+		controlPage1:SetNormalTexture("/esoui/art/guild/tabicon_roster_down.dds")
+		controlPage2:SetNormalTexture("/esoui/art/guild/tabicon_roster_up.dds")
+	else
+		controlPage1:SetNormalTexture("/esoui/art/guild/tabicon_roster_up.dds")
+		controlPage2:SetNormalTexture("/esoui/art/guild/tabicon_roster_down.dds")
+	end
+
+	-- Update controls information based on selected page
+	quick_CreateList(page)
+
+end
+
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-function NEAR_SR.gui.quick.CreateLines()
+local function quick_CreateLines()
 
 	for i = 0, 19 do
 		local parent = "NSR_QUICK_HEADER"
@@ -663,7 +534,7 @@ function NEAR_SR.gui.quick.CreateLines()
 
 end
 
-function NEAR_SR.gui.quick.CreateControls()
+local function quick_CreateControls()
 
 	CreateControl("NSR_QUICK_MAIN_".."List", GetControl("NSR_QUICK_MAIN"), CT_CONTROL)
 	local control = GetControl("NSR_QUICK_MAIN_List")
@@ -721,7 +592,7 @@ end
 
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
--- unranked view functions
+-- unranked window functions
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 NEAR_SR.gui.unranked = {}
@@ -729,7 +600,7 @@ local unranked_abilities_name = ''
 local unranked_abilities_rank = ''
 ---------------------------------------------------------------------------------
 
-function NEAR_SR.gui.unranked.Init()
+local function unranked_setup()
 	local scrollContainer = NSR_UNRANKED_MAIN:GetNamedChild("ScrollChild")
 	local abilities = CreateControl(scrollContainer:GetName() .. "_Abilities", scrollContainer, CT_CONTROL)
 	abilities:SetResizeToFitDescendents(true)
@@ -740,32 +611,9 @@ function NEAR_SR.gui.unranked.Init()
 	local rank = CreateControl(abilities:GetName() .. "_Rank", abilities, CT_LABEL)
 	rank:SetAnchor(TOPLEFT, name, TOPRIGHT, 50)
 	rank:SetFont("ZoFontGameMedium")
-
-	addon.gui.CreateList_Char(NSR_UNRANKED_HEADER)
-	addon.gui.unranked.UpdateList_abilities()
 end
 
--- Show or hide the window
-function NEAR_SR.gui.unranked.ToggleWindow()
-	NSR_UNRANKED:ToggleHidden()
-end
-
--- OnShow update window data
-function NEAR_SR.gui.unranked.OnShow()
-	NEAR_SR.gui.unranked.UpdateList_abilities()
-end
-
--------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-function NEAR_SR.gui.unranked.UpdateList_abilities()
-	addon.gui.unranked.CreateList_abilities()
-
-	local control = NSR_UNRANKED_MAIN:GetNamedChild("ScrollChild")
-	control = control:GetNamedChild("_Abilities")
-
-	control:GetNamedChild("_Name"):SetText(unranked_abilities_name)
-	control:GetNamedChild("_Rank"):SetText(unranked_abilities_rank)
-end
+---------------------------------------------------------------------------------
 
 local function getEquippedAbilities()
 	local abilities = {}
@@ -792,7 +640,6 @@ local function buildDataUnranked(sv_character)
 	unranked_abilities_rank = ''
 	local indent = '     '
 	local equippedAbilities = getEquippedAbilities()
-	d(equippedAbilities)
 	local color = addon.utils.color.darkGreen
 
 	for skillTypeIndex, skillType in ipairs(sv_character) do
@@ -811,7 +658,7 @@ local function buildDataUnranked(sv_character)
 								local morphRank = sv_character[skillTypeIndex][classId][skillLineIndex][abilityIndex][morphIndex]
 								if morphRank < 4 then
 									if not skillTypeHeaderAdded then
-										unranked_abilities_name = unranked_abilities_name .. '\nSkill Type: ' .. t_skillType[skillTypeIndex]
+										unranked_abilities_name = unranked_abilities_name .. '\nSkill Type: ' .. skillTypesTable[skillTypeIndex]
 										unranked_abilities_rank = unranked_abilities_rank .. '\n'
 										skillTypeHeaderAdded = true
 									end
@@ -849,7 +696,7 @@ local function buildDataUnranked(sv_character)
 							local morphRank = sv_character[skillTypeIndex][skillLineIndex][abilityIndex][morphIndex]
 							if morphRank < 4 then
 								if not skillTypeHeaderAdded then
-									unranked_abilities_name = unranked_abilities_name .. '\nSkill Type: ' .. t_skillType[skillTypeIndex]
+									unranked_abilities_name = unranked_abilities_name .. '\nSkill Type: ' .. skillTypesTable[skillTypeIndex]
 									unranked_abilities_rank = unranked_abilities_rank .. '\n'
 									skillTypeHeaderAdded = true
 								end
@@ -876,7 +723,7 @@ local function buildDataUnranked(sv_character)
 	end
 end
 
-function NEAR_SR.gui.unranked.CreateList_abilities()
+local function unranked_CreateList_abilities()
 	local selectedChar_charId = addon.gui.selectedChar_charId
 
 	local utils = addon.utils
@@ -891,4 +738,156 @@ function NEAR_SR.gui.unranked.CreateList_abilities()
 	end
 
 	buildDataUnranked(addon.ASV.char[selectedChar_charId])
+end
+
+local function unranked_UpdateList_abilities()
+	unranked_CreateList_abilities()
+
+	local control = NSR_UNRANKED_MAIN:GetNamedChild("ScrollChild")
+	control = control:GetNamedChild("_Abilities")
+
+	control:GetNamedChild("_Name"):SetText(unranked_abilities_name)
+	control:GetNamedChild("_Rank"):SetText(unranked_abilities_rank)
+end
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+local function SetSelectedChar(charName)
+	for i = 1, #addon.charData do
+		if charName == addon.charData[i].charName then
+			addon.gui.selectedChar_charId = addon.charData[i].charId
+			addon.gui.selectedChar_classId = addon.charData[i].classId
+			break
+		end
+	end
+end
+
+local function gui_CreateList_Char(control)
+	local sv = addon.ASV.settings
+
+	control.comboBox = control.comboBox or ZO_ComboBox_ObjectFromContainer(control:GetNamedChild("_CharList"))
+	local NSR_comboBox = control.comboBox
+
+	addon.charNames = {}
+	addon.charData = {}
+	for k,_ in ipairs(sv.charInfo) do
+		addon.charNames[k] = sv.charInfo[k].charName
+		addon.charData[k] = {
+			charId = sv.charInfo[k].charId,
+			charName = sv.charInfo[k].charName,
+			classId = sv.charInfo[k].classId,
+		}
+
+		if GetCurrentCharacterId() == addon.charData[k].charId then
+			selectedChar_name = addon.charData[k].charName
+			addon.gui.selectedChar_charId = addon.charData[k].charId
+			addon.gui.selectedChar_classId = addon.charData[k].classId
+		end
+	end
+
+	local function OnItemSelect(_, choiceText, choice)
+		SetSelectedChar(choiceText)
+
+		if not NSR_GUI:IsHidden() then
+			gui_UpdateList_SkillLine()
+			gui_UpdateList_abilities()
+			if GetControl(NSR_comboBox) ~= NSR_GUI_MAIN_skilldata_CharList then
+				local ctrl = GetControl("NSR_GUI_MAIN_skilldata_CharListSelectedItemText")
+				ctrl:SetText(choiceText)
+			end
+		end
+
+		if not NSR_UNRANKED:IsHidden() then
+			unranked_UpdateList_abilities()
+			if GetControl(NSR_comboBox) ~= NSR_UNRANKED_HEADER_CharList then
+				local ctrl = GetControl("NSR_UNRANKED_HEADER_CharListSelectedItemText")
+				ctrl:SetText(choiceText)
+			end
+		end
+
+		-- PlaySound(SOUNDS.POSITIVE_CLICK)
+	end
+
+	NSR_comboBox:SetSortsItems(false)
+
+	for k,_ in ipairs(addon.charNames) do
+		NSR_comboBox:AddItem(NSR_comboBox:CreateItemEntry(addon.charNames[k], OnItemSelect))
+		if addon.charNames[k] == selectedChar_name then
+			NSR_comboBox:SetSelectedItem(addon.charNames[k])
+		end
+	end
+end
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+function NEAR_SR.gui.Init()
+	gui_CreateList_Char(NSR_GUI_MAIN_skilldata)
+	gui_CreateList_SkillType()
+	gui_CreateList_SkillLine()
+	gui_UpdateList_abilities()
+
+	local control = GetControl("NSR_GUI_MAIN_skilldata_ShowQuick")
+	control:SetText(GetString(NEARSR_quick))
+
+	addon.gui.quick.Init()
+	addon.gui.unranked.Init()
+end
+
+-- Show or hide the window
+function NEAR_SR.gui.ToggleWindow()
+	NSR_GUI:ToggleHidden()
+end
+
+-- OnShow update window data
+function NEAR_SR.gui.OnShow()
+	gui_UpdateList_SkillLine()
+	gui_UpdateList_abilities()
+end
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+function NEAR_SR.gui.quick.Init()
+	quick_CreateControls()
+	quick_CreateLines()
+	quick_CreateListChar()
+end
+
+-- Show or hide the window
+function NEAR_SR.gui.quick.ToggleWindow()
+	NSR_QUICK:ToggleHidden()
+end
+
+-- OnShow update window data
+function NEAR_SR.gui.quick.OnShow()
+
+	if first_time then
+		-- add a margin bellow
+		local control = GetControl("NSR_QUICK")
+		local current = control:GetHeight()
+		control:SetHeight(current + 10)
+
+		first_time = false
+	end
+
+	quick_UpdateList(selected_page)
+end
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+function NEAR_SR.gui.unranked.Init()
+	unranked_setup()
+
+	gui_CreateList_Char(NSR_UNRANKED_HEADER)
+	unranked_UpdateList_abilities()
+end
+
+-- Show or hide the window
+function NEAR_SR.gui.unranked.ToggleWindow()
+	NSR_UNRANKED:ToggleHidden()
+end
+
+-- OnShow update window data
+function NEAR_SR.gui.unranked.OnShow()
+	unranked_UpdateList_abilities()
 end

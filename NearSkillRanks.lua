@@ -8,7 +8,7 @@ local addon = NEAR_SR
 
 NEAR_SR.SKILL_TYPE_TRADESKILL = 7
 
-function NEAR_SR.RegisterSlashCommands()
+local function RegisterSlashCommands()
 	-- toggle window
 	SLASH_COMMANDS["/sr"] = NEAR_SR.gui.ToggleWindow
 	SLASH_COMMANDS["/srq"] = NEAR_SR.gui.quick.ToggleWindow
@@ -29,7 +29,7 @@ local function OnAddonLoaded(event, name)
 
 	addon.func.Init()
 	addon.gui.Init()
-	addon.RegisterSlashCommands()
+	RegisterSlashCommands()
 
 	-- Events
 	EVENT_MANAGER:RegisterForEvent(addon.name, EVENT_ABILITY_PROGRESSION_RANK_UPDATE,   NEAR_SR.func.OnMorphRankUpdate)

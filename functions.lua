@@ -2,11 +2,7 @@ NEAR_SR.func = {}
 local addon = NEAR_SR
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
----@param skillLineId integer
----@param skillIndex luaindex
----@param morphChoice integer
----@return rank
-function NEAR_SR.func.GetMorphInfo(skillLineId, skillIndex, morphChoice)
+local function GetMorphInfo(skillLineId, skillIndex, morphChoice)
 	local skillType, skillLineIndex = GetSkillLineIndicesFromSkillLineId(skillLineId)
 
 	local morphRank = GetSkillLineProgressionAbilityRank(skillType, skillLineIndex, skillIndex, morphChoice)
@@ -14,9 +10,7 @@ function NEAR_SR.func.GetMorphInfo(skillLineId, skillIndex, morphChoice)
 	return morphRank
 end
 
----@param skillLineId integer
----@return rank luaindex, discovered boolean
-function NEAR_SR.func.GetSkillLineInfo(skillLineId)
+local function GetSkillLineInfo(skillLineId)
 	local skillType, skillLineIndex = GetSkillLineIndicesFromSkillLineId(skillLineId)
 
 	local skillLineInfo = {}
@@ -54,26 +48,7 @@ function NEAR_SR.func.GetSkillLineMaxRank(skillType, skillLineIndex)
 end
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
-local skillTypeIndexes = {
-	SKILL_TYPE_CLASS,
-	SKILL_TYPE_WEAPON,
-	SKILL_TYPE_ARMOR,
-	SKILL_TYPE_WORLD,
-	SKILL_TYPE_GUILD,
-	SKILL_TYPE_AVA,
-	-- SKILL_TYPE_RACIAL,
-	addon.SKILL_TYPE_TRADESKILL,
-}
-
-function NEAR_SR.func.Init()
-	addon.func.UpdateCharList()
-	for _, v in ipairs(skillTypeIndexes) do
-		addon.func.CreateCharData(v)
-	end
-end
-
--------------------------------------------------------------------------------------------------------------------------------------------------------------------
-function NEAR_SR.func.UpdateCharList()
+local function UpdateCharList()
 	local sv = addon.ASV.settings
 	for i = 1, GetNumCharacters() do
 		local name, _, _, classId, _, _, id, _ = GetCharacterInfo(i)
@@ -82,7 +57,7 @@ function NEAR_SR.func.UpdateCharList()
 end
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
-function NEAR_SR.func.CreateCharData(skillType)
+local function CreateCharData(skillType)
 	local funcName = 'CreateCharData'
 	local dbg      = addon.utils.dbg
 	local sv       = addon.ASV.settings
@@ -115,7 +90,7 @@ function NEAR_SR.func.CreateCharData(skillType)
 	for skillLineIndex, skillLine in ipairs(skillType == SKILL_TYPE_CLASS and addon.skilldata[skillType][classId] or addon.skilldata[skillType]) do
 		-- define skill line data
 		local skillLineId = skillLine.id
-		local skillLineRank, skillLineDiscovered = addon.func.GetSkillLineInfo(skillLineId)
+		local skillLineRank, skillLineDiscovered = GetSkillLineInfo(skillLineId)
 
 		--[[ Debug ]]
 		if sv.debug then
@@ -147,9 +122,9 @@ function NEAR_SR.func.CreateCharData(skillType)
 		for skillIndex = 1, 7, 1 do
 			if skillLine[skillIndex] ~= nil and not IsCraftedAbilitySkill(skillType, skillLineIndex, skillIndex) then
 
-				local morphRank_0 = addon.func.GetMorphInfo(skillLineId, skillIndex, 0)
-				local morphRank_1 = addon.func.GetMorphInfo(skillLineId, skillIndex, 1)
-				local morphRank_2 = addon.func.GetMorphInfo(skillLineId, skillIndex, 2)
+				local morphRank_0 = GetMorphInfo(skillLineId, skillIndex, 0)
+				local morphRank_1 = GetMorphInfo(skillLineId, skillIndex, 1)
+				local morphRank_2 = GetMorphInfo(skillLineId, skillIndex, 2)
 
 				--[[ Debug ]]
 				if sv.debug then
@@ -188,7 +163,7 @@ end
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-function NEAR_SR.func.UpdateCharData(updatedRankType, skillType, skillLineIndex, skillIndex)
+local function UpdateCharData(updatedRankType, skillType, skillLineIndex, skillIndex)
 	local funcName = 'UpdateCharData'
 	local dbg      = addon.utils.dbg
 	local sv       = addon.ASV.settings
@@ -232,9 +207,9 @@ function NEAR_SR.func.UpdateCharData(updatedRankType, skillType, skillLineIndex,
 	elseif updatedRankType == 'morph' then
 		local skillLineId = GetSkillLineId(skillType, skillLineIndex)
 
-		local morphRank_0 = addon.func.GetMorphInfo(skillLineId, skillIndex, 0)
-		local morphRank_1 = addon.func.GetMorphInfo(skillLineId, skillIndex, 1)
-		local morphRank_2 = addon.func.GetMorphInfo(skillLineId, skillIndex, 2)
+		local morphRank_0 = GetMorphInfo(skillLineId, skillIndex, 0)
+		local morphRank_1 = GetMorphInfo(skillLineId, skillIndex, 1)
+		local morphRank_2 = GetMorphInfo(skillLineId, skillIndex, 2)
 
 		--[[ Debug ]]
 		if sv.debug then
@@ -269,16 +244,34 @@ end
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 function NEAR_SR.func.OnMorphRankUpdate(event, progressionIndex, rank, maxRank, morph)
 	local skillType, skillLineIndex, skillIndex = GetSkillAbilityIndicesFromProgressionIndex(progressionIndex)
-
-	addon.func.UpdateCharData('morph', skillType, skillLineIndex, skillIndex)
+	UpdateCharData('morph', skillType, skillLineIndex, skillIndex)
 end
 
 function NEAR_SR.func.OnSkillRankUpdate(event, skillType, skillLineIndex, skillLineRank)
 	if skillType == SKILL_TYPE_RACIAL then return end -- racial is not being tracked so exit early
-	addon.func.UpdateCharData('skillLine', skillType, skillLineIndex)
+	UpdateCharData('skillLine', skillType, skillLineIndex)
 end
 
 function NEAR_SR.func.OnSkillLineAdded(event, skillType, skillLineIndex, advised)
 	if skillType == SKILL_TYPE_RACIAL then return end -- racial is not being tracked so exit early
-	addon.func.UpdateCharData('skillLine', skillType, skillLineIndex)
+	UpdateCharData('skillLine', skillType, skillLineIndex)
+end
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+local skillTypeIndexes = {
+	SKILL_TYPE_CLASS,
+	SKILL_TYPE_WEAPON,
+	SKILL_TYPE_ARMOR,
+	SKILL_TYPE_WORLD,
+	SKILL_TYPE_GUILD,
+	SKILL_TYPE_AVA,
+	-- SKILL_TYPE_RACIAL,
+	addon.SKILL_TYPE_TRADESKILL,
+}
+
+function NEAR_SR.func.Init()
+	UpdateCharList()
+	for _, v in ipairs(skillTypeIndexes) do
+		CreateCharData(v)
+	end
 end

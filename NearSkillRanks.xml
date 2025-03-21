@@ -23,7 +23,7 @@
 							<Dimensions x="25" y="25" />
 							<Anchor point="TOPRIGHT" relativeTo="$(parent)" relativePoint="TOPRIGHT" offsetX="-3" offsetY="3"/>
 							<Textures normal="/esoui/art/buttons/decline_up.dds" pressed="/esoui/art/buttons/decline_down.dds" mouseOver="/esoui/art/buttons/decline_over.dds"/>
-							<OnClicked>NEAR_SR.gui.CloseWindow()</OnClicked>
+							<OnClicked>NSR_GUI:SetHidden(true)</OnClicked>
 						</Button>
 
 						<!-- Add title on the center -->
