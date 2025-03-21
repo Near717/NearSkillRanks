@@ -840,6 +840,10 @@ local function buildDataUnranked(sv_character)
 			for skillLineIndex, skillLine in ipairs(skillType) do
 				local skillLineHeaderAdded = false
 
+				if skillTypeIndex == SKILL_TYPE_WORLD and (skillLineIndex == 5 or skillLineIndex == 6) and sv_character[skillTypeIndex][skillLineIndex].discovered == false then
+					break
+				end
+
 				for abilityIndex = 1, 7 do
 					if skillLine[abilityIndex] ~= nil then
 						for morphIndex = 0, 2 do
