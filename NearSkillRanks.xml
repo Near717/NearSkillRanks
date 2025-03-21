@@ -503,7 +503,7 @@
 
 
 		<TopLevelControl name="NSR_UNRANKED" mouseEnabled="true" movable="true" clampedToScreen="true" hidden="true" tier="MEDIUM">
-            <DimensionConstraints minX="800" minY="700"/>
+            <DimensionConstraints minX="500" minY="700"/>
             <Anchor point="CENTER"/>
 
             <OnShow>
@@ -535,19 +535,19 @@
 							<Anchor point="TOPRIGHT" relativeTo="$(parent)" relativePoint="TOPRIGHT"/>
 						</Label>
 
-						<!-- Add character list dropdown -->
-						<Control name="$(parent)_CharList" inherits="ZO_ComboBox">
-							<Dimensions x="150" y="30"/>
-							<Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetY="5"/>
-						</Control>
-
 					</Controls>
+				</Control>
+
+				<!-- Add character list dropdown -->
+				<Control name="$(parent)_CharList" inherits="ZO_ComboBox">
+					<Dimensions x="280" y="30"/>
+					<Anchor point="TOPLEFT" relativeTo="$(parent)_HEADER" relativePoint="BOTTOMLEFT" offsetY="10"/>
 				</Control>
 
 				<!-- Add main control -->
 				<Control name="$(parent)_MAIN" inherits="ZO_ScrollContainer">
-                	<Anchor point="TOPLEFT" relativeTo="$(parent)_HEADER" relativePoint="BOTTOMLEFT" offsetX="25" offsetY="10"/>
-                	<Anchor point="BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT" offsetX="-10" offsetY="-10"/>
+                	<Anchor point="TOPLEFT" relativeTo="$(parent)_CharList" relativePoint="BOTTOMLEFT" offsetX="10"/>
+                	<Anchor point="BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT"/>
 				</Control>
 
             </Controls>

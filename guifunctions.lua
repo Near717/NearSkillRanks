@@ -605,11 +605,13 @@ local function unranked_setup()
 	local abilities = CreateControl(scrollContainer:GetName() .. "_Abilities", scrollContainer, CT_CONTROL)
 	abilities:SetResizeToFitDescendents(true)
 	abilities:SetAnchor(TOPLEFT, scrollContainer)
+
 	local name = CreateControl(abilities:GetName() .. "_Name", abilities, CT_LABEL)
 	name:SetAnchor(TOPLEFT, abilities)
 	name:SetFont("ZoFontGameMedium")
+
 	local rank = CreateControl(abilities:GetName() .. "_Rank", abilities, CT_LABEL)
-	rank:SetAnchor(TOPLEFT, name, TOPRIGHT, 50)
+	rank:SetAnchor(TOPLEFT, name, TOPRIGHT, 20)
 	rank:SetFont("ZoFontGameMedium")
 end
 
@@ -797,8 +799,8 @@ local function gui_CreateList_Char(control)
 		end
 
 		unranked_UpdateList_abilities()
-		if GetControl(NSR_comboBox) ~= NSR_UNRANKED_HEADER_CharList then
-			local ctrl = GetControl("NSR_UNRANKED_HEADER_CharListSelectedItemText")
+		if GetControl(NSR_comboBox) ~= NSR_UNRANKED_CharList then
+			local ctrl = GetControl("NSR_UNRANKED_CharListSelectedItemText")
 			ctrl:SetText(choiceText)
 		end
 
@@ -874,7 +876,7 @@ end
 function NEAR_SR.gui.unranked.Init()
 	unranked_setup()
 
-	gui_CreateList_Char(NSR_UNRANKED_HEADER)
+	gui_CreateList_Char(NSR_UNRANKED)
 	unranked_UpdateList_abilities()
 end
 
