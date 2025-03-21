@@ -439,8 +439,7 @@ function NEAR_SR.gui.CreateList_abilities()
 		--------------------------------------------------------------------------------
 		-- 5 skills
 		--------------------------------------------------------------------------------
-		elseif (selected_skillType == SKILL_TYPE_GUILD and selected_skillLine == 6) or
-			(selected_skillType == SKILL_TYPE_AVA and selected_skillLine == 3) then
+		elseif (selected_skillType == SKILL_TYPE_GUILD and selected_skillLine == 6) then
 
 			if sv_skillLine.discovered == true then
 				buildData(5, sd_skillLine, sv_skillLine)
@@ -454,7 +453,7 @@ function NEAR_SR.gui.CreateList_abilities()
 		--------------------------------------------------------------------------------
 		elseif (selected_skillType == SKILL_TYPE_WORLD and (selected_skillLine == 5 or selected_skillLine == 6)) or
 			(selected_skillType == SKILL_TYPE_GUILD and (selected_skillLine == 2 or selected_skillLine == 3 or selected_skillLine == 4)) or
-			(selected_skillType == SKILL_TYPE_AVA and selected_skillLine == 1) then
+			(selected_skillType == SKILL_TYPE_AVA and (selected_skillLine == 1 or selected_skillLine == 3)) then
 
 			if sv_skillLine.discovered == true then
 				buildData(6, sd_skillLine, sv_skillLine)

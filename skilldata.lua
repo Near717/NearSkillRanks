@@ -1317,22 +1317,22 @@ NEAR_SR.skilldata = {
                 [1] = { id = 40237, name = zo_strformat("<<C:1>>", GetAbilityName(40237)), }, --
                 [2] = { id = 40239, name = zo_strformat("<<C:1>>", GetAbilityName(40239)), }, --
             },
-            [2] = { --
+            [3] = { --
                 [0] = { id = 38570, name = zo_strformat("<<C:1>>", GetAbilityName(38570)), }, --
                 [1] = { id = 40229, name = zo_strformat("<<C:1>>", GetAbilityName(40229)), }, --
                 [2] = { id = 40226, name = zo_strformat("<<C:1>>", GetAbilityName(40226)), }, --
             },
-            [3] = { --
+            [4] = { --
                 [0] = { id = 38571, name = zo_strformat("<<C:1>>", GetAbilityName(38571)), }, --
                 [1] = { id = 40232, name = zo_strformat("<<C:1>>", GetAbilityName(40232)), }, --
                 [2] = { id = 40234, name = zo_strformat("<<C:1>>", GetAbilityName(40234)), }, --
             },
-            [4] = { --
+            [5] = { --
                 [0] = { id = 61511, name = zo_strformat("<<C:1>>", GetAbilityName(61511)), }, --
                 [1] = { id = 61536, name = zo_strformat("<<C:1>>", GetAbilityName(61536)), }, --
                 [2] = { id = 61529, name = zo_strformat("<<C:1>>", GetAbilityName(61529)), }, --
             },
-            [5] = { -- Revealing Flare
+            [6] = { -- Revealing Flare
                 [0] = { id = 61489, name = zo_strformat("<<C:1>>", GetAbilityName(61489)), }, -- Revealing Flare
                 [1] = { id = 61519, name = zo_strformat("<<C:1>>", GetAbilityName(61519)), }, -- Lingering Flare
                 [2] = { id = 61524, name = zo_strformat("<<C:1>>", GetAbilityName(61524)), }, -- Blinding Flare
