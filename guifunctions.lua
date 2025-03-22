@@ -577,9 +577,10 @@ end
 NEAR_SR.gui.unranked = {}
 local unranked_abilities_name = ''
 local unranked_abilities_rank = ''
+local curses_text = ''
 ---------------------------------------------------------------------------------
 
-local function unranked_setup()
+local function unranked_setupControls()
 	local scrollContainer = NSR_UNRANKED_MAIN:GetNamedChild("ScrollChild")
 	local abilities = CreateControl(scrollContainer:GetName() .. "_Abilities", scrollContainer, CT_CONTROL)
 	abilities:SetResizeToFitDescendents(true)
@@ -592,6 +593,11 @@ local function unranked_setup()
 	local rank = CreateControl(abilities:GetName() .. "_Rank", abilities, CT_LABEL)
 	rank:SetAnchor(TOPLEFT, name, TOPRIGHT, 20)
 	rank:SetFont("ZoFontGameMedium")
+
+	local curse = CreateControl(abilities:GetName() .. "_Curses", abilities, CT_LABEL)
+	curse:SetAnchor(TOPLEFT, name, BOTTOMLEFT)
+	curse:SetFont("ZoFontGameMedium")
+	curse:SetColor(0.68, 0, 0)
 end
 
 ---------------------------------------------------------------------------------
@@ -616,12 +622,27 @@ local function getEquippedAbilities()
 	return abilities
 end
 
-local function buildDataUnranked(sv_character)
+local function handleVariants(equippedAbilities, morphData)
+	if equippedAbilities[morphData.id] then return true end
+	local i = 1
+	while true do
+		local variantId = morphData["id" .. i]
+		if variantId == nil then break end
+		if equippedAbilities[variantId] then return true end
+		i = i + 1
+	end
+	return false
+end
+
+local function buildDataUnranked(sv_character, selectedChar_charId)
 	unranked_abilities_name = ''
 	unranked_abilities_rank = ''
+	curses_text = ''
 	local indent = '     '
+	local colorEquipped = addon.utils.color.darkGreen
 	local equippedAbilities = getEquippedAbilities()
-	local color = addon.utils.color.darkGreen
+	local discoveredVampirism = true
+	local discoveredLycanthropy = true
 
 	for skillTypeIndex, skillType in ipairs(sv_character) do
 		if skillTypeIndex == NEAR_SR.SKILL_TYPE_TRADESKILL then break end
@@ -639,8 +660,11 @@ local function buildDataUnranked(sv_character)
 								local morphRank = sv_character[skillTypeIndex][classId][skillLineIndex][abilityIndex][morphIndex]
 								if morphRank < 4 then
 									if not skillTypeHeaderAdded then
-										unranked_abilities_name = unranked_abilities_name .. '\nSkill Type: ' .. skillTypesTable[skillTypeIndex]
-										unranked_abilities_rank = unranked_abilities_rank .. '\n'
+										if unranked_abilities_name ~= '' then
+											unranked_abilities_name = unranked_abilities_name .. '\n'
+											unranked_abilities_rank = unranked_abilities_rank .. '\n'
+										end
+										unranked_abilities_name = unranked_abilities_name .. 'Skill Type: ' .. skillTypesTable[skillTypeIndex]
 										skillTypeHeaderAdded = true
 									end
 
@@ -650,10 +674,12 @@ local function buildDataUnranked(sv_character)
 										skillLineHeaderAdded = true
 									end
 
-									if equippedAbilities[addon.skilldata[skillTypeIndex][classId][skillLineIndex][abilityIndex][morphIndex].id] then
-										unranked_abilities_name = unranked_abilities_name .. indent .. indent .. color .. addon.skilldata[skillTypeIndex][classId][skillLineIndex][abilityIndex][morphIndex].name .. '|r\n'
+									local morphData = addon.skilldata[skillTypeIndex][classId][skillLineIndex][abilityIndex][morphIndex]
+
+									if selectedChar_charId == GetCurrentCharacterId() and handleVariants(equippedAbilities, morphData) then
+										unranked_abilities_name = unranked_abilities_name .. indent .. indent .. colorEquipped .. morphData.name .. '|r\n'
 									else
-										unranked_abilities_name = unranked_abilities_name .. indent .. indent .. addon.skilldata[skillTypeIndex][classId][skillLineIndex][abilityIndex][morphIndex].name .. '\n'
+										unranked_abilities_name = unranked_abilities_name .. indent .. indent .. morphData.name .. '\n'
 									end
 
 									unranked_abilities_rank = unranked_abilities_rank .. 'Rank: ' .. morphRank .. '\n'
@@ -668,39 +694,63 @@ local function buildDataUnranked(sv_character)
 				local skillLineHeaderAdded = false
 
 				if skillTypeIndex == SKILL_TYPE_WORLD and (skillLineIndex == 5 or skillLineIndex == 6) and sv_character[skillTypeIndex][skillLineIndex].discovered == false then
-					break
-				end
+					if skillLineIndex == 5 then
+						discoveredVampirism = false
+					elseif skillLineIndex == 6 then
+						discoveredLycanthropy = false
+					end
+				else
+					for abilityIndex = 1, 7 do
+						if skillLine[abilityIndex] ~= nil then
+							for morphIndex = 0, 2 do
+								local morphRank = sv_character[skillTypeIndex][skillLineIndex][abilityIndex][morphIndex]
+								if morphRank < 4 then
+									if not skillTypeHeaderAdded then
+										if unranked_abilities_name ~= '' then
+											unranked_abilities_name = unranked_abilities_name .. '\n'
+											unranked_abilities_rank = unranked_abilities_rank .. '\n'
+										end
+										unranked_abilities_name = unranked_abilities_name .. 'Skill Type: ' .. skillTypesTable[skillTypeIndex]
+										skillTypeHeaderAdded = true
+									end
 
-				for abilityIndex = 1, 7 do
-					if skillLine[abilityIndex] ~= nil then
-						for morphIndex = 0, 2 do
-							local morphRank = sv_character[skillTypeIndex][skillLineIndex][abilityIndex][morphIndex]
-							if morphRank < 4 then
-								if not skillTypeHeaderAdded then
-									unranked_abilities_name = unranked_abilities_name .. '\nSkill Type: ' .. skillTypesTable[skillTypeIndex]
-									unranked_abilities_rank = unranked_abilities_rank .. '\n'
-									skillTypeHeaderAdded = true
+									if not skillLineHeaderAdded then
+										unranked_abilities_name = unranked_abilities_name .. '\n' .. indent .. 'Skill Line: ' .. addon.skilldata[skillTypeIndex][skillLineIndex].name .. '\n'
+										unranked_abilities_rank = unranked_abilities_rank .. '\n\n'
+										skillLineHeaderAdded = true
+									end
+
+									local morphData = addon.skilldata[skillTypeIndex][skillLineIndex][abilityIndex][morphIndex]
+
+									if selectedChar_charId == GetCurrentCharacterId() and handleVariants(equippedAbilities, morphData) then
+										unranked_abilities_name = unranked_abilities_name .. indent .. indent .. colorEquipped .. morphData.name .. '|r\n'
+									else
+										unranked_abilities_name = unranked_abilities_name .. indent .. indent .. morphData.name .. '\n'
+									end
+
+									unranked_abilities_rank = unranked_abilities_rank .. 'Rank: ' .. morphRank .. '\n'
 								end
-
-								if not skillLineHeaderAdded then
-									unranked_abilities_name = unranked_abilities_name .. '\n' .. indent .. 'Skill Line: ' .. addon.skilldata[skillTypeIndex][skillLineIndex].name .. '\n'
-									unranked_abilities_rank = unranked_abilities_rank .. '\n\n'
-									skillLineHeaderAdded = true
-								end
-
-								if equippedAbilities[addon.skilldata[skillTypeIndex][skillLineIndex][abilityIndex][morphIndex].id] then
-									unranked_abilities_name = unranked_abilities_name .. indent .. indent .. color .. addon.skilldata[skillTypeIndex][skillLineIndex][abilityIndex][morphIndex].name .. '|r\n'
-								else
-									unranked_abilities_name = unranked_abilities_name .. indent .. indent .. addon.skilldata[skillTypeIndex][skillLineIndex][abilityIndex][morphIndex].name .. '\n'
-								end
-
-								unranked_abilities_rank = unranked_abilities_rank .. 'Rank: ' .. morphRank .. '\n'
 							end
 						end
 					end
 				end
 			end
 		end
+	end
+
+	if unranked_abilities_name == '' then
+		unranked_abilities_name = GetString(NEARSR_completed)
+	end
+
+	if discoveredVampirism == false then
+		curses_text = GetString(NEARSR_vampirism)
+	end
+
+	if discoveredLycanthropy == false then
+		if curses_text ~= '' then
+			curses_text = curses_text .. '\n'
+		end
+		curses_text = curses_text .. GetString(NEARSR_lycanthropy)
 	end
 end
 
@@ -715,10 +765,11 @@ local function unranked_CreateList_abilities()
 
 		unranked_abilities_name = utils.color.red .. GetString(NEARSR_nodata) .. "|r"
 		unranked_abilities_rank = ''
+		curses_text = ''
 		return
 	end
 
-	buildDataUnranked(addon.ASV.char[selectedChar_charId])
+	buildDataUnranked(addon.ASV.char[selectedChar_charId], selectedChar_charId)
 end
 
 local function unranked_UpdateList_abilities()
@@ -729,6 +780,7 @@ local function unranked_UpdateList_abilities()
 
 	control:GetNamedChild("_Name"):SetText(unranked_abilities_name)
 	control:GetNamedChild("_Rank"):SetText(unranked_abilities_rank)
+	control:GetNamedChild("_Curses"):SetText(curses_text)
 end
 
 
@@ -802,7 +854,6 @@ function NEAR_SR.gui.Init()
 	gui_CreateList_Char(NSR_GUI_MAIN_skilldata)
 	gui_CreateList_SkillType()
 	gui_CreateList_SkillLine()
-	gui_UpdateList_abilities()
 
 	local control = GetControl("NSR_GUI_MAIN_skilldata_ShowQuick")
 	control:SetText(GetString(NEARSR_quick))
@@ -852,10 +903,8 @@ end
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 function NEAR_SR.gui.unranked.Init()
-	unranked_setup()
-
+	unranked_setupControls()
 	gui_CreateList_Char(NSR_UNRANKED)
-	unranked_UpdateList_abilities()
 end
 
 -- Show or hide the window
