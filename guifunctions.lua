@@ -900,6 +900,10 @@ function NEAR_SR.gui.quick.OnShow()
 	quick_UpdateList(selected_page)
 end
 
+function NEAR_SR.gui.quick.OnClicked(page)
+	quick_UpdateList(page)
+end
+
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 function NEAR_SR.gui.unranked.Init()
