@@ -651,9 +651,8 @@ local function buildDataUnranked(sv_character, selectedChar_charId)
 
 		if skillTypeIndex == SKILL_TYPE_CLASS then
 			for classId, classData in pairs(skillType) do
-				local skillLineHeaderAdded = false
-
 				for skillLineIndex, skillLine in ipairs(classData) do
+					local skillLineHeaderAdded = false
 					for abilityIndex = 1, 7 do
 						if skillLine[abilityIndex] ~= nil then
 							for morphIndex = 0, 2 do
