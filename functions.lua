@@ -242,16 +242,19 @@ end
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 function NEAR_SR.func.OnMorphRankUpdate(event, progressionIndex, rank, maxRank, morph)
 	local skillType, skillLineIndex, skillIndex = GetSkillAbilityIndicesFromProgressionIndex(progressionIndex)
+	if skillType == SKILL_TYPE_CLASS and skillLineIndex > 3 then return end -- not tracking subclasses
 	UpdateCharData('morph', skillType, skillLineIndex, skillIndex)
 end
 
 function NEAR_SR.func.OnSkillRankUpdate(event, skillType, skillLineIndex, skillLineRank)
 	if skillType == SKILL_TYPE_RACIAL then return end -- racial is not being tracked so exit early
+	if skillType == SKILL_TYPE_CLASS and skillLineIndex > 3 then return end -- not tracking subclasses
 	UpdateCharData('skillLine', skillType, skillLineIndex)
 end
 
 function NEAR_SR.func.OnSkillLineAdded(event, skillType, skillLineIndex, advised)
 	if skillType == SKILL_TYPE_RACIAL then return end -- racial is not being tracked so exit early
+	if skillType == SKILL_TYPE_CLASS and skillLineIndex > 3 then return end -- not tracking subclasses
 	UpdateCharData('skillLine', skillType, skillLineIndex)
 end
 
