@@ -46,7 +46,31 @@ local skillLineMaxIndexes = {
 }
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-local function buildData(numSkills, sd_skillLine, sv_skillLine)
+local function buildData(numSkills)
+	local notDiscovered = GetString(NEARSR_notdiscovered) .. "|r"
+	local selectedChar_charId = addon.gui.selectedChar_charId
+	local selectedChar_classId = addon.gui.selectedChar_classId
+	local sv_skillLine
+	local sd_skillLine
+
+	if selected_skillType == SKILL_TYPE_CLASS then
+		sv_skillLine = addon.ASV.char[selectedChar_charId][selected_skillType][selectedChar_classId][selected_skillLine]
+		sd_skillLine = addon.skilldata[selected_skillType][selectedChar_classId][selected_skillLine]
+	else
+		sv_skillLine = addon.ASV.char[selectedChar_charId][selected_skillType][selected_skillLine]
+		sd_skillLine = addon.skilldata[selected_skillType][selected_skillLine]
+	end
+
+	if not sv_skillLine.discovered == true then
+		selectedSkillLine_abilities_name = notDiscovered
+		selectedSkillLine_abilities_rank = ''
+		return
+	elseif numSkills == 0 then
+		selectedSkillLine_abilities_name = FormatSkilLineName(sd_skillLine.id)
+		selectedSkillLine_abilities_rank = 'Lv: ' .. sv_skillLine.rank
+		return
+	end
+
 	local indent = '     '
 
 	selectedSkillLine_abilities_name = FormatSkilLineName(sd_skillLine.id) .. '\n\n'
@@ -82,7 +106,6 @@ end
 
 local function gui_CreateList_abilities()
 	local selectedChar_charId = addon.gui.selectedChar_charId
-	local selectedChar_classId = addon.gui.selectedChar_classId
 
 	local utils = addon.utils
 
@@ -95,94 +118,44 @@ local function gui_CreateList_abilities()
 		return
 	end
 
-	local notDiscovered = GetString(NEARSR_notdiscovered) .. "|r"
+	--------------------------------------------------------------------------------
+	-- 0 skills
+	--------------------------------------------------------------------------------
+	if selected_skillType == addon.SKILL_TYPE_TRADESKILL or
+		(selected_skillType == SKILL_TYPE_WORLD and (selected_skillLine == 1 or selected_skillLine == 2 or selected_skillLine == 3)) or
+		(selected_skillType == SKILL_TYPE_GUILD and (selected_skillLine == 1 or selected_skillLine == 5)) or
+		(selected_skillType == SKILL_TYPE_AVA and selected_skillLine == 2) then
+		buildData(0)
 
-	if selected_skillType == SKILL_TYPE_CLASS then
-		local sv_skillLine = addon.ASV.char[selectedChar_charId][selected_skillType][selectedChar_classId][selected_skillLine]
-		local sd_skillLine = addon.skilldata[selected_skillType][selectedChar_classId][selected_skillLine]
+	--------------------------------------------------------------------------------
+	-- 1 skills
+	--------------------------------------------------------------------------------
+	elseif selected_skillType == SKILL_TYPE_ARMOR then
+		buildData(1)
 
-		if sv_skillLine.discovered == true then
-			buildData(6, sd_skillLine, sv_skillLine)
-		else
-			selectedSkillLine_abilities_name = notDiscovered
-			selectedSkillLine_abilities_rank = ''
-		end
+	--------------------------------------------------------------------------------
+	-- 4 skills
+	--------------------------------------------------------------------------------
+	elseif selected_skillType == SKILL_TYPE_WORLD and selected_skillLine == 4 then
+		buildData(4)
+
+	--------------------------------------------------------------------------------
+	-- 5 skills
+	--------------------------------------------------------------------------------
+	elseif (selected_skillType == SKILL_TYPE_GUILD and selected_skillLine == 6) then
+		buildData(5)
+
+	--------------------------------------------------------------------------------
+	-- 7 skills
+	--------------------------------------------------------------------------------
+	elseif selected_skillType == SKILL_TYPE_WEAPON then
+		buildData(7)
+
+	--------------------------------------------------------------------------------
+	-- 6 skills
+	--------------------------------------------------------------------------------
 	else
-		local sv_skillLine = addon.ASV.char[selectedChar_charId][selected_skillType][selected_skillLine]
-		local sd_skillLine = addon.skilldata[selected_skillType][selected_skillLine]
-
-		--------------------------------------------------------------------------------
-		-- 0 skills
-		--------------------------------------------------------------------------------
-		if selected_skillType == addon.SKILL_TYPE_TRADESKILL or
-			(selected_skillType == SKILL_TYPE_WORLD and (selected_skillLine == 1 or selected_skillLine == 2 or selected_skillLine == 3)) or
-			(selected_skillType == SKILL_TYPE_GUILD and (selected_skillLine == 1 or selected_skillLine == 5)) or
-			(selected_skillType == SKILL_TYPE_AVA and selected_skillLine == 2) then
-			if sv_skillLine.discovered == true then
-				selectedSkillLine_abilities_name = FormatSkilLineName(sd_skillLine.id)
-				selectedSkillLine_abilities_rank = 'Lv: ' .. sv_skillLine.rank
-			else
-				selectedSkillLine_abilities_name = notDiscovered
-				selectedSkillLine_abilities_rank = ''
-			end
-
-		--------------------------------------------------------------------------------
-		-- 1 skills
-		--------------------------------------------------------------------------------
-		elseif selected_skillType == SKILL_TYPE_ARMOR then
-			if sv_skillLine.discovered == true then
-				buildData(1, sd_skillLine, sv_skillLine)
-			else
-				selectedSkillLine_abilities_name = notDiscovered
-				selectedSkillLine_abilities_rank = ''
-			end
-
-		--------------------------------------------------------------------------------
-		-- 4 skills
-		--------------------------------------------------------------------------------
-		elseif selected_skillType == SKILL_TYPE_WORLD and selected_skillLine == 4 then
-			if sv_skillLine.discovered == true then
-				buildData(4, sd_skillLine, sv_skillLine)
-			else
-				selectedSkillLine_abilities_name = notDiscovered
-				selectedSkillLine_abilities_rank = ''
-			end
-
-		--------------------------------------------------------------------------------
-		-- 5 skills
-		--------------------------------------------------------------------------------
-		elseif (selected_skillType == SKILL_TYPE_GUILD and selected_skillLine == 6) then
-			if sv_skillLine.discovered == true then
-				buildData(5, sd_skillLine, sv_skillLine)
-			else
-				selectedSkillLine_abilities_name = notDiscovered
-				selectedSkillLine_abilities_rank = ''
-			end
-
-		--------------------------------------------------------------------------------
-		-- 6 skills
-		--------------------------------------------------------------------------------
-		elseif (selected_skillType == SKILL_TYPE_WORLD and (selected_skillLine == 5 or selected_skillLine == 6)) or
-			(selected_skillType == SKILL_TYPE_GUILD and (selected_skillLine == 2 or selected_skillLine == 3 or selected_skillLine == 4)) or
-			(selected_skillType == SKILL_TYPE_AVA and (selected_skillLine == 1 or selected_skillLine == 3)) then
-			if sv_skillLine.discovered == true then
-				buildData(6, sd_skillLine, sv_skillLine)
-			else
-				selectedSkillLine_abilities_name = notDiscovered
-				selectedSkillLine_abilities_rank = ''
-			end
-
-		--------------------------------------------------------------------------------
-		-- 7 skills
-		--------------------------------------------------------------------------------
-		elseif selected_skillType == SKILL_TYPE_WEAPON then
-			if sv_skillLine.discovered == true then
-				buildData(7, sd_skillLine, sv_skillLine)
-			else
-				selectedSkillLine_abilities_name = notDiscovered
-				selectedSkillLine_abilities_rank = ''
-			end
-		end
+		buildData(6)
 	end
 end
 
