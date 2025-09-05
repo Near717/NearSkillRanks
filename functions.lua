@@ -94,10 +94,9 @@ local function CreateCharData(skillType)
 
 		--[[ Debug ]]
 		if sv.debug then
-			local skillLineName = skillLine.name
 			d(
 				c.white .. '----------------------------------------' .. "\n          " ..
-				c.lightGrey .. "skillLineName: |r" .. skillLineName ..
+				c.lightGrey .. "skillLineName: |r" .. zo_strformat("<<C:1>>", GetSkillLineNameById(skillLineId)) ..
 				c.lightGrey .. " skillLineId: |r" .. skillLineId .. "\n          " ..
 				c.lightGrey .. "skillLineRank: |r" .. skillLineRank ..
 				c.lightGrey .. " skillLineDiscovered: |r" .. tostring(skillLineDiscovered) .. "\n          " ..
@@ -130,11 +129,11 @@ local function CreateCharData(skillType)
 					local ability = skillLine[skillIndex]
 					d(
 						c.grey .. '----------------------------------------' .. "\n          " ..
-						c.lightGrey .. "morphName_0: |r" .. ability[0].name ..
+						c.lightGrey .. "morphName_0: |r" .. zo_strformat("<<C:1>>", GetAbilityName(ability[0].id)) ..
 						c.lightGrey .. " morphRank_0: |r" .. morphRank_0 .. "\n          " ..
-						c.lightGrey .. "morphName_1: |r" .. ability[1].name ..
+						c.lightGrey .. "morphName_1: |r" .. zo_strformat("<<C:1>>", GetAbilityName(ability[1].id)) ..
 						c.lightGrey .. " morphRank_1: |r" .. morphRank_1 .. "\n          " ..
-						c.lightGrey .. "morphName_2: |r" .. ability[2].name ..
+						c.lightGrey .. "morphName_2: |r" .. zo_strformat("<<C:1>>", GetAbilityName(ability[2].id)) ..
 						c.lightGrey .. " morphRank_2: |r" .. morphRank_2
 					)
 				end
@@ -192,7 +191,7 @@ local function UpdateCharData(updatedRankType, skillType, skillLineIndex, skillI
 		if sv.debug then
 			d(
 				c.white .. '----------------------------------------' .. "\n          " ..
-				c.lightGrey .. "skillLineName: |r" .. GetSkillLineNameById(GetSkillLineId(skillType, skillLineIndex)) ..
+				c.lightGrey .. "skillLineName: |r" .. zo_strformat("<<C:1>>", GetSkillLineNameById(GetSkillLineId(skillType, skillLineIndex))) ..
 				c.lightGrey .. " skillLineId: |r" .. GetSkillLineId(skillType, skillLineIndex) .. "\n          " ..
 				c.lightGrey .. "skillLineRank: |r" .. skillLineRank ..
 				c.lightGrey .. " skillLineDiscovered: |r" .. tostring(skillLineDiscovered) .. "\n          " ..
@@ -215,11 +214,11 @@ local function UpdateCharData(updatedRankType, skillType, skillLineIndex, skillI
 			local ability = skillType == SKILL_TYPE_CLASS and addon.skilldata[skillType][classId][skillLineIndex][skillIndex] or addon.skilldata[skillType][skillLineIndex][skillIndex]
 			d(
 				c.grey .. '----------------------------------------' .. "\n          " ..
-				c.lightGrey .. "morphName_0: |r" .. ability[0].name ..
+				c.lightGrey .. "morphName_0: |r" .. zo_strformat("<<C:1>>", GetAbilityName(ability[0].id)) ..
 				c.lightGrey .. " morphRank_0: |r" .. morphRank_0 .. "\n          " ..
-				c.lightGrey .. "morphName_1: |r" .. ability[1].name ..
+				c.lightGrey .. "morphName_1: |r" .. zo_strformat("<<C:1>>", GetAbilityName(ability[1].id)) ..
 				c.lightGrey .. " morphRank_1: |r" .. morphRank_1 .. "\n          " ..
-				c.lightGrey .. "morphName_2: |r" .. ability[2].name ..
+				c.lightGrey .. "morphName_2: |r" .. zo_strformat("<<C:1>>", GetAbilityName(ability[2].id)) ..
 				c.lightGrey .. " morphRank_2: |r" .. morphRank_2
 			)
 		end

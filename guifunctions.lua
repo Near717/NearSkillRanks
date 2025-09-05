@@ -1,5 +1,14 @@
 NEAR_SR.gui = {}
 local addon = NEAR_SR
+
+local function FormatAbilityName(id)
+	return zo_strformat("<<C:1>>", GetAbilityName(id))
+end
+
+local function FormatSkilLineName(id)
+	return zo_strformat("<<C:1>>", GetSkillLineNameById(id))
+end
+
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 addon.gui.selectedChar_charId = GetCurrentCharacterId()
 addon.gui.selectedChar_classId = GetUnitClassId('player')
@@ -40,15 +49,15 @@ local skillLineMaxIndexes = {
 local function buildData(numSkills, sd_skillLine, sv_skillLine)
 	local indent = '     '
 
-	selectedSkillLine_abilities_name = sd_skillLine.name .. '\n\n'
+	selectedSkillLine_abilities_name = FormatSkilLineName(sd_skillLine.id) .. '\n\n'
 	for i = 1, numSkills do
 		if sd_skillLine[i] ~= nil then
-			selectedSkillLine_abilities_name = selectedSkillLine_abilities_name .. 'Name: ' .. sd_skillLine[i][0].name .. '\n'
+			selectedSkillLine_abilities_name = selectedSkillLine_abilities_name .. 'Name: ' .. FormatAbilityName(sd_skillLine[i][0].id) .. '\n'
 			if sd_skillLine[i][1] ~= nil then
-				selectedSkillLine_abilities_name = selectedSkillLine_abilities_name .. indent .. 'Name: ' .. sd_skillLine[i][1].name .. '\n'
+				selectedSkillLine_abilities_name = selectedSkillLine_abilities_name .. indent .. 'Name: ' .. FormatAbilityName(sd_skillLine[i][1].id) .. '\n'
 			end
 			if sd_skillLine[i][2] ~= nil then
-				selectedSkillLine_abilities_name = selectedSkillLine_abilities_name .. indent .. 'Name: ' .. sd_skillLine[i][2].name .. '\n'
+				selectedSkillLine_abilities_name = selectedSkillLine_abilities_name .. indent .. 'Name: ' .. FormatAbilityName(sd_skillLine[i][2].id) .. '\n'
 			end
 			selectedSkillLine_abilities_name = selectedSkillLine_abilities_name .. '\n'
 		end
@@ -110,7 +119,7 @@ local function gui_CreateList_abilities()
 			(selected_skillType == SKILL_TYPE_GUILD and (selected_skillLine == 1 or selected_skillLine == 5)) or
 			(selected_skillType == SKILL_TYPE_AVA and selected_skillLine == 2) then
 			if sv_skillLine.discovered == true then
-				selectedSkillLine_abilities_name = sd_skillLine.name
+				selectedSkillLine_abilities_name = FormatSkilLineName(sd_skillLine.id)
 				selectedSkillLine_abilities_rank = 'Lv: ' .. sv_skillLine.rank
 			else
 				selectedSkillLine_abilities_name = notDiscovered
@@ -244,7 +253,7 @@ local function gui_CreateList_SkillLine()
 			if selected_skillType ~= SKILL_TYPE_CLASS then
 				local sv_skillLine = sv_char[selected_skillType][skillLineIndex]
 
-				local skillLineName = addon.skilldata[selected_skillType][skillLineIndex].name
+				local skillLineName = FormatSkilLineName(addon.skilldata[selected_skillType][skillLineIndex].id)
 				local skillLineRank = sv_skillLine.rank
 
 				local skillLineData = color(selected_skillType, skillLineIndex) .. prefix .. skillLineRank .. mid .. skillLineName
@@ -261,7 +270,7 @@ local function gui_CreateList_SkillLine()
 			elseif selected_skillType == SKILL_TYPE_CLASS then
 				local sv_skillLine = sv_char[selected_skillType][selectedChar_classId][skillLineIndex]
 
-				local skillLineName = addon.skilldata[selected_skillType][selectedChar_classId][skillLineIndex].name
+				local skillLineName = FormatSkilLineName(addon.skilldata[selected_skillType][selectedChar_classId][skillLineIndex].id)
 				local skillLineRank = sv_skillLine.rank
 
 				local skillLineData = color(selected_skillType, skillLineIndex) .. prefix .. skillLineRank .. mid .. skillLineName
@@ -668,7 +677,7 @@ local function buildDataUnranked(sv_character, selectedChar_charId)
 									end
 
 									if not skillLineHeaderAdded then
-										unranked_abilities_name = unranked_abilities_name .. '\n' .. indent .. 'Skill Line: ' .. addon.skilldata[skillTypeIndex][classId][skillLineIndex].name .. '\n'
+										unranked_abilities_name = unranked_abilities_name .. '\n' .. indent .. 'Skill Line: ' .. FormatSkilLineName(addon.skilldata[skillTypeIndex][classId][skillLineIndex].id) .. '\n'
 										unranked_abilities_rank = unranked_abilities_rank .. '\n\n'
 										skillLineHeaderAdded = true
 									end
@@ -676,9 +685,9 @@ local function buildDataUnranked(sv_character, selectedChar_charId)
 									local morphData = addon.skilldata[skillTypeIndex][classId][skillLineIndex][abilityIndex][morphIndex]
 
 									if selectedChar_charId == GetCurrentCharacterId() and handleVariants(equippedAbilities, morphData) then
-										unranked_abilities_name = unranked_abilities_name .. indent .. indent .. colorEquipped .. morphData.name .. '|r\n'
+										unranked_abilities_name = unranked_abilities_name .. indent .. indent .. colorEquipped .. FormatAbilityName(morphData.id) .. '|r\n'
 									else
-										unranked_abilities_name = unranked_abilities_name .. indent .. indent .. morphData.name .. '\n'
+										unranked_abilities_name = unranked_abilities_name .. indent .. indent .. FormatAbilityName(morphData.id) .. '\n'
 									end
 
 									unranked_abilities_rank = unranked_abilities_rank .. 'Rank: ' .. morphRank .. '\n'
@@ -714,7 +723,7 @@ local function buildDataUnranked(sv_character, selectedChar_charId)
 									end
 
 									if not skillLineHeaderAdded then
-										unranked_abilities_name = unranked_abilities_name .. '\n' .. indent .. 'Skill Line: ' .. addon.skilldata[skillTypeIndex][skillLineIndex].name .. '\n'
+										unranked_abilities_name = unranked_abilities_name .. '\n' .. indent .. 'Skill Line: ' .. FormatSkilLineName(addon.skilldata[skillTypeIndex][skillLineIndex].id) .. '\n'
 										unranked_abilities_rank = unranked_abilities_rank .. '\n\n'
 										skillLineHeaderAdded = true
 									end
@@ -722,9 +731,9 @@ local function buildDataUnranked(sv_character, selectedChar_charId)
 									local morphData = addon.skilldata[skillTypeIndex][skillLineIndex][abilityIndex][morphIndex]
 
 									if selectedChar_charId == GetCurrentCharacterId() and handleVariants(equippedAbilities, morphData) then
-										unranked_abilities_name = unranked_abilities_name .. indent .. indent .. colorEquipped .. morphData.name .. '|r\n'
+										unranked_abilities_name = unranked_abilities_name .. indent .. indent .. colorEquipped .. FormatAbilityName(morphData.id) .. '|r\n'
 									else
-										unranked_abilities_name = unranked_abilities_name .. indent .. indent .. morphData.name .. '\n'
+										unranked_abilities_name = unranked_abilities_name .. indent .. indent .. FormatAbilityName(morphData.id) .. '\n'
 									end
 
 									unranked_abilities_rank = unranked_abilities_rank .. 'Rank: ' .. morphRank .. '\n'
