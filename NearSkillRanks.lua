@@ -15,6 +15,12 @@ local function RegisterSlashCommands()
 	SLASH_COMMANDS["/sru"] = NEAR_SR.gui.unranked.ToggleWindow
 end
 
+local function OnPlayerActivated()
+	EVENT_MANAGER:UnregisterForEvent(addon.name, EVENT_PLAYER_ACTIVATED)
+	addon.func.Init()
+	addon.gui.Init()
+end
+
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Addon loading
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -27,11 +33,10 @@ local function OnAddonLoaded(event, name)
 	addon.ASV.settings = ZO_SavedVars:NewAccountWide(addon.name .. "_Data", asv_version, 'settings', addon.defaults.settings, GetWorldName())
 	addon.ASV.char     = ZO_SavedVars:NewAccountWide(addon.name .. "_Data", asv_version, 'char_data', addon.defaults.char, GetWorldName())
 
-	addon.func.Init()
-	addon.gui.Init()
 	RegisterSlashCommands()
 
 	-- Events
+	EVENT_MANAGER:RegisterForEvent(addon.name, EVENT_PLAYER_ACTIVATED, OnPlayerActivated)
 	EVENT_MANAGER:RegisterForEvent(addon.name, EVENT_ABILITY_PROGRESSION_RANK_UPDATE, NEAR_SR.func.OnMorphRankUpdate)
 	EVENT_MANAGER:RegisterForEvent(addon.name, EVENT_SKILL_RANK_UPDATE, NEAR_SR.func.OnSkillRankUpdate)
 	EVENT_MANAGER:RegisterForEvent(addon.name, EVENT_SKILL_LINE_ADDED, NEAR_SR.func.OnSkillLineAdded)
